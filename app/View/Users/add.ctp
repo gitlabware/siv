@@ -126,7 +126,7 @@
 
 </section>
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/users'); ?>
+<?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
 $(document).ready(function(){

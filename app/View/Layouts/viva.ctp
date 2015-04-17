@@ -34,7 +34,7 @@
         <link rel="stylesheet" media="only all and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5)" href="css/2x.css?v=1">
 
         <!-- Webfonts -->
-       <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
+        <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
 
         <!-- Additional styles -->
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/form.css?v=1">
@@ -46,7 +46,7 @@
 
         <!-- JavaScript at bottom except for Modernizr -->
         <script src="<?php echo $this->webroot; ?>js/libs/modernizr.custom.js"></script>
-        
+
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/modal.css?v=1">
         <!-- For Modern Browsers -->
         <link rel="shortcut icon" href="<?php echo $this->webroot; ?>img/favicons/favicon.png">
@@ -98,19 +98,19 @@
         <a href="#" id="open-shortcuts"><span class="icon-thumbs"></span></a>
 
         <!-- Main content -->
-        
+
         <?php echo $this->Session->flash(); ?>
         <?php echo $this->fetch('content'); ?>
 
         <!-- End main content -->       
 
         <!-- Side tabs shortcuts -->
-        <?php if($this->Session->read('Auth.User.group_id') == 2):?>
-        <?php echo $this->element('menu/admindistribuidor'); ?>
-        <?php elseif($this->Session->read('Auth.User.group_id') == 1):?>
-        <?php echo $this->element('menu/admindistribuidor'); ?>
-        <?php echo $this->element('menu/admin'); ?>             
-        <?php endif;?>
+        <?php if ($this->Session->read('Auth.User.group_id') == 2): ?>
+          <?php echo $this->element('menu/admindistribuidor'); ?>
+        <?php elseif ($this->Session->read('Auth.User.group_id') == 1): ?>
+          <?php echo $this->element('menu/admindistribuidor'); ?>
+          <?php echo $this->element('menu/admin'); ?>             
+        <?php endif; ?>
 
         <!-- JavaScript at the bottom for fast page loading -->
 
@@ -126,34 +126,33 @@
         <script src="<?php echo $this->webroot; ?>js/developr.tooltip.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.table.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.modal.js"></script>
-        
+
         <?php echo $this->element('jsvalidador') ?>
         <!-- Plugins -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery.tablesorter.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.min.js"></script>
 
         <script>
-            // Call template init (optional, but faster if called manually)
-            $.template.init();
+          // Call template init (optional, but faster if called manually)
+          $.template.init();
 
-            // Table sort - DataTables
-            var table = $('#sorting-advanced');
-            table.dataTable({
-                
-                'sPaginationType': 'full_numbers',
-                'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
-                'fnInitComplete': function( oSettings )
-                {
-                    // Style length select
-                    table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
-                    tableStyled = true;
-                }
-            });
-    
+          // Table sort - DataTables
+          var table = $('#sorting-advanced');
+          table.dataTable({
+              'sPaginationType': 'full_numbers',
+              'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+              'fnInitComplete': function (oSettings)
+              {
+                  // Style length select
+                  table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                  tableStyled = true;
+              }
+          });
+
         </script>
-<div style="text-align: center; color:gray;">
-                <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
-                <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>
-                </div> 
+        <div style="text-align: center; color:gray;">
+            <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
+            <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>
+        </div> 
     </body>
 </html>

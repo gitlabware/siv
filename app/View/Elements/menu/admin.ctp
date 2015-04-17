@@ -6,9 +6,7 @@
     <li><a href="<?php echo $this->Html->url(array('controller'=>'Reportes', 'action'=>'form'))?>" class="shortcut-medias" title="REPORTES">REPORTES</a></li>
     <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes', 'action'=>'listadepositos'))?>" class="shortcut-stats" title="DEPOSITOS">DEPOSITOS</a></li>
     <li><a href="<?php echo $this->Html->url(array('controller'=>'Sucursals', 'action'=>'index'))?>" class="shortcut-settings" title="TIENDAS">TIENDAS</a></li>
-    <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes/', 'action'=>'filtra'))?>" class="shortcut-notes" title="REPORTES">REPORTES</a></li>
-    
-   
+    <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes/', 'action'=>'filtra'))?>" class="shortcut-notes" title="REPORTES">REPORTES</a></li>       
 </ul>
 
 
