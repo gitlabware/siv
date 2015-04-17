@@ -6,8 +6,51 @@
     <hgroup id="main-title" class="thin">
         <h1>Insertar Nuevo Usuario</h1>
     </hgroup>
+
     <div class="with-padding"> 
-        <?php echo $this->Form->create('User' ,array('id'=>'formID')); ?>
+        
+        <div class="columns">
+            
+            <div class="new-row four-columns">
+                                
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                </p>
+            </div>
+            <div class="four-columns">                
+             <p class="block-label button-height">
+                        <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
+                        <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
+                    </p>  
+            </div>
+            
+            <div class="four-columns">                
+             <p class="block-label button-height">
+                        <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
+                        <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
+                    </p>  
+            </div>
+            
+            <div class="new-row six-columns">
+                                
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                </p>
+            </div>
+            
+            <div class="six-columns">
+                                
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                </p>
+            </div>
+            
+        </div>
+        
+        <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
 
         <form method="post" action="" class="columns" onsubmit="return false" name="formulario">                               
             <!--<div class="new-row-desktop four-columns six-columns-tablet twelve-columns-mobile">-->
@@ -18,7 +61,20 @@
 
                     <legend class="legend">Formulario Registro de Usuario </legend>
 
+                    <p class="block-label button-height">
+                        <label for="block-label-1" class="label">Full article title <small>(255 chars max.)</small></label>
+                        <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                    </p>
+
+                    <p class="block-label button-height">
+                        <label for="block-label-2" class="label">Author name <small>(may be empty)</small></label>
+                        <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
+                    </p>
+
                     <div class="field-block button-height">							
+                        <label for="login" class="label"><b>Nombre :</b></label>
+                        <?php echo $this->Form->text('Persona.nombre', array('class' => 'span12', 'required')); ?>
+
                         <label for="login" class="label"><b>Nombre :</b></label>
                         <?php echo $this->Form->text('Persona.nombre', array('class' => 'span12', 'required')); ?>
                         <!--<input type="text" name="login" id="login" value="" class="input">-->
@@ -79,13 +135,13 @@
                                 Seleccione el tipo de Usuario
                             </option>
                             <?php foreach ($groups as $g): ?>
-                                <option value="<?php echo $g['Group']['id'] ?>">
-                                    <?php echo $g['Group']['name'] ?>
-                                </option>
+                              <option value="<?php echo $g['Group']['id'] ?>">
+                                  <?php echo $g['Group']['name'] ?>
+                              </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    									
+
                     <div id="mostrartienda" style="display: none">
                         <div class="field-block button-height">
                             <label for="validation-select" class="label"><b>Tienda en la que trabaja:</b></label>
@@ -94,30 +150,30 @@
                                     Seleccione la tienda
                                 </option>
                                 <?php foreach ($tiendas as $g): ?>
-                                    <option value="<?php echo $g['Sucursal']['id'] ?>">
-                                        <?php echo $g['Sucursal']['nombre'] ?>
-                                    </option>
+                                  <option value="<?php echo $g['Sucursal']['id'] ?>">
+                                      <?php echo $g['Sucursal']['nombre'] ?>
+                                  </option>
                                 <?php endforeach; ?>
                             </select>
-                            
+
                         </div>
                     </div>
-                    </fieldset>
-                    <div class="field-block button-height">
-                        
-                        <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
-                            <span class="button-icon"><span class="icon-tick"></span></span>
-                            Guardar Usuario
-                        </button>
+                </fieldset>
+                <div class="field-block button-height">
 
-                        <button type="submit" class="button glossy">
-                            <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
-                            Cancelar
-                        </button>
+                    <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
+                        <span class="button-icon"><span class="icon-tick"></span></span>
+                        Guardar Usuario
+                    </button>
 
-                    </div>
+                    <button type="submit" class="button glossy">
+                        <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
+                        Cancelar
+                    </button>
 
-                
+                </div>
+
+
             </div>
 
         </form>
@@ -129,21 +185,21 @@
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
-$(document).ready(function(){
-       $("#validation-select1").change(function(){
-           if(this.value == 5){
-            $('#mostrartienda').show();
-           }else{
-            $('#mostrartienda').hide();
-           }
-       });
-   });
+  $(document).ready(function () {
+      $("#validation-select1").change(function () {
+          if (this.value == 5) {
+              $('#mostrartienda').show();
+          } else {
+              $('#mostrartienda').hide();
+          }
+      });
+  });
 </script>
 <script>
-    $(document).ready(function() {
+  $(document).ready(function () {
 
-        $("#formID").validationEngine();
+      $("#formID").validationEngine();
 
-        
-    });
+
+  });
 </script>
