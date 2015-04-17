@@ -128,6 +128,9 @@
 						// Stop text selection
 						event.preventDefault();
 
+						// Mark as dragging
+						element.data('scroll-dragging-h', true);
+
 						// Watch mouse move
 						function watchMouse(event)
 						{
@@ -159,7 +162,7 @@
 							// Update scrollbars
 							if (refreshH) refreshH();
 							if (refreshV) refreshV();
-						};
+						}
 						doc.on('mousemove', watchMouse);
 
 						// Watch for mouseup
@@ -167,7 +170,16 @@
 						{
 							doc.off('mousemove', watchMouse);
 							doc.off('mouseup', endDrag);
-						};
+
+							// Remove marker
+							element.removeData('scroll-dragging-h');
+
+							// Hide if focus is lost
+							if (settings.showOnHover && !element.data('scroll-focus'))
+							{
+								hscrollbar.animate({ opacity: 0 });
+							}
+						}
 						doc.on('mouseup', endDrag);
 					});
 				};
@@ -228,7 +240,7 @@
 						height: settings.width+'px',
 
 						// Opacity
-						opacity: (element.data('scroll-focus') || !settings.showOnHover) ? 1 : 0
+						opacity: (element.data('scroll-focus') || !settings.showOnHover || element.data('scroll-dragging-h')) ? 1 : 0
 
 					});
 
@@ -278,6 +290,9 @@
 						// Prevent text selection
 						event.preventDefault();
 
+						// Mark as dragging
+						element.data('scroll-dragging-v', true);
+
 						// Watch mouse move
 						function watchMouse(event)
 						{
@@ -310,7 +325,7 @@
 							// Update scrollbars
 							if (refreshH) refreshH();
 							if (refreshV) refreshV();
-						};
+						}
 						doc.on('mousemove', watchMouse);
 
 						// Watch for mouseup
@@ -320,7 +335,16 @@
 
 							doc.off('mousemove', watchMouse);
 							doc.off('mouseup', endDrag);
-						};
+
+							// Remove marker
+							element.removeData('scroll-dragging-v');
+
+							// Hide if focus is lost
+							if (settings.showOnHover && !element.data('scroll-focus'))
+							{
+								vscrollbar.animate({ opacity: 0 });
+							}
+						}
 						doc.on('mouseup', endDrag);
 					});
 				};
@@ -364,24 +388,37 @@
 						size = available*(elementHeight/element[0].scrollHeight)+minHeight,
 
 						// Scroller position
-						position = Math.round((height-size)*(scrollV/(element[0].scrollHeight-elementInnerHeight)));
+						position = Math.round((height-size)*(scrollV/(element[0].scrollHeight-elementInnerHeight))),
+
+						// Horizontal position
+						left;
 
 					// Reveal scrollbar (hidden in refresh()
 					vscrollbar.show();
+
+					// Horizontal position
+					if (settings.verticalOnLeft)
+					{
+						left = (settings.usePadding ? element.parseCSSValue('padding-left')+settings.padding.left : settings.padding.left)+'px';
+					}
+					else
+					{
+						left = (element.innerWidth()-(settings.usePadding ? element.parseCSSValue('padding-right')+settings.padding.right : settings.padding.right)-settings.width+scrollH)+'px';
+					}
 
 					// Set scrollbar style
 					vscrollbar.stop(true)[(settings.animate && init) ? 'animate' : 'css']({
 
 						// Position
 						top: ((settings.usePadding ? element.parseCSSValue('padding-top')+settings.padding.top : settings.padding.top)+scrollV)+'px',
-						left: (element.innerWidth()-(settings.usePadding ? element.parseCSSValue('padding-right')+settings.padding.right : settings.padding.right)-settings.width+scrollH)+'px',
+						left: left,
 
 						// Size
 						height: height+'px',
 						width: settings.width+'px',
 
 						// Opacity
-						opacity: (element.data('scroll-focus') || !settings.showOnHover) ? 1 : 0
+						opacity: (element.data('scroll-focus') || !settings.showOnHover || element.data('scroll-dragging-v')) ? 1 : 0
 
 					});
 
@@ -411,6 +448,16 @@
 				var initScrollH = scrollH,
 					initScrollV = scrollV;
 
+				// Hide scrollbars to prevent erroneous values
+				if (refreshH)
+				{
+					hscrollbar.hide();
+				}
+				if (refreshV)
+				{
+					vscrollbar.hide();
+				}
+
 				// New scroll values
 				scrollH = Math.max(0, Math.min(scrollH+deltaX, element[0].scrollWidth-element.innerWidth()));
 				scrollV = Math.max(0, Math.min(scrollV-deltaY, element[0].scrollHeight-element.innerHeight()));
@@ -433,16 +480,16 @@
 				{
 					// Scroll
 					element.scrollLeft(scrollH)
-						   .scrollTop(scrollV)
-						   .refreshInnerTrackedElements();
+							.scrollTop(scrollV)
+							.refreshInnerTrackedElements();
 				}
 
 				// Update scrollbars
-				if (refreshH && deltaX != 0)
+				if (refreshH)
 				{
 					refreshH();
 				}
-				if (refreshV && deltaY != 0)
+				if (refreshV)
 				{
 					refreshV();
 				}
@@ -452,7 +499,7 @@
 					x: scrollH-initScrollH,
 					y: scrollV-initScrollV
 				};
-			};
+			}
 
 			/**
 			 * Handle mouse wheel
@@ -469,18 +516,18 @@
 				 * for instance 0.05 instead of 1, so we use a minimum value here to prevent these mouses
 				 * to scroll too slow
 				 */
-				if (deltaX != 0)
+				if (deltaX !== 0)
 				{
 					deltaX = (deltaX > 0) ? Math.max(deltaX, settings.minWheelScroll) : Math.min(deltaX, -settings.minWheelScroll);
 				}
-				if (deltaY != 0)
+				if (deltaY !== 0)
 				{
 					deltaY = (deltaY > 0) ? Math.max(deltaY, settings.minWheelScroll) : Math.min(deltaY, -settings.minWheelScroll);
 				}
 
 				// Move
 				return move(deltaX*settings.speed, deltaY*settings.speed, doNotAnimate);
-			};
+			}
 
 			// Global refresh function
 			function refresh()
@@ -516,7 +563,7 @@
 					hiddenV = (!scrollingV && settings.autoHide);
 					refreshV();
 				}
-			};
+			}
 
 			// Store for further calls
 			element.data('custom-scroll', {
@@ -532,7 +579,7 @@
 
 				// Functions
 				refresh: refresh,
-				refreshH: refreshV,
+				refreshH: refreshH,
 				refreshV: refreshV,
 				move: move,
 				mousewheel: mousewheel
@@ -553,12 +600,12 @@
 				if (touch)
 				{
 					element.on('touchstart', _handleScrolledMouseEnter)
-						   .on('touchend', _handleScrolledMouseLeave)
+							.on('touchend', _handleScrolledMouseLeave);
 				}
 				else
 				{
 					element.on('mouseenter', _handleScrolledMouseEnter)
-						   .on('mouseleave', _handleScrolledMouseLeave);
+							.on('mouseleave', _handleScrolledMouseLeave);
 				}
 			}
 
@@ -566,8 +613,8 @@
 			init = true;
 
 		}).on('mousewheel', _handleMouseWheel)
-		  .on('scroll sizechange scrollsizechange', _handleScroll)
-		  .on('touchstart', _handleTouchScroll);
+			.on('scroll sizechange scrollsizechange', _handleScroll)
+			.on('touchstart', _handleTouchScroll);
 
 		return this;
 	};
@@ -580,7 +627,7 @@
 		this.filter('.custom-scroll')
 			.off('mousewheel', _handleMouseWheel)
 			.off('scroll sizechange scrollsizechange', _handleScroll)
-		  	.off('touchstart', _handleTouchScroll)
+			.off('touchstart', _handleTouchScroll)
 			.off('touchstart', _handleScrolledMouseEnter)
 			.off('touchend', _handleScrolledMouseLeave)
 			.off('mouseenter', _handleScrolledMouseEnter)
@@ -621,7 +668,7 @@
 			if (object.hscrollbar()) object.hscrollbar().animate({ opacity: 1 });
 			if (object.vscrollbar()) object.vscrollbar().animate({ opacity: 1 });
 		}
-	};
+	}
 
 	/**
 	 * Internal function: handle fade out effect on mouse leave
@@ -637,10 +684,10 @@
 		if (object)
 		{
 			element.removeData('scroll-focus');
-			if (object.hscrollbar()) object.hscrollbar().animate({ opacity: 0 });
-			if (object.vscrollbar()) object.vscrollbar().animate({ opacity: 0 });
+			if (object.hscrollbar() && !element.data('scroll-dragging-h')) object.hscrollbar().animate({ opacity: 0 });
+			if (object.vscrollbar() && !element.data('scroll-dragging-v')) object.vscrollbar().animate({ opacity: 0 });
 		}
-	};
+	}
 
 	/**
 	 * Internal function: handle mousewheel event
@@ -653,19 +700,20 @@
 	 */
 	function _handleMouseWheel(event, delta, deltaX, deltaY)
 	{
+		var object;
 		if (object = $(this).data('custom-scroll'))
 		{
 			// Send scroll
 			var movement = object.mousewheel(deltaX, deltaY);
 
 			// If the element scrolled
-			if (movement.x != 0 || movement.y != 0 || !object.settings.continuousWheelScroll)
+			if (movement.x !== 0 || movement.y !== 0 || !object.settings.continuousWheelScroll)
 			{
 				// Prevent parents from scrolling
 				event.preventDefault();
 			}
 		}
-	};
+	}
 
 	/**
 	 * Internal function: handle scroll event
@@ -673,7 +721,7 @@
 	function _handleScroll(event)
 	{
 		$(this).refreshCustomScroll();
-	};
+	}
 
 	/**
 	 * Internal function: handle touch scroll
@@ -683,7 +731,7 @@
 		// Init
 		var element = $(this),
 			object = element.data('custom-scroll'),
-			posX = event.originalEvent.touches[0].pageX, /* jQuery event normalization does not preserve touch events properties */
+			posX = event.originalEvent.touches[0].pageX,
 			posY = event.originalEvent.touches[0].pageY,
 			moveFunc, endFunc, movement;
 
@@ -877,6 +925,12 @@
 		 * @var boolean
 		 */
 		vertical: true,
+
+		/**
+		 * Show vertical sidebar on left
+		 * @var boolean
+		 */
+		verticalOnLeft: false,
 
 		/**
 		 * Whether to use or ignore element's padding in the scrollbar position

@@ -147,14 +147,41 @@
 			// Gather options
 		var settings = $.extend({}, wrapper.data('panel-options'), panel.data('panel-options')),
 
+			// Ajax options
+			ajaxOptions = $.extend({}, settings.ajax, options, {
+
+				url: url,
+				success: function(data, textStatus, jqXHR)
+				{
+					// Insert content if text/html
+					if ( typeof data === 'string' )
+					{
+						setPanelContent(data, target);
+					}
+
+					// Callback in settings
+					if (settings.ajax && settings.ajax.success)
+					{
+						settings.ajax.success.call(target[0], data, textStatus, jqXHR);
+					}
+
+					// Callback in options
+					if (options && options.success)
+					{
+						options.success.call(target[0], data, textStatus, jqXHR);
+					}
+				}
+
+			}),
+
 			// Actual target
 			loadTarget = panel.children('.panel-load-target:first'),
 			target = loadTarget.length ? loadTarget : panel;
 
 		// Pre-callback
-		if (settings.onStartLoad)
+		if (settings && settings.onStartLoad)
 		{
-			if (settings.onStartLoad.call(target[0], settings) === false)
+			if (settings.onStartLoad.call(target[0], settings, ajaxOptions) === false)
 			{
 				return;
 			}
@@ -163,36 +190,76 @@
 		// Display panel (for mobile devices)
 		wrapper[isNav ? 'removeClass' : 'addClass']('show-panel-content');
 
+		// Event
+		target.trigger('content-panel-load');
+
 		// Load content
-		$.ajax(url, $.extend({}, settings.ajax, options, {
-
-			success: function(data, textStatus, jqXHR)
-			{
-				// Insert content if text/html
-				if ( typeof data === 'string' )
-				{
-					target.html(data);
-				}
-
-				// Callback in settings
-				if (settings.ajax && settings.ajax.success)
-				{
-					settings.ajax.success.call(target[0], data, textStatus, jqXHR);
-				}
-
-				// Callback in options
-				if (options && options.success)
-				{
-					options.success.call(target[0], data, textStatus, jqXHR);
-				}
-			}
-
-		}));
+		$.ajax(ajaxOptions);
 
 		// Store url and options
 		panel.data('content-panel-url', url);
 		panel.data('content-panel-options', options);
+	}
+
+	/**
+	 * Set the content of the navigation panel
+	 * @param string|jQuery|DOM content the content to insert
+	 */
+	$.fn.setPanelNavigation = function(content)
+	{
+		return this.each(function(i)
+		{
+			var contentPanel = $(this).closest('.content-panel'),
+				panelNavigation = contentPanel.children('.panel-navigation');
+
+			// Load content
+			setPanelContent(content, panelNavigation);
+		});
 	};
+
+	/**
+	 * Set the content of the content panel
+	 * @param string|jQuery|DOM content the content to insert
+	 */
+	$.fn.setPanelContent = function(content)
+	{
+		return this.each(function(i)
+		{
+			var contentPanel = $(this).closest('.content-panel'),
+				panelContent = contentPanel.children('.panel-content');
+
+			// Load content
+			setPanelContent(content, panelContent);
+		});
+	};
+
+	/**
+	 * Load content into a panel
+	 * @param string|jQuery|DOM content the content to insert
+	 * @param jQuery panel the panel in which to load content
+	 */
+	function setPanelContent(content, panel)
+	{
+		var back;
+
+		// If not valid, exit
+		if (!panel.length)
+		{
+			return;
+		}
+
+		// Clear contents except back button
+		back = panel.closest('.panel-content').data('panel-back-button');
+		if (back)
+		{
+			panel.children().not(back).remove();
+		}
+		else
+		{
+			panel.empty();
+		}
+		panel.append(content);
+	}
 
 	/**
 	 * Enable content panel JS features
@@ -205,10 +272,16 @@
 				panelContent = contentPanel.children('.panel-content'),
 				loadTarget, back, setMode;
 
+			// If already initialized
+			if (contentPanel.hasClass('enabled-panels'))
+			{
+				return;
+			}
+
 			// If valid
 			if (contentPanel.length > 0 && panelContent.length > 0)
 			{
-				// Enabled sliding panels on mobile
+				// Enable sliding panels on mobile
 				contentPanel.addClass('enabled-panels');
 
 				// Actual content block
@@ -224,6 +297,7 @@
 				{
 					back.prependTo(panelContent);
 				}
+				panelContent.data('panel-back-button', back);
 
 				// Behavior
 				back.click(function(event)

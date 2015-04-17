@@ -117,10 +117,12 @@
 		},
 
 		/**
-		 * Path to the respond.js folder
+		 * Path to the respond.js folder: use either a relative path, an absolute path, or dynamic path detection
 		 * @var string
 		 */
-		respondPath: 'js/libs/',
+		//respondPath: 'js/libs/',														/* Relative path  */
+		//respondPath: '/myApp/js/libs/',												/* Absolute path  */
+		respondPath: $('script').last().attr('src').replace(/[^\/]+$/, '')+'libs/',		/* Path detection */
 
 		/*
 		 * Here are stored various informations about the current media queries according to screen size
@@ -320,7 +322,7 @@
 		}
 
 		// Test
-		if (top != scroll)
+		if (Math.round(top) != Math.round(scroll))
 		{
 			// Define
 			supportFixed = false;
@@ -876,6 +878,7 @@
 				sizeWatcher.heightElements.length === 0 && sizeWatcher.scrollElements.length === 0)
 			{
 				clearTimeout(sizeWatcher.timeout);
+				sizeWatcher.timeout = false;
 			}
 		}
 
@@ -1424,136 +1427,298 @@
 		{
 			// Icons replacement map
 			var iconMap = {
-					'phone':		'!',
-					'mobile':		'"',
-					'tag':			'#',
-					'directions':	'$',
-					'mail':			'%',
-					'pencil':		'&',
-					'paperclip':	'\'',
-					'reply':		'(',
-					'replay-all':	')',
-					'fwd':			'*',
-					'user':			'+',
-					'users':		',',
-					'add-user':		'-',
-					'card':			'.',
-					'extract':		'/',
-					'marker':		'0',
-					'map':			'1',
-					'compass':		'2',
-					'arrow':		'3',
-					'target':		'4',
-					'path':			'5',
-					'heart':		'6',
-					'star':			'7',
-					'like':			'8',
-					'chat':			'9',
-					'speech':		':',
-					'quote':		';',
-					'printer':		'<',
-					'bell':			'=',
-					'link':			'>',
-					'flag':			'?',
-					'gear':			'@',
-					'flashlight':	'A',
-					'cup':			'B',
-					'price-tag':	'C',
-					'camera':		'D',
-					'moon':			'E',
-					'palette':		'F',
-					'leaf':			'G',
-					'music-note':	'H',
-					'bag':			'I',
-					'plane':		'J',
-					'buoy':			'K',
-					'rain':			'L',
-					'eye':			'M',
-					'clock':		'N',
-					'mic':			'O',
-					'calendar':		'P',
-					'lightning':	'Q',
-					'hourglass':	'R',
-					'rss':			'S',
-					'wifi':			'T',
-					'lock':			'U',
-					'unlock':		'V',
-					'tick':			'W',
-					'cross':		'X',
-					'minus-round':	'Y',
-					'plus-round':	'Z',
-					'cross-round':	'[',
-					'minus':		'\\',
-					'plus':			']',
-					'forbidden':	'^',
-					'info':			'_',
-					'info-round':	'`',
-					'question':		'a',
-					'question-round':	'b',
-					'warning':		'c',
-					'redo':			'd',
-					'undo':			'e',
-					'swap':			'f',
-					'revert':		'g',
-					'refresh':		'h',
-					'list':			'i',
-					'list-add':		'j',
-					'thumbs':		'k',
-					'page-list':	'l',
-					'page':			'm',
-					'pages':		'n',
-					'frame':		'o',
-					'pictures':		'p',
-					'movie':		'q',
-					'music':		'r',
-					'folder':		's',
-					'drawer':		't',
-					'trash':		'u',
-					'outbox':		'v',
-					'inbox':		'w',
-					'download':		'x',
-					'cloud':		'y',
-					'cloud-upload':	'z',
-					'play':			'{',
-					'pause':		'|',
-					'record':		'~',
-					'forward':		'Ä',
-					'backward':		'Å',
-					'previous':		'Ç',
-					'next':			'É',
-					'expand':		'Ñ',
-					'reduce':		'Ö',
-					'volume':		'Ü',
-					'loud':			'á',
-					'mute':			'à',
-					'left-fat':		'â',
-					'down-fat':		'ä',
-					'up-fat':		'ã',
-					'right-fat':	'å',
-					'left':			'ç',
-					'down':			'é',
-					'up':			'è',
-					'right':		'ê',
-					'left-round':	'ë',
-					'down-round':	'í',
-					'up-round':		'ì',
-					'right-round':	'î',
-					'home':			'ï',
-					'ribbon':		'ñ',
-					'read':			'ó',
-					'new-tab':		'ò',
-					'search':		'ô',
-					'ellipsis':		'ö',
-					'bullet-list':	'®',
-					'creative-commons':	'©'
+				'plus': '&#59414;',
+				'minus': '&#59417;',
+				'info': '&#59422;',
+				'left-thin': '&#59532;',
+				'up-thin': '&#59534;',
+				'right-thin': '&#59533;',
+				'down-thin': '&#59531;',
+				'level-up': '&#59539;',
+				'level-down': '&#59538;',
+				'switch': '&#59542;',
+				'infinity': '&#59586;',
+				'squared-plus': '&#59416;',
+				'squared-minus': '&#59419;',
+				'home': '&#59425;',
+				'keyboard': '&#59450;',
+				'erase': '&#59587;',
+				'pause': '&#59545;',
+				'forward': '&#59442;',
+				'backward': '&#59550;',
+				'next': '&#59547;',
+				'previous': '&#59548;',
+				'hourglass': '&#59491;',
+				'stop': '&#59544;',
+				'triangle-up': '&#59526;',
+				'play': '&#59543;',
+				'triangle-right': '&#59525;',
+				'triangle-down': '&#59523;',
+				'triangle-left': '&#59524;',
+				'adjust': '&#59495;',
+				'cloud': '&#59570;',
+				'star': '&#59400;',
+				'star-empty': '&#59401;',
+				'cup': '&#59462;',
+				'list': '&#59409;',
+				'moon': '&#59573;',
+				'heart-empty': '&#59399;',
+				'heart': '&#59398;',
+				'music-note': '&#59392;',
+				'beamed-note': '&#59393;',
+				'thumbs': '&#59408;',
+				'flag': '&#59434;',
+				'tools': '&#59478;',
+				'gear': '&#59477;',
+				'warning': '&#59454;',
+				'lightning': '&#59572;',
+				'record': '&#59546;',
+				'thunder-cloud': '&#59571;',
+				'voicemail': '&#59592;',
+				'plane': '&#59574;',
+				'mail': '&#59397;',
+				'pencil': '&#59446;',
+				'feather': '&#59447;',
+				'tick': '&#59410;',
+				'cross': '&#59411;',
+				'cross-round': '&#59412;',
+				'squared-cross': '&#59413;',
+				'question': '&#59420;',
+				'quote': '&#59443;',
+				'plus-round': '&#59415;',
+				'minus-round': '&#59418;',
+				'right': '&#59521;',
+				'arrow': '&#59460;',
+				'fwd': '&#59549;',
+				'undo': '&#59535;',
+				'redo': '&#59536;',
+				'left': '&#59520;',
+				'up': '&#59522;',
+				'down': '&#59519;',
+				'list-add': '&#59558;',
+				'numbered-list': '&#59557;',
+				'left-fat': '&#59528;',
+				'right-fat': '&#59529;',
+				'up-fat': '&#59530;',
+				'down-fat': '&#59527;',
+				'add-user': '&#59404;',
+				'question-round': '&#59421;',
+				'info-round': '&#59423;',
+				'eye': '&#59430;',
+				'price-tag': '&#59578;',
+				'cloud-upload': '&#59439;',
+				'reply': '&#59440;',
+				'reply-all': '&#59441;',
+				'code': '&#59444;',
+				'extract': '&#59445;',
+				'printer': '&#59448;',
+				'refresh': '&#59449;',
+				'speech': '&#59451;',
+				'chat': '&#59452;',
+				'card': '&#59456;',
+				'directions': '&#59457;',
+				'marker': '&#59458;',
+				'map': '&#59459;',
+				'compass': '&#59461;',
+				'trash': '&#59463;',
+				'page': '&#59464;',
+				'page-list-inverted': '&#59468;',
+				'pages': '&#59465;',
+				'frame': '&#59466;',
+				'drawer': '&#59473;',
+				'rss': '&#59475;',
+				'path': '&#59479;',
+				'cart': '&#59481;',
+				'shareable': '&#59480;',
+				'login': '&#59484;',
+				'logout': '&#59485;',
+				'volume': '&#59489;',
+				'expand': '&#59497;',
+				'reduce': '&#59498;',
+				'new-tab': '&#59499;',
+				'publish': '&#59500;',
+				'browser': '&#59501;',
+				'arrow-combo': '&#59502;',
+				'pie-chart': '&#59588;',
+				'language': '&#59594;',
+				'air': '&#59598;',
+				'database': '&#59603;',
+				'drive': '&#59604;',
+				'bucket': '&#59605;',
+				'thermometer': '&#59606;',
+				'down-round': '&#59503;',
+				'left-round': '&#59504;',
+				'right-round': '&#59505;',
+				'up-round': '&#59506;',
+				'chevron-down': '&#59507;',
+				'chevron-left': '&#59508;',
+				'chevron-right': '&#59509;',
+				'chevron-up': '&#59510;',
+				'chevron-small-down': '&#59511;',
+				'chevron-small-left': '&#59512;',
+				'chevron-small-right': '&#59513;',
+				'chevron-small-up': '&#59514;',
+				'chevron-thin-down': '&#59515;',
+				'chevron-thin-left': '&#59516;',
+				'chevron-thin-right': '&#59517;',
+				'chevron-thin-up': '&#59518;',
+				'progress-0': '&#59551;',
+				'progress-1': '&#59552;',
+				'progress-2': '&#59553;',
+				'progress-3': '&#59554;',
+				'back-in-time': '&#59562;',
+				'network': '&#59565;',
+				'mailbox': '&#59568;',
+				'download': '&#59437;',
+				'buoy': '&#59577;',
+				'tag': '&#59431;',
+				'dot': '&#59581;',
+				'two-dots': '&#59582;',
+				'ellipsis': '&#59583;',
+				'suitcase': '&#59580;',
+				'flow-cascade': '&#59608;',
+				'flow-branch': '&#59609;',
+				'flow-tree': '&#59610;',
+				'flow-line': '&#59611;',
+				'flow-parallel': '&#59612;',
+				'brush': '&#59584;',
+				'paper-plane': '&#59575;',
+				'magnet': '&#59585;',
+				'gauge': '&#59614;',
+				'traffic-cone': '&#59615;',
+				'creative-commons': '&#59616;',
+				'cc-by': '&#59617;',
+				'cc-nc': '&#59618;',
+				'cc-nc-eu': '&#59619;',
+				'cc-nc-jp': '&#59620;',
+				'cc-sa': '&#59621;',
+				'cc-nd': '&#59622;',
+				'cc-pd': '&#59623;',
+				'cc-zero': '&#59624;',
+				'cc-share': '&#59625;',
+				'cc-remix': '&#59626;',
+				'github': '&#59627;',
+				'github-circled': '&#59628;',
+				'flickr': '&#59629;',
+				'flickr-circled': '&#59630;',
+				'vimeo': '&#59631;',
+				'vimeo-circled': '&#59632;',
+				'twitter': '&#59633;',
+				'twitter-circled': '&#59634;',
+				'facebook': '&#59635;',
+				'facebook-circled': '&#59636;',
+				'facebook-squared': '&#59637;',
+				'gplus': '&#59638;',
+				'gplus-circled': '&#59639;',
+				'pinterest': '&#59640;',
+				'pinterest-circled': '&#59641;',
+				'tumblr': '&#59642;',
+				'tumblr-circled': '&#59643;',
+				'linkedin': '&#59644;',
+				'linkedin-circled': '&#59645;',
+				'dribbble': '&#59646;',
+				'dribbble-circled': '&#59647;',
+				'stumbleupon': '&#59648;',
+				'stumbleupon-circled': '&#59649;',
+				'lastfm': '&#59650;',
+				'lastfm-circled': '&#59651;',
+				'rdio': '&#59652;',
+				'rdio-circled': '&#59653;',
+				'spotify': '&#59654;',
+				'spotify-circled': '&#59655;',
+				'qq': '&#59656;',
+				'instagram': '&#59657;',
+				'dropbox': '&#59658;',
+				'evernote': '&#59659;',
+				'flattr': '&#59660;',
+				'skype': '&#59661;',
+				'skype-circled': '&#59662;',
+				'renren': '&#59663;',
+				'sina-weibo': '&#59664;',
+				'paypal': '&#59665;',
+				'picasa': '&#59666;',
+				'soundcloud': '&#59667;',
+				'mixi': '&#59668;',
+				'behance': '&#59669;',
+				'google-circles': '&#59670;',
+				'vkontakte': '&#59671;',
+				'smashing': '&#59672;',
+				'db-shape': '&#59674;',
+				'bullet-list': '&#59673;',
+				'db-logo': '&#59675;',
+				'pictures': '&#59406;',
+				'globe': '&#59569;',
+				'leaf': '&#59576;',
+				'graduation-cap': '&#59593;',
+				'mic': '&#59486;',
+				'palette': '&#59556;',
+				'ticket': '&#59595;',
+				'movie': '&#59405;',
+				'target': '&#59555;',
+				'music': '&#59394;',
+				'trophy': '&#59560;',
+				'like': '&#59435;',
+				'unlike': '&#59436;',
+				'bag': '&#59482;',
+				'user': '&#59402;',
+				'users': '&#59403;',
+				'light-bulb': '&#59492;',
+				'new': '&#59455;',
+				'water': '&#59596;',
+				'droplet': '&#59597;',
+				'credit-card': '&#59599;',
+				'monitor': '&#59563;',
+				'briefcase': '&#59579;',
+				'save': '&#59600;',
+				'cd': '&#59566;',
+				'folder': '&#59472;',
+				'page-list': '&#59467;',
+				'calendar': '&#59483;',
+				'line-graph': '&#59589;',
+				'bar-graph': '&#59590;',
+				'clipboard': '&#59601;',
+				'paperclip': '&#59427;',
+				'ribbons': '&#59433;',
+				'book': '&#59471;',
+				'read': '&#59470;',
+				'phone': '&#59476;',
+				'megaphone': '&#59602;',
+				'outbox': '&#59438;',
+				'inbox': '&#59567;',
+				'box': '&#59474;',
+				'newspaper': '&#59469;',
+				'mobile': '&#59564;',
+				'wifi': '&#59559;',
+				'camera': '&#59407;',
+				'swap': '&#59540;',
+				'loop': '&#59541;',
+				'cycle': '&#59537;',
+				'light-down': '&#59493;',
+				'light-up': '&#59494;',
+				'mute': '&#59487;',
+				'loud': '&#59488;',
+				'battery': '&#59561;',
+				'search': '&#59395;',
+				'key': '&#59607;',
+				'lock': '&#59428;',
+				'unlock': '&#59429;',
+				'bell': '&#59453;',
+				'ribbon': '&#59432;',
+				'link': '&#59426;',
+				'revert': '&#59424;',
+				'flashlight': '&#59396;',
+				'area-graph': '&#59591;',
+				'clock': '&#59490;',
+				'rocket': '&#59613;',
+				'forbidden': '&#59496;'
 				};
 
 			// Font-icons
-			this.findIn(self, children, '[class^="icon-"],[class*=" icon-"]').each(function(i)
+			this.findIn(self, children, '[class^="icon-"],[class*=" icon-"]').not('.old-icon').each(function(i)
 			{
 				// Icon class
 				var name = /icon-([^ ]+)/.exec(this.className)[1],
-					element = $(this);
+					element = $(this).addClass('old-icon');
 
 				// If valid icon name
 				if (iconMap[name])
@@ -1572,7 +1737,7 @@
 		{
 			// Before/after pseudo-elements
 			var pseudo = {
-					'.bullet-list > li':		{ before: '<span class="bullet-list-before">k</span>' },
+					'.bullet-list > li':		{ before: '<span class="bullet-list-before">&#61456;</span>' },
 					'.info-bubble':				{ before: '<span class="info-bubble-before"></span>' },
 					'.select-arrow':			{ before: '<span class="select-arrow-before"></span>', after: '<span class="select-arrow-after"></span>' },
 					'.with-left-arrow, .with-right-arrow, .tabs > li > a':
@@ -2058,12 +2223,25 @@
 		// Support for webapp mode on iOS
 		if (('standalone' in window.navigator) && window.navigator.standalone)
 		{
-			$(document).on('click', 'a', function (event)
+			doc.on('click', 'body', function (event)
 			{
-				var link = $(this),
-					href = link.attr('href');
+				var link = $(event.target).closest('a'),
+					href;
 
-				// Do not process anchors
+				// Only handle links
+				if (!link.length)
+				{
+					return;
+				}
+
+				// If already processed
+				if (event.isDefaultPrevented())
+				{
+					return;
+				}
+
+				// Do not process local anchors
+				href = link.attr('href');
 				if (!href || href.indexOf('#') === 0)
 				{
 					return;
@@ -2369,7 +2547,10 @@
 			$.each(target.data('tracking-elements') || [], function(i)
 			{
 				$(this.element).stop(true, true);
-				this.func.call(this.element, target);
+				if (this.func)
+				{
+					this.func.call(this.element, target);
+				}
 			});
 		});
 
@@ -2393,7 +2574,10 @@
 			$.each(target.data('tracking-elements') || [], function(i)
 			{
 				$(this.element).stop(true, true);
-				this.func.call(this.element, target);
+				if (this.func)
+				{
+					this.func.call(this.element, target);
+				}
 			});
 		});
 
@@ -2681,7 +2865,7 @@
 		// Add event and delta to the front of the arguments
 		args.unshift(event, delta, deltaX, deltaY);
 
-		return $.event.handle.apply(this, args);
+		return ($.event.dispatch || $.event.handle).apply(this, args);
 	}
 
 	// Register event

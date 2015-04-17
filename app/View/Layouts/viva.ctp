@@ -115,7 +115,7 @@
         <!-- JavaScript at the bottom for fast page loading -->
 
         <!-- Scripts -->
-        <script src="<?php echo $this->webroot; ?>js/libs/jquery-1.8.2.min.js"></script>
+        <script src="<?php echo $this->webroot; ?>js/libs/jquery-1.10.2.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/setup.js"></script>
 
         <!-- Template functions -->

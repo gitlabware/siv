@@ -6,20 +6,7 @@
         <h1>Listado de usuarios</h1>
     </hgroup>
 
-    <div class="with-padding">   
-        <div class="twelve-columns twelve-columns-mobile">
-            <p class="button-height">
-                <a href="<?php echo $this->Html->url(array('action' => 'insertar')) ?>" class="button">
-                    <span class="button-icon"><span class="icon-star"></span></span>
-                    Crear nuevo Usuario
-                </a>
-
-            </p>
-            <p>
-
-            </p>
-
-        </div>
+    <div class="with-padding">       
 
         <table class="table responsive-table" id="sorting-advanced">
 
@@ -35,27 +22,27 @@
             </thead>          
 
             <tbody>
-                <?php $i = 1;foreach ($users as $usu): ?>
-                    
-                    <tr>                      
-                        <td><?php echo $i;$i++; ?></td> 
-                        <td><?php echo $usu['Persona']['nombre']; ?></td>
-                        <td><?php echo $usu['Persona']['ap_paterno']; ?></td>
-                        <td><?php echo $usu['User']['username']; ?></td>
-                        <td><?php echo $usu['Group']['name']; ?></td>
-                        <td class="low-padding align-center">
-                        <?php $ajaxv = 'openAjax('.$usu['User']['id'].')'?>
-                            <?php echo $this->Html->image("iconos/menu.png", array('onclick'=>$ajaxv)); ?>
-                            <?php echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'editar', $usu['User']['id']), array('escape' => false)); ?>
-                            <?php echo $this->Html->link($this->Html->image("iconos/cambiopass.png", array("alt" => 'Editar', 'title' => 'Cambio Password')), array('action' => 'cambiopass', $usu['User']['id']), array('escape' => false)); ?>
-    <?php echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'eliminar', 'title' => 'eliminar')), array('action' => 'delete', $usu['User']['id']), array('escape' => false), ("Desea eliminar realmente??"));
-    ?>
+                <?php $i = 1;
+                foreach ($users as $usu): ?>
 
-                        </td>
+                  <tr>                      
+                      <td><?php echo $i;
+                  $i++; ?></td> 
+                      <td><?php echo $usu['Persona']['nombre']; ?></td>
+                      <td scope="col" width="15%" class="align-center hide-on-mobile"><?php echo $usu['Persona']['ap_paterno']; ?></td>
+                      <td><?php echo $usu['User']['username']; ?></td>
+                      <td><?php echo $usu['Group']['name']; ?></td>
+                      <td scope="col" width="20%" class="align-center">
+                          <?php //$ajaxv = 'openAjax(' . $usu['User']['id'] . ')' ?>
+                          <?php //echo $this->Html->image("iconos/menu.png", array('onclick' => $ajaxv)); ?>
+                          <?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'editar', $usu['User']['id']), array('escape' => false)); ?>                          
+                          <a href="<?php echo $this->Html->url(array('action' => 'editar', $usu['User']['id'])); ?>" class="button compact icon-pencil">Editar</a>
+                          <a href="<?php echo $this->Html->url(array('action' => 'delete', $usu['User']['id'])); ?>" onclick="if (confirm(&quot;Desea eliminar realmente??&quot;)) { return true; } return false;" class="button compact icon-cross-round">Eliminar</a>
+                      </td>
 
-                    </tr> 
+                  </tr> 
 
-                <?php endforeach; ?>
+<?php endforeach; ?>
             </tbody>
         </table>          
     </div>
@@ -67,15 +54,16 @@
 <!-- End sidebar/drop-down menu --> 
 
 <script>
-    
-    function openAjax(id)
-		{
-		 
-			$.modal({
-				title: 'Datos de Usuario',
-				url: '<?php echo $this->Html->url(array('action' => 'ajaxver')) ?>/'+id,
-				width: 300
-			});
-		};
+
+  function openAjax(id)
+  {
+
+      $.modal({
+          title: 'Datos de Usuario',
+          url: '<?php echo $this->Html->url(array('action' => 'ajaxver')) ?>/' + id,
+          width: 300
+      });
+  }
+  ;
 </script>
 

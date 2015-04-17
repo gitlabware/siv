@@ -189,7 +189,7 @@
 				if (typeof(content) !== 'string')
 				{
 					// Use dom content
-					dom = settings.content;
+					dom = content;
 
 					// This is required to handle DOM insertion when using beforeContent/afterContent
 					content = '<span class="modal-dom-wrapper"></span>';
@@ -275,17 +275,20 @@
 						}
 
 						// Check if everything fits
-						scrollX = contentBlock.prop('scrollWidth');
-						if (scrollX > width)
+						if (settings.resizeToFit)
 						{
-							contentBlock.css({
-								width: scrollX+'px'
-							});
+							scrollX = contentBlock.prop('scrollWidth');
+							if (scrollX > width)
+							{
+								contentBlock.css({
+									width: scrollX+'px'
+								});
+							}
 						}
 					}
 
 					// Then set height
-					if (width !== true)
+					if (height !== true)
 					{
 						contentBlock.css({
 							height: height ? height+'px' : ''
@@ -293,12 +296,15 @@
 					}
 
 					// Check if everything fits
-					scrollY = contentBlock.prop('scrollHeight');
-					if (scrollY > height)
+					if (settings.resizeToFit)
 					{
-						contentBlock.css({
-							height: scrollY+'px'
-						});
+						scrollY = contentBlock.prop('scrollHeight');
+						if (scrollY > height)
+						{
+							contentBlock.css({
+								height: scrollY+'px'
+							});
+						}
 					}
 				}
 			},
@@ -599,6 +605,21 @@
 				// Adding the class afterwards will trigger the CSS animation
 				blocker.addClass('visible');
 			}
+
+			// Behavior
+			blocker.click(function(event)
+			{
+				// Check related modals
+				blocker.nextImmediates('.modal').each(function()
+				{
+					var modal = $(this),
+						data = modal.data('modal');
+					if (data && data.closeOnBlur)
+					{
+						modal.closeModal();
+					}
+				});
+			});
 		}
 
 		// If iframe
@@ -677,9 +698,11 @@
 		}
 
 		// Custom scroll
-		if (!settings.useIframe && $.fn.customScroll)
+		if (!settings.useIframe && settings.scrolling && $.fn.customScroll)
 		{
-			contentBlock.customScroll();
+			contentBlock.customScroll({
+				horizontal: settings.horizontalScrolling
+			});
 		}
 
 		// If resizable
@@ -914,7 +937,8 @@
 			setPosition:		setPosition,
 			setTitle:			setTitle,
 			close:				closeModal,
-			updateMaxSizes:		updateMaxSizes
+			updateMaxSizes:		updateMaxSizes,
+			closeOnBlur:		settings.closeOnBlur
 		});
 
 		// Center and display effect
@@ -978,7 +1002,7 @@
 	$.modal.alert = function(message, options)
 	{
 		options = options || {};
-		$.modal($.extend({}, $.modal.defaults.alertOptions, options, {
+		return $.modal($.extend({}, $.modal.defaults.alertOptions, options, {
 
 			content: message
 
@@ -995,7 +1019,8 @@
 	 */
 	$.modal.prompt = function(message, callback, cancelCallback, options)
 	{
-		var isSubmitted = false, onClose;
+		var isSubmitted = false,
+			onClose, type;
 
 		// Params
 		if (typeof cancelCallback !== 'function')
@@ -1020,13 +1045,14 @@
 				// Previous onClose, if any
 				if (onClose)
 				{
-					onClose.call(this, event);
+					return onClose.call(this, event);
 				}
 			};
 		}
 
 		// Content
-		options.content = '<div class="margin-bottom">'+message+'</div><div class="input full-width"><input type="text" name="prompt-value" id="prompt-value" value="" class="input-unstyled full-width"></div>';
+		type = options.password ? 'password' : 'text';
+		options.content = '<div class="margin-bottom">'+message+'</div><div class="input full-width"><input type="' + type + '" name="prompt-value" id="prompt-value" value="" class="input-unstyled full-width"></div>';
 
 		// Buttons
 		options.buttons = {};
@@ -1053,7 +1079,7 @@
 		};
 
 		// Open modal
-		$.modal(options);
+		return $.modal(options);
 	};
 
 	/**
@@ -1082,7 +1108,7 @@
 			// Previous onClose, if any
 			if (onClose)
 			{
-				onClose.call(this, event);
+				return onClose.call(this, event);
 			}
 		};
 
@@ -1090,13 +1116,15 @@
 		options.content = message;
 
 		// Buttons
-		options.buttons = {};
-		options.buttons[ options.textCancel ] = {
-			classes:	'glossy',
+		options.buttons = options.buttons || {};
+		options.buttons[ options.textCancel ] = $.extend( {
+			classes:	'glossy'
+		}, options.buttons[ options.textCancel ] || {}, {
 			click:		function(modal) { modal.closeModal(); }
-		};
-		options.buttons[ options.textConfirm ] = {
-			classes:	'blue-gradient glossy',
+		} );
+		options.buttons[ options.textConfirm ] = $.extend( {
+			classes:	'blue-gradient glossy'
+		}, options.buttons[ options.textConfirm ] || {}, {
 			click:		function(modal)
 			{
 				// Mark as sumbmitted to prevent the cancel callback to fire
@@ -1108,10 +1136,10 @@
 				// Close modal
 				modal.closeModal();
 			}
-		};
+		} );
 
 		// Open modal
-		$.modal(options);
+		return $.modal(options);
 	};
 
 	/**
@@ -1128,7 +1156,7 @@
 		this.each(function()
 		{
 			var element = $(this);
-			modals.add($.modal($.extend({}, options, element.data('modal-options'), { content: element })));
+			modals = modals.add($.modal($.extend({}, options, element.data('modal-options'), { content: element })));
 		});
 
 		return modals;
@@ -1352,6 +1380,12 @@
 		blockerVisible: true,
 
 		/**
+		 * If true, any click on the blocking layer will close the window
+		 * @var boolean
+		 */
+		closeOnBlur: false,
+
+		/**
 		 * CSS classes for the modal
 		 * @var string
 		 */
@@ -1468,6 +1502,12 @@
 		 * @var boolean|string
 		 */
 		scrolling: true,
+
+		/**
+		 * If true, enable horizontal scrolling when using the custom scroll plugin
+		 * @var boolean
+		 */
+		horizontalScrolling: false,
 
 		/**
 		 * Actions leds on top left corner, with text as key and function on click or config object as value
@@ -1599,6 +1639,12 @@
 		width: false,
 
 		/**
+		 * When setting a window's size, detect if the content is too large and force a resize to fit
+		 * @var boolean
+		 */
+		resizeToFit: true,
+
+		/**
 		 * Default options for alert() method
 		 * @var object
 		 */
@@ -1631,6 +1677,12 @@
 			maxWidth:		260,
 			resizable:		false,
 			actions:		{},
+
+			/**
+			 * Use a password input type
+			 * @var boolean
+			 */
+			password: false,
 
 			/**
 			 * Text for cancel button for prompt windows
