@@ -32,22 +32,51 @@
                     </p>  
             </div>
             
-            <div class="new-row six-columns">
+            <div class="new-row four-columns">
                                 
                 <p class="block-label button-height">
-                    <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>
+                    <label for="block-label-1" class="label">C.I. <small>(requerido)</small></label>
                     <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
                 </p>
             </div>
             
+            <div class="eight-columns">
+                                
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Direccion <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                </p>
+            </div>
+            
+             <div class="six-columns">
+                                
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Telefono <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                </p>
+            </div>
+           
             <div class="six-columns">
-                                
                 <p class="block-label button-height">
-                    <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>
-                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                    <label for="block-label-1" class="label">Celular <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">
                 </p>
             </div>
             
+            <div class="four-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Usuario <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">
+                </p>
+            </div>
+            
+            <div class="four-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Password <small>(requerido)</small></label>
+                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">
+                </p>
+            </div>
+          
         </div>
         
         <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
