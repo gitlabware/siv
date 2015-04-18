@@ -6,7 +6,7 @@
     <hgroup id="main-title" class="thin">
         <h1>Insertar Nuevo Usuario</h1>
     </hgroup>
-  <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
+    <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
     <div class="with-padding"> 
 
         <div class="columns">
@@ -15,21 +15,20 @@
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>                    
-                    <?php echo $this->Form->text('Persona.nombre', array('class' => 'input full-width', 'placeholder' => 'Ingrese el nombre', 'value'=>"")); ?>
+                    <?php echo $this->Form->text('Persona.nombre', array('class' => 'input full-width', 'placeholder' => 'Ingrese el nombre', 'value' => "")); ?>
                 </p>
             </div>
             <div class="four-columns">                
                 <p class="block-label button-height">
                     <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
-                    <?php echo $this->Form->text('Persona-ap_paterno', array('class'=>'input full-width', 'placeholder'=>'Ingrese el apellido paterno','value'=>""));?>
-                    <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
+                    <?php echo $this->Form->text('Persona-ap_paterno', array('class' => 'input full-width', 'placeholder' => 'Ingrese el apellido paterno', 'value' => "")); ?>
                 </p>  
             </div>
 
             <div class="four-columns">                
                 <p class="block-label button-height">
-                    <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
-                    <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
+                    <label for="block-label-2" class="label">Apellido Materno <small>(requerido)</small></label>
+                    <?php echo $this->Form->text('Persona.ap_materno', array('class' => 'input full-width', 'placeholder' => 'Ingrese el apellido materno')); ?>
                 </p>  
             </div>
 
@@ -37,7 +36,7 @@
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">C.I. <small>(requerido)</small></label>
-                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                    <?php echo $this->Form->text('Persona.ci', array('class' => 'input full-width', 'placeholder' => 'Ingrese la cedula de identidad')); ?>
                 </p>
             </div>
 
@@ -78,15 +77,15 @@
                 </p>
             </div>
             <div class="four-columns">
-              <p class="button-height inline-label">
-                  <label for="validation-select" class="label">Tipo de usuario <small>(requerido)</small></label>
-                  <select id="validation-select" name="validation-select" class="select validate[required]" class="input full-width" >
-                    <option value="">Please select</option>
-                   
-                </select>
-            </p>  
+                <p class="button-height inline-label">
+                    <label for="validation-select" class="label">Tipo de usuario <small>(requerido)</small></label>
+                    <select id="validation-select" name="validation-select" class="select validate[required]" class="input full-width" >
+                        <option value="">Please select</option>
+
+                    </select>
+                </p>  
             </div>
-            
+
 
         </div>
 
