@@ -77,24 +77,9 @@
                     <?php echo $this->Form->password('password', array('class' => 'input full-width', 'placeholder' => 'Password')) ?>
                 </p>
             </div>
-<<<<<<< HEAD
             <div class="two-columns">
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Tipo de usuario <small>(requerido)</small></label>
-=======
-            <div class="four-columns">
-                <p class="button-height inline-label">
-                    <label for="validation-select" class="label">Tipo de usuario <small>(requerido)</small></label>
-                    <select id="validation-select" name="validation-select" class="select validate[required]" class="input full-width" >
-                        <option value="">Please select</option>
-
-                    </select>
-                </p>  
-            </div>
-
-
-        </div>
->>>>>>> dfcaafb19f967b516e82cc68b6b720857db40ff6
 
                     <select id="validation-select1" name="data[User][group_id]" class="select validate[required]" class="input full-width" >
                         <?php foreach ($groups as $g): ?>
