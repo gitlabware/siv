@@ -6,79 +6,90 @@
     <hgroup id="main-title" class="thin">
         <h1>Insertar Nuevo Usuario</h1>
     </hgroup>
-
+  <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
     <div class="with-padding"> 
-        
+
         <div class="columns">
-            
+
             <div class="new-row four-columns">
-                                
+
                 <p class="block-label button-height">
-                    <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>
-                    <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
+                    <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>                    
+                    <?php echo $this->Form->text('Persona.nombre', array('class' => 'input full-width', 'placeholder' => 'Ingrese el nombre', 'value'=>"")); ?>
                 </p>
             </div>
             <div class="four-columns">                
-             <p class="block-label button-height">
-                        <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
-                        <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
-                    </p>  
+                <p class="block-label button-height">
+                    <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
+                    <?php echo $this->Form->text('Persona-ap_paterno', array('class'=>'input full-width', 'placeholder'=>'Ingrese el apellido paterno','value'=>""));?>
+                    <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
+                </p>  
             </div>
-            
+
             <div class="four-columns">                
-             <p class="block-label button-height">
-                        <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
-                        <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
-                    </p>  
+                <p class="block-label button-height">
+                    <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
+                    <input type="text" name="block-label-2" id="block-label-2" class="input full-width" value="">
+                </p>  
             </div>
-            
+
             <div class="new-row four-columns">
-                                
+
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">C.I. <small>(requerido)</small></label>
                     <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
                 </p>
             </div>
-            
+
             <div class="eight-columns">
-                                
+
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Direccion <small>(requerido)</small></label>
                     <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
                 </p>
             </div>
-            
-             <div class="six-columns">
-                                
+
+            <div class="six-columns">
+
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Telefono <small>(requerido)</small></label>
                     <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">                       
                 </p>
             </div>
-           
+
             <div class="six-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Celular <small>(requerido)</small></label>
                     <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">
                 </p>
             </div>
-            
+
             <div class="four-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Usuario <small>(requerido)</small></label>
                     <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">
                 </p>
             </div>
-            
+
             <div class="four-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Password <small>(requerido)</small></label>
                     <input type="text" name="block-label-1" id="block-label-1" class="input full-width" value="">
                 </p>
             </div>
-          
+            <div class="four-columns">
+              <p class="button-height inline-label">
+                  <label for="validation-select" class="label">Tipo de usuario <small>(requerido)</small></label>
+                  <select id="validation-select" name="validation-select" class="select validate[required]" class="input full-width" >
+                    <option value="">Please select</option>
+                   
+                </select>
+            </p>  
+            </div>
+            
+
         </div>
-        
+
         <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
 
         <form method="post" action="" class="columns" onsubmit="return false" name="formulario">                               
@@ -164,9 +175,9 @@
                                 Seleccione el tipo de Usuario
                             </option>
                             <?php foreach ($groups as $g): ?>
-                              <option value="<?php echo $g['Group']['id'] ?>">
-                                  <?php echo $g['Group']['name'] ?>
-                              </option>
+                                <option value="<?php echo $g['Group']['id'] ?>">
+                                    <?php echo $g['Group']['name'] ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -179,9 +190,9 @@
                                     Seleccione la tienda
                                 </option>
                                 <?php foreach ($tiendas as $g): ?>
-                                  <option value="<?php echo $g['Sucursal']['id'] ?>">
-                                      <?php echo $g['Sucursal']['nombre'] ?>
-                                  </option>
+                                    <option value="<?php echo $g['Sucursal']['id'] ?>">
+                                        <?php echo $g['Sucursal']['nombre'] ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
 
@@ -214,21 +225,21 @@
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
-  $(document).ready(function () {
-      $("#validation-select1").change(function () {
-          if (this.value == 5) {
-              $('#mostrartienda').show();
-          } else {
-              $('#mostrartienda').hide();
-          }
-      });
-  });
+    $(document).ready(function () {
+        $("#validation-select1").change(function () {
+            if (this.value == 5) {
+                $('#mostrartienda').show();
+            } else {
+                $('#mostrartienda').hide();
+            }
+        });
+    });
 </script>
 <script>
-  $(document).ready(function () {
+    $(document).ready(function () {
 
-      $("#formID").validationEngine();
+        $("#formID").validationEngine();
 
 
-  });
+    });
 </script>
