@@ -8,40 +8,33 @@
 
     <div class="with-padding">                   
 
-        <table class="table responsive-table" id="sorting-advanced">
+        <table class="table responsive-table" id="tabla-json">
 
             <thead>
                 <tr>                      
-                    
-                    <th>numero de registro</th>
+
+                    <th style="width: 10%;">numero de registro</th>
                     <th >nombre</th>
-                    <th >direccion</th>  
+                    <th style="width: 30%;">direccion</th>  
                     <th >celular</th>
                     <th >zona</th>
-                    <th style="width: 10;">Acciones</th>
+                    <th >Acciones</th>
                 </tr>
             </thead>          
 
             <tbody>
-                <?php foreach ($clientes as $p): ?>
-                    <tr>                      
-                        <td><?php echo $p['Cliente']['num_registro']; ?></td>
-                        <td><?php echo $p['Cliente']['nombre']; ?></td>
-                        <td><?php echo $p['Cliente']['direccion']; ?></td>
-                        <td><?php echo $p['Cliente']['celular']; ?></td>
-                        <td><?php echo $p['Cliente']['zona']; ?></td>
-                        <td class="low-padding align-center"><?php echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'edit', $p['Cliente']['id']), array('escape' => false));?>
-                        <?php echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'eliminar', 'title' => 'eliminar')), array('action' => 'delete', $p['Cliente']['id']), array('escape' => false), ("Desea eliminar realmente??"));
-                            ?>
-                        </td>
-                    </tr>               
-                <?php endforeach; ?>
+
             </tbody>
-        </table>   
-        <td class="low-padding align-center"><a href="<?php echo $this->html->url(array('action'=>'insertar')); ?>" class="button compact icon-gear">Nuevo Cliente</a></td>    
+        </table>  
     </div>
 </section>	
-
+<script>
+  urljsontabla = '<?php echo $this->Html->url(array('action' => 'index.json')); ?>';
+  
+</script>
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
+<?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'edit', $p['Cliente']['id']), array('escape' => false));?>
+<?php //echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'eliminar', 'title' => 'eliminar')), array('action' => 'delete', $p['Cliente']['id']), array('escape' => false), ("Desea eliminar realmente??"));
+?>
