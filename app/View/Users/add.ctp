@@ -21,7 +21,7 @@
             <div class="four-columns">                
                 <p class="block-label button-height">
                     <label for="block-label-2" class="label">Apellido Paterno <small>(requerido)</small></label>
-                    <?php echo $this->Form->text('Persona-ap_paterno', array('class' => 'input full-width', 'placeholder' => 'Ingrese el apellido paterno', 'value' => "")); ?>
+                    <?php echo $this->Form->text('Persona.ap_paterno', array('class' => 'input full-width', 'placeholder' => 'Ingrese el apellido paterno', 'value' => "")); ?>
                 </p>  
             </div>
 

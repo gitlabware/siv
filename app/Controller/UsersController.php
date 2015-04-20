@@ -247,7 +247,7 @@ class UsersController extends AppController {
             $this->data = $this->User->read();
             $this->data = $this->Persona->read();
         } else {
-            if ($this->User->save($this->data)) {
+            if ($this->User->saveAll($this->data)) {
                 $this->Session->setFlash('Los datos fueron modificados');
                 $this->redirect(array('action' => 'index'), null, true);
             } else {

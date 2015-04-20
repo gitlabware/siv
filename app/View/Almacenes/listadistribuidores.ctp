@@ -14,7 +14,7 @@
                 <tr>                     
                     <th scope="col" width="15%" class="align-center hide-on-mobile">Apellido Paterno</th>  
                     <th scope="col" width="15%" class="align-center hide-on-mobile">Apellido Materno</th>  
-                    <th scope="col" width="15%">Nombre</th>
+                    <th scope="col" width="15%" class="align-center hide-on-mobile">Nombre</th>
                     <th class="align-center hide-on-mobile">Tipo</th>                  
                     <th scope="col" class="align-center">Acciones</th>
                 </tr>
