@@ -79,7 +79,7 @@
             </div>
             <div class="two-columns">
                 <p class="block-label button-height">
-                    <label for="validation-select" class="label">Tipo de usuario <small>(requerido)</small></label>
+                    <label for="validation-select" class="label">Tipo <small>(requerido)</small></label>
 
                     <select id="validation-select1" name="data[User][group_id]" class="select validate[required]" class="input full-width" >
                         <?php foreach ($groups as $g): ?>

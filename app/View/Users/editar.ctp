@@ -8,7 +8,7 @@
         <h1>Insertar Nuevo Usuario</h1>
     </hgroup>
     <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
-    <?php echo $this->form->hidden('Persona.id');?>
+    <?php echo $this->form->hidden('Persona.id'); ?>
     <div class="with-padding"> 
 
         <div class="columns">
@@ -69,25 +69,37 @@
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Usuario <small>(requerido)</small></label>
-                    <?php echo $this->Form->text('username', array('class' => 'input full-width')); ?>
+                    <?php
+                    //debug($this->request->data); 
+                    $username = $this->request->data['User']['0']['username'];
+                    $grupo = $this->request->data['User']['0']['group_id'];
+                    //debug($grupo);
+                    ?>
+                    <?php echo $this->Form->text('User.username', array('class' => 'input full-width', 'value' => "$username")); ?>
                 </p>
             </div>
 
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Password <small>(requerido)</small></label>
-                    <?php echo $this->Form->password('password', array('class' => 'input full-width')) ?>
+                    <?php echo $this->Form->password('User.password2', array('class' => 'input full-width', 'placeholder'=>'Si desea cambiarlo')) ?>
                 </p>
             </div>
             <div class="two-columns">
                 <p class="block-label button-height">
-                    <label for="validation-select" class="label">Tipo de usuario <small>(requerido)</small></label>
+                    <label for="validation-select" class="label">Tipo <small>(requerido)</small></label>
 
                     <select id="validation-select1" name="data[User][group_id]" class="select validate[required]" class="input full-width" >
                         <?php foreach ($groups as $g): ?>
+                          <?php if ($g['Group']['id'] == $grupo): ?>
+                            <option value="<?php echo $g['Group']['id'] ?>" selected="selected">
+                                <?php echo $g['Group']['name'] ?>
+                            </option>
+                          <?php else: ?>
                             <option value="<?php echo $g['Group']['id'] ?>">
                                 <?php echo $g['Group']['name'] ?>
                             </option>
+                          <?php endif; ?>    
                         <?php endforeach; ?>
                     </select>
                 </p>  
@@ -96,29 +108,29 @@
                 <p class="block-label button-height" id="mostrartienda" style="display: none">
                     <label for="validation-select" class="label"><b>Tienda en la que trabaja:</b></label>
                     <select id="validation-select1" name="data[User][sucursal_id]" class="select"  style="width: 200px"  >
-                        
-                        <?php foreach ($tiendas as $g): ?>
-                            <option value="<?php echo $g['Sucursal']['id'] ?>">
-                                <?php echo $g['Sucursal']['nombre'] ?>
-                            </option>
+
+                        <?php foreach ($tiendas as $g): ?>                            
+                          <option value="<?php echo $g['Sucursal']['id'] ?>">
+                              <?php echo $g['Sucursal']['nombre'] ?>
+                          </option>
                         <?php endforeach; ?>
                     </select>
                 </p>
             </div>
-        
+
             <div class="six-columns">
 
-                    <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
-                        <span class="button-icon"><span class="icon-tick"></span></span>
-                        Guardar Usuario
-                    </button>
+                <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
+                    <span class="button-icon"><span class="icon-tick"></span></span>
+                    Guardar Usuario
+                </button>
 
-                    <button type="submit" class="button glossy">
-                        <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
-                        Cancelar
-                    </button>
+                <button type="submit" class="button glossy">
+                    <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
+                    Cancelar
+                </button>
 
-                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -127,21 +139,21 @@
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
-    $(document).ready(function () {
-        $("#validation-select1").change(function () {
-            if (this.value == 5) {
-                $('#mostrartienda').show();
-            } else {
-                $('#mostrartienda').hide();
-            }
-        });
-    });
+  $(document).ready(function () {
+      $("#validation-select1").change(function () {
+          if (this.value == 5) {
+              $('#mostrartienda').show();
+          } else {
+              $('#mostrartienda').hide();
+          }
+      });
+  });
 </script>
 <script>
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        $("#formID").validationEngine();
+      $("#formID").validationEngine();
 
 
-    });
+  });
 </script>
