@@ -15,9 +15,9 @@
                     <ul class="inputs black-input large">
                         <!-- The autocomplete="off" attributes is the only way to prevent webkit browsers from filling the inputs with yellow -->
                         <li><span class="icon-user mid-margin-left"></span>
-                            <input type="text" name="data[User][username]" id="login" value="" class="input-unstyled" placeholder="Usuario" autocomplete="off" required></li>
+                            <input type="text" name="data[User][username]" id="login" value="" class="input-unstyled" placeholder="Usuario" autocomplete="off"></li>
                         <li><span class="icon-lock mid-margin-left"></span>
-                            <input type="password" name="data[User][password]" id="pass" value="" class="input-unstyled" placeholder="Password" autocomplete="off" required></li>
+                            <input type="password" name="data[User][password]" id="pass" value="" class="input-unstyled" placeholder="Password" autocomplete="off"></li>
                     </ul>
 
                     <p class="button-height">

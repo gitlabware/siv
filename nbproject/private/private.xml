@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/siv/app/View/Layouts/viva.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Users/index.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Layouts/vivadistribuidor.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Tiendas/index.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Almacenes/listaentregas.ctp</file>
+            <file>file:/var/www/html/siv/app/Controller/AlmacenesController.php</file>
         </group>
     </open-files>
 </project-private>
