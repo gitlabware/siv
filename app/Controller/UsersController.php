@@ -239,10 +239,27 @@ class UsersController extends AppController {
       'conditions' => array('User.id' => $id)
     ));
     $this->Persona->id = $idPersona['User']['persona_id'];
-    if (!$id) {
-      $this->Session->setFlash('No existe tal registro');
-      $this->redirect(array('action' => 'index'), null, true);
-    }
+        if (!$id) {
+            $this->Session->setFlash('No existe tal registro');
+            $this->redirect(array('action' => 'index'), null, true);
+        }
+        if (empty($this->data)) {
+            $this->data = $this->User->read();
+            $this->data = $this->Persona->read();
+        } else {
+            if ($this->User->saveAll($this->data)) {
+                $this->Session->setFlash('Los datos fueron modificados');
+                $this->redirect(array('action' => 'index'), null, true);
+            } else {
+                $this->Session->setFlash('no se pudo modificar!!');
+            }
+            
+        }
+        $groups = $this->User->Group->find('all', array('recursive' => -1));
+        $tiendas = $this->Sucursal->find('all', array('recursive' => -1));
+        $this->set(compact('groups', 'tiendas'));
+
+
     if (empty($this->data)) {
       $this->data = $this->User->read();
       $this->data = $this->Persona->read();
