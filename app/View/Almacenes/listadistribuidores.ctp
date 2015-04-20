@@ -11,7 +11,8 @@
         <table class="table responsive-table" id="sorting-advanced">
 
             <thead>
-                <tr>                     
+                <tr>            
+                    <th scope="col" width="5%" class="align-center hide-on-mobile">No.</th>
                     <th scope="col" width="15%" class="align-center hide-on-mobile">Apellido Paterno</th>  
                     <th scope="col" width="15%" class="align-center hide-on-mobile">Apellido Materno</th>  
                     <th scope="col" width="15%" class="align-center hide-on-mobile">Nombre</th>
@@ -23,12 +24,14 @@
             <tbody>
                 <?php foreach ($distribuidores as $distribuidor): ?>
                     <tr>    
+                        <td><?php echo $i; $i++;?></td>
                         <td><?php echo $distribuidor['Persona']['ap_paterno']; ?></td>
                         <td><?php echo $distribuidor['Persona']['ap_materno']; ?></td>               
                         <td><?php echo $distribuidor['Persona']['nombre']; ?></td>                   
                         <td><?php echo $distribuidor['Group']['name'] ?></td>
-                        <td class="low-padding align-center">
-                           <?php echo $this->Html->link('repar', array('action'=>'listaentregas',$distribuidor['Persona']['id'],0),array('class'=>"button compact icon-gear")) ?>
+                        <td scope="col" width="20%" class="align-center">
+                           <?php //echo $this->Html->link('repar', array('action'=>'listaentregas',$distribuidor['Persona']['id'],0),array('class'=>"button compact icon-gear")) ?>
+                            <a href="<?php echo $this->Html->url(array('action'=>'listaentregas', $distribuidor['Persona']['id'],0));?>" class="button green-gradient compact icon-extract">Repartir</a>
                         </td>
                     </tr>               
                 <?php endforeach; ?>
