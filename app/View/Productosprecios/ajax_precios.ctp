@@ -55,9 +55,11 @@
 
 <script>
 <?php if (count($precios) == 0): ?>
-    $('#idproducto-<?php echo $idProducto ?>').addClass('sin-precios');
+    $('#idproducto-<?php echo $idProducto ?>').addClass('red-bg');
+    $('#idproducto-<?php echo $idProducto ?>').html('<?php echo count($precios);?>');
 <?php else: ?>
-    $('#idproducto-<?php echo $idProducto ?>').removeClass('sin-precios');
+    $('#idproducto-<?php echo $idProducto ?>').removeClass('red-bg');
+    $('#idproducto-<?php echo $idProducto ?>').html('<?php echo count($precios);?>');
 <?php endif; ?>
   function registra_precio() {
       var postData = $('#form_precio').serializeArray();

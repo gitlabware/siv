@@ -1,7 +1,5 @@
 <style>
-    .sin-precios{
-        background-color: #FFCCBA;
-    }
+    
 </style>
 <section role="main" id="main">
 
@@ -13,7 +11,7 @@
 
     <div class="with-padding">                   
 
-        <table class="table responsive-table" id="sorting-advanced">
+        <table class="table responsive-table" id="tabla-json">
 
             <thead>
                 <tr>
@@ -28,35 +26,7 @@
             </thead>          
 
             <tbody>
-                <?php
-                $i = 1;
-                foreach ($productos as $p):
-                  $clasetd = '';
-                  if ($p['Producto']['precios'] == 0) {
-                    $clasetd = 'sin-precios';
-                  }
-                  ?>
-                  <tr> 
-                      <td><?php echo $p['Producto']['precios']; ?></td>
-                      <td id="idproducto-<?php echo $p['Producto']['id']; ?>" class="<?php echo $clasetd; ?>"><?php echo $p['Producto']['nombre']; ?></td>
-                      <td><?php echo $p['Producto']['precio_compra']; ?></td>
-                      <td><?php echo $p['Producto']['proveedor']; ?></td>
-                      <td><?php echo $p['Producto']['fecha_ingreso']; ?></td>
-                      <td><?php echo $p['Producto']['observaciones']; ?></td>             
-                      <td>
-                          <?php //echo $this->html->url(array('action'=>'editar',$p['Producto']['id'])); ?>
-                          <?php //echo $this->Html->url(array( 'controller'=>'Productosprecios','action'=>'precios',$p['Producto']['id']));    ?>
-                          <?php //echo $this->Html->url(array('action'=>'delete',$p['Producto']['id'])); ?>
-                          <a href="javascript:" class="button orange-gradient compact icon-pencil" onclick="window.location = '<?php echo $this->Html->url(array('action' => 'editar', $p['Producto']['id']));?>';">Editar</a>
-                          <a href="javascript:" class="button anthracite-gradient compact icon-page-list" onclick="precios_productos(<?php echo $p['Producto']['id'] ?>);">Percios</a>
-                          <a href="javascript:" class="button red-gradient compact icon-cross-round" onclick="if(confirm('Esta seguro de eliminar el producto??')){window.location = '<?php echo $this->Html->url(array('action' => 'delete', $p['Producto']['id']));?>';}">Eliminar</a>
-                          <?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'editar', $p['Producto']['id']), array('escape' => false)); ?>
-                          <?php //echo $this->Html->link($this->Html->image("iconos/otro.png", array("alt" => 'Editar', 'title' => 'Productos Precios')), array('controller' => 'Productosprecios', 'action' => 'precios', $p['Producto']['id']), array('escape' => false)); ?>
-                          <?php //echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'eliminar', 'title' => 'eliminar')), array('action' => 'delete', $p['Producto']['id']), array('escape' => false), ("Desea eliminar realmente??")); ?>
-                          
-                      </td>
-                  </tr>               
-                <?php endforeach; ?>
+                
             </tbody>
         </table>   
         <div class="low-padding align-center">
@@ -65,6 +35,7 @@
     </div>
 </section>
 <script>
+  urljsontabla = '<?php echo $this->Html->url(array('action' => 'index.json')); ?>';
   $(document).ready(function () {
       $("#formID").validationEngine();
   });
@@ -114,5 +85,11 @@
           showCloseOnHover: true,
           groupSimilar: true
       });
+  }
+  function editar_p(idproducto){
+    window.location = '<?php echo $this->Html->url(array('action' => 'editar'));?>/'+idproducto;
+  }
+  function elimina_p(idproducto){
+    if(confirm('Esta seguro de eliminar el producto??')){window.location = '<?php echo $this->Html->url(array('action' => 'delete'));?>/'+idproducto;}
   }
 </script>

@@ -6,7 +6,7 @@ class ProductosController extends AppController {
   public $name = 'Productos';
   public $uses = array('Producto', 'Preciosventa', 'Tiposproducto');
   public $helpers = array('Html', 'Form');
-  public $components = array('Session');
+  public $components = array('Session','RequestHandler', 'DataTable');
 
   public function beforeFilter() {
     parent::beforeFilter();
@@ -15,31 +15,28 @@ class ProductosController extends AppController {
 
   //public
   function index() {
-    //$conv_excel = new AexcelComponent();
-    $sql = '(SELECT COUNT(id) FROM productosprecios WHERE (productosprecios.producto_id = Producto.id))';
-    $this->Producto->virtualFields = array(
-      'precios' => "CONCAT($sql)"
-    );
-    /*if ($this->RequestHandler->responseType() == 'json') {
-      $editar = '<button class="button orange-gradient compact icon-pencil" type="button" onclick="editarc(' . "',Cliente.id,'" . ')">Editar</button>';
-      $elimina = '<button class="button red-gradient compact icon-cross-round" type="button" onclick="eliminarc(' . "',Cliente.id,'" . ')">Eliminar</button>';
-      $acciones = "$editar $elimina";
+    if ($this->RequestHandler->responseType() == 'json') {
+      $sql = '(SELECT COUNT(id) FROM productosprecios WHERE (productosprecios.producto_id = Producto.id))';
+      $editar = '<a href="javascript:" class="button orange-gradient compact icon-pencil" onclick="editar_p(' . "',Producto.id,'" . ')">Editar</a>';
+      $precios = '<a href="javascript:" class="button anthracite-gradient compact icon-page-list" onclick="precios_productos(' . "',Producto.id,'" . ')">Precios</a>';
+      $elimina = '<button class="button red-gradient compact icon-cross-round" type="button" onclick="elimina_p(' . "',Producto.id,'" . ')">Eliminar</button>';
+      $acciones = "$editar $precios $elimina";
+      $small_r = '<small class="tag red-bg" id="idproducto-' . "',Producto.id,'" . '"> '."',$sql,'".' </small></td>';
+      $small_n = '<small class="tag " id="idproducto-' . "',Producto.id,'" . '"> '."',$sql,'".' </small></td>';
       $this->Producto->virtualFields = array(
+        'precios' => "CONCAT((IF($sql = 0,CONCAT('$small_r'),CONCAT('$small_n'))))",
         'acciones' => "CONCAT('$acciones')"
       );
       $this->paginate = array(
-        'fields' => array('Producto.acciones'),
+        'fields' => array('Producto.precios','Producto.nombre','Producto.precio_compra','Producto.proveedor','Producto.fecha_ingreso','Producto.observaciones','Producto.acciones'),
         'recursive' => -1,
-        'order' => 'Cliente.id DESC'
+        'order' => 'Producto.id DESC'
       );
-      $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
+      $this->DataTable->fields = array('Producto.precios','Producto.nombre','Producto.precio_compra','Producto.proveedor','Producto.fecha_ingreso','Producto.observaciones','Producto.acciones');
       $this->DataTable->emptyEleget_usuarios_adminments = 1;
       $this->set('productos', $this->DataTable->getResponse());
       $this->set('_serialize', 'productos');
-    }*/
-    
-    $productos = $this->Producto->find('all',array('recursive' => -1));
-    //debug($productos);exit;
+    }
     $this->set(compact('productos'));
   }
 
