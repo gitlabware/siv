@@ -7,7 +7,7 @@
     </hgroup>
     <div class="with-padding"> 
     <?php echo $this->Form->create('User'); ?>
-
+        <?php echo $this->Form->hidden('User.id', array('value'=>$id)); ?>
         <form method="post" action="" class="columns" onsubmit="return false">                               
             <!--<div class="new-row-desktop four-columns six-columns-tablet twelve-columns-mobile">-->
             <div class="new-row twelve-columns">                
@@ -66,7 +66,7 @@
                     </div>
                     
                     <div class="field-block button-height">
-                        <label for="validation-select" class="label"><b>Tipo de Usuario :</b></label>
+                        <label for="validation-select" class="label"><b>Tipo de Usuario:</b></label>
                         <select id="validation-select1" name="data[User][group_id]" class="select" style="width: 200px">
 					
                             <option value="">

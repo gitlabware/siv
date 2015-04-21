@@ -28,7 +28,7 @@ class UsersController extends AppController {
   public function login() {
 
     $this->layout = 'login';
-    
+
     if ($this->request->is('post')) {
       //debug($this->request->params);
       //debug($usuario.$pass);die;
@@ -211,12 +211,13 @@ class UsersController extends AppController {
    * @return void
    */
   public function edit($id = null) {
+
     $this->User->id = $id;
     if (!$id) {
       $this->Session->setFlash('No existe tal registro');
       $this->redirect(array('action' => 'index'), null, true);
     }
-    if (empty($this->data)) {
+    if (empty($this->request->data)) {
       $this->data = $this->User->read();
     } else {
       if ($this->User->save($this->data)) {
@@ -239,19 +240,30 @@ class UsersController extends AppController {
       'conditions' => array('User.id' => $id)
     ));
     $this->Persona->id = $idPersona['User']['persona_id'];
+    //debug($this->Persona->id);die;
     if (!$id) {
-      $this->Session->setFlash('No existe tal registro');
+      $this->Session->setFlash('No existe tal registro', 'msgerror');
       $this->redirect(array('action' => 'index'), null, true);
     }
-    if (empty($this->data)) {
+    if (empty($this->request->data)) {
       $this->data = $this->User->read();
       $this->data = $this->Persona->read();
     } else {
-      if ($this->User->save($this->data)) {
-        $this->Session->setFlash('Los datos fueron modificados');
-        $this->redirect(array('action' => 'index'), null, true);
+      //debug($this->request->data);die;
+      if ($this->Persona->save($this->request->data['Persona'])) {
+        //$this->Session->setFlash('Los datos fueron modificados', 'msgbueno');
+        if(!empty($this->request->data['User']['password2'])){
+          $this->request->data['User']['password']=$this->request->data['User']['password2'];
+        }
+        if ($this->User->save($this->request->data['User'])) {
+          $this->Session->setFlash('Los datos fueron modificados', 'msgbueno');
+          $this->redirect(array('action' => 'index'), null, true);
+        } else {
+          $this->Session->setFlash('no se pudo modificar!!', 'msgerror');
+        }
+        //$this->redirect(array('action' => 'index'), null, true);
       } else {
-        $this->Session->setFlash('no se pudo modificar!!');
+        $this->Session->setFlash('no se pudo modificar!!', 'msgerror');
       }
     }
     $groups = $this->User->Group->find('all', array('recursive' => -1));

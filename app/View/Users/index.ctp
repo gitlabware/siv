@@ -23,21 +23,26 @@
 
             <tbody>
                 <?php $i = 1;
-                foreach ($users as $usu): ?>
+                foreach ($users as $usu):
+                  ?>
 
                   <tr>                      
                       <td><?php echo $i;
-                  $i++; ?></td> 
+                $i++;
+                ?></td> 
                       <td><?php echo $usu['Persona']['nombre']; ?></td>
                       <td scope="col" width="15%" class="align-center hide-on-mobile"><?php echo $usu['Persona']['ap_paterno']; ?></td>
                       <td><?php echo $usu['User']['username']; ?></td>
                       <td><?php echo $usu['Group']['name']; ?></td>
                       <td scope="col" width="20%" class="align-center">
                           <?php //$ajaxv = 'openAjax(' . $usu['User']['id'] . ')' ?>
-                          <?php //echo $this->Html->image("iconos/menu.png", array('onclick' => $ajaxv)); ?>
-                          <?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'editar', $usu['User']['id']), array('escape' => false)); ?>                          
+  <?php //echo $this->Html->image("iconos/menu.png", array('onclick' => $ajaxv));  ?>
+                          <?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'editar', $usu['User']['id']), array('escape' => false));  ?>                          
                           <a href="<?php echo $this->Html->url(array('action' => 'editar', $usu['User']['id'])); ?>" class="button orange-gradient compact icon-pencil">Editar</a>
-                          <a href="<?php echo $this->Html->url(array('action' => 'delete', $usu['User']['id'])); ?>" onclick="if (confirm(&quot;Desea eliminar realmente??&quot;)) { return true; } return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
+                          <a href="<?php echo $this->Html->url(array('action' => 'delete', $usu['User']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
+                                  return true;
+                                }
+                                return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
                       </td>
 
                   </tr> 
