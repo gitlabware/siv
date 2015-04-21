@@ -21,11 +21,9 @@ class ClientesController extends AppController {
     //$this->set('clientes', $this->paginate());
     //debug($clientes);exit;
     if ($this->RequestHandler->responseType() == 'json') {
-      /*$editar = '<button class="btn btn-info btn-xs" type="button" onclick="editart(' . "',Trabajo.id,'" . ')"><i class="icon ico-pencil"></i>Editar</button>';
-      $imprimir = '<button class="btn btn-inverse btn-xs" type="button" onclick="imprimirt(' . "',Trabajo.id,'" . ')"><i class="icon ico-print"></i>Imprimir</button>';
-      $produccion = '<button class="btn btn-success btn-xs" type="button" onclick="produccion(' . "',Trabajo.id,'" . ')"><i class="icon ico-cogs"></i>Produccion</button>';
-      $elimina = '<button class="btn btn-danger btn-xs" type="button" onclick="eliminart(' . "',Trabajo.id,'" . ')"><i class="icon ico-remove3"></i>Eliminar</button>';*/
-      $acciones = '';
+      $editar = '<button class="button orange-gradient compact icon-pencil" type="button" onclick="editarc(' . "',Cliente.id,'" . ')">Editar</button>';
+      $elimina = '<button class="button red-gradient compact icon-cross-round" type="button" onclick="eliminarc(' . "',Cliente.id,'" . ')">Eliminar</button>';
+      $acciones = "$editar $elimina";
       $this->Cliente->virtualFields = array(
         'acciones' => "CONCAT('$acciones')"
       );
