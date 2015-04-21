@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/siv/app/View/Productos/index.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Layouts/viva.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Productosprecios/ajax_precios.ctp</file>
             <file>file:/var/www/html/siv/app/View/Users/add.ctp</file>
-            <file>file:/var/www/html/siv/app/Controller/ProductospreciosController.php</file>
+            <file>file:/var/www/html/siv/app/View/Almacenes/listaentregas.ctp</file>
         </group>
-
     </open-files>
 </project-private>
