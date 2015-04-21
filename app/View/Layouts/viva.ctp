@@ -141,6 +141,7 @@
           table.dataTable({
               'sPaginationType': 'full_numbers',
               'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+              "order": [],
               'fnInitComplete': function (oSettings)
               {
                   // Style length select

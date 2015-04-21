@@ -28,9 +28,17 @@
         </table>  
     </div>
 </section>	
+
 <script>
   urljsontabla = '<?php echo $this->Html->url(array('action' => 'index.json')); ?>';
-  
+  function editarc(idcliente){
+    location = '<?php echo $this->Html->url(array('action' => 'edit'));?>/'+idcliente;
+  }
+  function eliminarc(idcliente){
+    if(confirm("Esta seguro de eliminar al cliente??")){
+      location = '<?php echo $this->Html->url(array('action' => 'delete'));?>/'+idcliente;
+    }
+  }
 </script>
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/almacenero'); ?>
