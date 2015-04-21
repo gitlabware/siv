@@ -23,11 +23,11 @@ class VentasdistribuidorController extends AppController {
         'Deposito',
         'Listacliente', 'User');
     public $layout = 'vivadistribuidor';
-    public $components = array('RequestHandler', 'Session');
+    public $components = array('RequestHandler', 'Session', 'Acl', 'Auth');
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('*');
+        $this->Auth->allow();
     }
 
     public function formularioventapormayor() {
@@ -952,12 +952,12 @@ class VentasdistribuidorController extends AppController {
             if (!empty($cliente)) {
                 $idCliente = $cliente['Cliente']['id'];
                 $fecha = $this->request->data['Cliente']['fecha'];
-                list($mes, $día, $año) = explode('/', $fecha);
+                list($mes, $dï¿½a, $aï¿½o) = explode('/', $fecha);
                 /*debug($mes);
-                debug($día);
-                debug($año);exit;*/
+                debug($dï¿½a);
+                debug($aï¿½o);exit;*/
                 //debug($this->request->data);exit;
-                $this->redirect(array('action' => 'formulario2_mobile', $idCliente, $año.'-'.$mes.'-'.$día));
+                $this->redirect(array('action' => 'formulario2_mobile', $idCliente, $aï¿½o.'-'.$mes.'-'.$dï¿½a));
             } else {
                 $this->Session->setFlash('No existe el cliente con codigo de registro: ' . $codigo .
                         ', consulte al administrador del sistema','msgerror_mobil');
@@ -1214,10 +1214,10 @@ class VentasdistribuidorController extends AppController {
         $this->layout = 'vivadistribuidor_mobile';
         //debug($this->request->data['Ventasdistribuidor']['fecha']);exit;
         $fecha = $this->request->data['Ventasdistribuidor']['fecha'];
-        list($mes, $día, $año) = explode('/', $fecha);
+        list($mes, $dï¿½a, $aï¿½o) = explode('/', $fecha);
         if ($this->request->data['Ventasdistribuidor']['fecha'] != null)
         {
-            $this->redirect(array('controller'=>'Ventasdistribuidor','action' => 'reporte1492nuevo_mobile',$año.'-'.$mes.'-'.$día), null, true);
+            $this->redirect(array('controller'=>'Ventasdistribuidor','action' => 'reporte1492nuevo_mobile',$aï¿½o.'-'.$mes.'-'.$dï¿½a), null, true);
         }
         
         
