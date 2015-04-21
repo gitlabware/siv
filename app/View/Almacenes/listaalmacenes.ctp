@@ -23,17 +23,22 @@
             <tbody>
                 <?php foreach ($distribuidores as $distribuidor): ?>
                     <tr>    
-                        <td><?php echo $distribuidor['Almacene']['nombre']; ?></td>
+                        <td scope="col" width="25%"><?php echo $distribuidor['Almacene']['nombre']; ?></td>
                         <td><?php echo $distribuidor['Sucursal']['nombre']; ?></td>               
-                        <td><?php echo $distribuidor['Sucursal']['direccion']; ?></td>                   
+                        <td scope="col" width="30%"><?php echo $distribuidor['Sucursal']['direccion']; ?></td>                   
                         <td><?php echo $distribuidor['Sucursal']['telefono'] ?></td>
-                        <td class="low-padding align-center">
+                        <td scope="col" width="20%" class="align-center">
+                          <?php if($distribuidor['Almacene']['central'] == 1): ?>
+                            <a href="<?php echo $this->Html->url(array('action' => 'listaentregas', $distribuidor['Almacene']['id'],1)); ?>" class="button green-gradient compact icon-down-fat">Recargar</a>
+                            <?php else: ?>
+                            <a href="<?php echo $this->Html->url(array('action' => 'listaentregas', $distribuidor['Almacene']['id'],1)); ?>" class="button orange-gradient compact icon-up-fat">Entregar</a>
+                            <?php endif; ?>
                            <?php 
-                           if($distribuidor['Almacene']['central'] == 1){
+                           /*if($distribuidor['Almacene']['central'] == 1){
                                echo $this->Html->link('repartir', array('action'=>'listaentregas',$distribuidor['Almacene']['id'],1),array('class'=>"button compact icon-gear")); 
                                //echo $this->Html->link('registro recargas', array('action'=>'listaentregas',$distribuidor['Almacene']['id'],1),array('class'=>"button compact icon-gear")); 
                            }else
-                               echo $this->Html->link('dar', array('action'=>'listaentregas',$distribuidor['Almacene']['id'],1),array('class'=>"button compact icon-gear")); 
+                               echo $this->Html->link('dar', array('action'=>'listaentregas',$distribuidor['Almacene']['id'],1),array('class'=>"button compact icon-gear")); */
                            ?>
                         </td>
                     </tr>               
