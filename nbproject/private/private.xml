@@ -3,8 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/siv/app/View/Users/add.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Almacenes/listaentregas.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Sucursals/index.ctp</file>
+            <file>file:/var/www/html/siv/app/Config/routes.php</file>
         </group>
     </open-files>
 </project-private>
