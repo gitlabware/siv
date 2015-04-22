@@ -16,7 +16,7 @@
                     <th scope="col" >nombre</th>
                     <th scope="col" >direccion</th>                    
                     <th scope="col" >telefono</th>
-                    
+
                     <th scope="col" >Actions</th>
                 </tr>
             </thead>          
@@ -28,20 +28,26 @@
                         <td><?php echo $p['Sucursal']['nombre']; ?></td>
                         <td><?php echo $p['Sucursal']['direccion']; ?></td>
                         <td><?php echo $p['Sucursal']['telefono']; ?></td> 
-                        
-                        <td>
-                        <?php $ajaxv = 'openAjax2('.$p['Sucursal']['id'].')'?>
-                        <?php echo $this->Html->image("iconos/menu.png", array('onclick'=>$ajaxv)); ?>
-                        <?php echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'editar', $p['Sucursal']['id']), array('escape' => false)); ?>
-                        &nbsp;
-                        <?php //echo $this->html->link('usuarios', array('action'=>'usuarios',$p['Sucursal']['id'])); ?>
-                        <?php echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'eliminar', $p['Sucursal']['id']), array('escape' => false)); ?>
+
+                        <td scope="col" width="20%" class="align-center">
+                            <a href="<?php echo $this->Html->url(array('action' => 'editar', $p['Sucursal']['id'])); ?>"class="button orange-gradient compact icon-pencil">Editar</a>
+                            <a href="<?php echo $this->Html->url(array('action' => 'eliminar', $p['Sucursal']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
+                                  return true;
+                                }
+                                return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
+                            <?php $ajaxv = 'openAjax2(' . $p['Sucursal']['id'] . ')' ?>
+                            <?php echo $this->Html->image("iconos/menu.png", array('onclick' => $ajaxv)); ?>
+                            <?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'editar', $p['Sucursal']['id']), array('escape' => false)); ?>
+                            &nbsp;
+                            <?php //echo $this->html->link('usuarios', array('action'=>'usuarios',$p['Sucursal']['id'])); ?>
+
+                            <?php //echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'eliminar', $p['Sucursal']['id']), array('escape' => false)); ?>
                         </td>  
                     </tr>               
                 <?php endforeach; ?>
             </tbody>
         </table> 
-        <td><?php echo $this->html->link('insertar', array('action'=>'insertar'),array('class'=>'button green-gradient glossy')); ?> </td>
+        <td><?php //echo $this->html->link('insertar', array('action' => 'insertar'), array('class' => 'button green-gradient glossy')); ?> </td>
     </div>
 </section>	
 
@@ -49,14 +55,15 @@
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
-    
+
     function openAjax2(id)
-		{
-		 
-			$.modal({
-				title: 'Usuarios',
-				url: '<?php echo $this->Html->url(array('action' => 'ajaxverusuarios')) ?>/'+id,
-				width: 300
-			});
-		};
+    {
+
+        $.modal({
+            title: 'Usuarios',
+            url: '<?php echo $this->Html->url(array('action' => 'ajaxverusuarios')) ?>/' + id,
+            width: 300
+        });
+    }
+    ;
 </script>
