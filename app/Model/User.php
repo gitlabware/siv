@@ -45,6 +45,13 @@ class User extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+                'Lugare' => array(
+                         'className' => 'Lugare',
+                         'foreignKey' => 'lugare_id',
+                         'conditions' => '',
+                         'fields' => '',
+                         'order' => ''
+                )
 	);
 }

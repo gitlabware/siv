@@ -33,11 +33,19 @@
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Users', 'action' => 'add')); ?>">Insertar Nuevo Usuario</a></li>    
                     </ul>
                 </li>
-                <li>
+                
+                <li class="with-right-arrow">
                     <span>Clientes</span>
                     <ul class="big-menu">
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Clientes', 'action' => 'index')); ?>">Listado de Clientes</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Clientes', 'action'=>'insertar'));?>">Nuevo cliente</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Clientes', 'action' => 'insertar')); ?>">Nuevo cliente</a></li>
+                    </ul>
+                </li>
+                <li class="with-right-arrow">
+                    <span>Lugares</span>
+                    <ul class="big-menu">
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Lugares', 'action' => 'index')); ?>">Listado de Lugares</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Lugares', 'action' => 'add')); ?>">Nuevo lugar</a></li>
                     </ul>
                 </li>
                 <li class="with-right-arrow">
