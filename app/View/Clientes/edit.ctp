@@ -5,13 +5,12 @@
     <hgroup id="main-title" class="thin">
         <h1>Editar Cliente</h1>
     </hgroup>
-    <?php echo $this->Form->create('Cliente', array('class' => 'columns', 'id' => 'formID')) ?>
+    
     <div class="with-padding"> 
-
+<?php echo $this->Form->create('Cliente', array('id' => 'formID')) ?>
         <div class="columns">
 
             <div class="new-row six-columns">
-
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>                    
                     <?php echo $this->Form->text('nombre', array('class' => 'input full-width')); ?>
@@ -63,14 +62,7 @@
                 </p>
             </div>
             
-            <diV class="new-row two-columns">
-                <p class="block-label button-height">
-                    <label for="block-label-2" class="label">Estado<small>(Requerido)</small></label>
-                    <?php echo $this->Form->text('estado', array('class'=>'input full-width'));?>
-                </p>
-            </diV>
-            
-            <div class="ten-columns">
+            <div class="new-row twelve-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Observaciones<small>(Requerido)</small></label>
                     <?php echo $this->Form->text('observaciones', array('class'=>'input full-width'));?>

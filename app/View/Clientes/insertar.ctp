@@ -5,12 +5,12 @@
     <hgroup id="main-title" class="thin">
         <h1>Nuevo Cliente</h1>
     </hgroup>
-    <?php echo $this->Form->create('Cliente', array('class' => 'columns', 'id' => 'formID')) ?>
-    <div class="with-padding"> 
 
+    <div class="with-padding"> 
+        <?php echo $this->Form->create('Cliente', array('id' => 'formID')) ?>
         <div class="columns">
 
-            <div class="new-row six-columns">
+            <div class="new six-columns">
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>                    
@@ -47,7 +47,7 @@
                 </p>
             </div>
 
-            <div class="new-row six-columns">
+            <div class="new six-columns">
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Inspector<small>(requerido)</small></label>
@@ -77,6 +77,7 @@
 
             </div>
         </div>
+    
     </div>
 </section>
 
