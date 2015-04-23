@@ -95,7 +95,7 @@ class ClientesController extends AppController {
       $this->Session->setFlash(__('Cliente eliminado'), 'msgbueno');
       $this->redirect(array('action' => 'index'));
     }
-    $this->Session->setFlash(__('El usuario no se elemino'), 'msgalert');
+    $this->Session->setFlash(__('El Cliente no se elemino'), 'msgalert');
     $this->redirect(array('action' => 'index'));
   }
 
