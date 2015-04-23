@@ -244,11 +244,11 @@ class TiendasController extends AppController {
         ));
 
         $categorias = $this->Producto->find('all', array(
-            'recursive' => -1,
-            'group' => 'Producto.tipo_producto'
+            'recursive' => 0,
+            'group' => 'Producto.tiposproducto_id'
         ));
         
-        //debug($productos);        
+        //debug($categorias); exit;       
         $this->set(compact('productos', 'categorias'));
     }
 
