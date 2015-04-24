@@ -270,7 +270,8 @@ class UsersController extends AppController {
     }
     $groups = $this->User->Group->find('all', array('recursive' => -1));
     $tiendas = $this->Sucursal->find('all', array('recursive' => -1));
-    $this->set(compact('groups', 'tiendas'));
+    $lugares =  $this->Lugare->find('all', array('recursive'=> -1));
+    $this->set(compact('groups', 'tiendas', 'lugares'));
   }
 
   public function delete($id = null) {

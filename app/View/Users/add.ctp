@@ -63,7 +63,18 @@
                     <?php echo $this->Form->text('Persona.celular', array('class' => 'input full-width', 'placeholder' => 'numero de celular')); ?>
                 </p>
             </div>
-
+            <div class="two-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
+                    <select id="validation-select" name="data[User][lugare_id]" class="select" style="width: 180px">
+                        <?php foreach ($lugares as $lug): ?>
+                        <option value="<?php echo $lug['Lugare']['id']?>">
+                            <?php echo $lug['Lugare']['nombre']?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </p>
+            </div>
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Usuario <small>(requerido)</small></label>
@@ -81,7 +92,7 @@
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Tipo <small>(requerido)</small></label>
 
-                    <select id="validation-select1" name="data[User][group_id]" class="select validate[required]" class="input full-width" >
+                    <select id="validation-select1" name="data[User][group_id]" class="select validate[required]" class="input full-width" style="width: 180px">
                         <?php foreach ($groups as $g): ?>
                             <option value="<?php echo $g['Group']['id'] ?>">
                                 <?php echo $g['Group']['name'] ?>
@@ -93,8 +104,8 @@
             <div class="two-columns">
                 <p class="block-label button-height" id="mostrartienda" style="display: none">
                     <label for="validation-select" class="label"><b>Tienda en la que trabaja:</b></label>
-                    <select id="validation-select1" name="data[User][sucursal_id]" class="select"  style="width: 200px"  >
-                        
+                    <select id="validation-select1" name="data[User][sucursal_id]" class="select"  style="width: 180px"  >
+
                         <?php foreach ($tiendas as $g): ?>
                             <option value="<?php echo $g['Sucursal']['id'] ?>">
                                 <?php echo $g['Sucursal']['nombre'] ?>
@@ -103,27 +114,20 @@
                     </select>
                 </p>
             </div>
-            <div class="two-columns">
-                <p class="block-label button-height">
-                    <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
-                    <select id="validation-select" name="data[User][lugare_id]" class="select" style="width: 180px">
-                        
-                    </select>
-                </p>
-            </div>
+
             <div class="six-columns">
 
-                    <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
-                        <span class="button-icon"><span class="icon-tick"></span></span>
-                        Guardar Usuario
-                    </button>
+                <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
+                    <span class="button-icon"><span class="icon-tick"></span></span>
+                    Guardar Usuario
+                </button>
 
-                    <button type="submit" class="button glossy">
-                        <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
-                        Cancelar
-                    </button>
+                <button type="submit" class="button glossy">
+                    <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
+                    Cancelar
+                </button>
 
-                </div>
+            </div>
         </div>
     </div>
 </section>
