@@ -5,7 +5,7 @@
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
 
     <hgroup id="main-title" class="thin">
-        <h1>Insertar Nuevo Usuario</h1>
+        <h1>Editar Usuario</h1>
     </hgroup>
     <?php echo $this->Form->create('User', array('id' => 'formID')); ?>
     <?php echo $this->form->hidden('Persona.id'); ?>
