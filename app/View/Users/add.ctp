@@ -103,7 +103,14 @@
                     </select>
                 </p>
             </div>
-        
+            <div class="two-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
+                    <select id="validation-select" name="data[User][lugare_id]" class="select" style="width: 180px">
+                        
+                    </select>
+                </p>
+            </div>
             <div class="six-columns">
 
                     <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
