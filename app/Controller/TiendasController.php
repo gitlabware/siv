@@ -44,6 +44,8 @@ class TiendasController extends AppController {
       'order' => 'Movimiento.id DESC',
       'conditions' => array('Movimiento.almacene_id' => $this->get_id_almacen(), 'Movimiento.producto_id' => $idProducto)
     ));
+    /*debug($movimiento);
+    exit;*/
     if (!empty($movimiento)) {
       return $movimiento['Movimiento']['total'];
     } else {
@@ -66,7 +68,7 @@ class TiendasController extends AppController {
     $this->request->data['Ventastienda']['escala'] = 'TIENDA';
     $this->Ventastienda->save($this->request->data['Ventastienda']);
     $idVenta = $this->Ventastienda->getLastInsertID();
-    foreach ($this->request->data as $key => $ped) {
+    foreach ($this->request->data['productos'] as $key => $ped) {
       $total = $this->get_total_almacen($key);
       if ($ped['cantidad'] <= $total) {
         $this->Movimiento->create();
@@ -78,15 +80,15 @@ class TiendasController extends AppController {
         $this->request->data['Movimiento']['total'] = $total - $ped['cantidad'];
         $this->request->data['Movimiento']['ventastienda_id'] = $idVenta;
         $this->Movimiento->save($this->request->data['Movimiento']);
-      }else{
+      } else {
         $this->Movimiento->deleteAll(array('Movimiento.ventastienda_id' => $idVenta));
         $this->Ventastienda->delete($idVenta);
         $this->Session->setFlash('No se pudo registrar verifique las cantidades antes!!!', 'msgerror');
         $this->redirect(array('action' => 'index'));
       }
     }
-    $this->redirect(array('action' => 'index'));
     $this->Session->setFlash('Venta registrada', 'msgbueno');
+    $this->redirect(array('action' => 'index'));
   }
 
   public function ajaxquita($id = null, $canti = null, $precio = null) {
@@ -189,8 +191,7 @@ class TiendasController extends AppController {
   }
 
   function formulario($id_cli = null) {
-    //$this->layout= 'ajax';
-    $tipo = $this->Session->read('Auth.User.group_id');
+
     $usu = $this->Session->read('Auth.User.id');
     $sucursal = $this->Session->read('Auth.User.sucursal_id');
 
@@ -199,181 +200,71 @@ class TiendasController extends AppController {
     $idAlmacen = $almacen['Almacene']['id'];
 
     $datoscli = $this->Cliente->findById($id_cli);
-    $cod149 = $datoscli['Cliente']['num_registro'];
 
-    if (!empty($this->request->data)) {
-      //debug($this->request->data);exit;
-      $estado = 0;
-      $fecha = date('Y-m-d');
-      $clienteId = $this->request->data['Ventastienda']['1']['cliente_id'];
-      //debug($clienteId);exit;
-      $ventas = $this->request->data['Ventastienda'];
-      foreach ($ventas as $d) {
-        if ($d['cantidad'] != 0) {
-          //debug($d);
-          $productoid = $d['producto_id'];
-          $usuario = $d['almacene_id'];
-          $estado = 1;
-          $cantidad = $d['cantidad'];
+    $precios = $this->Productosprecio->find('all', array(
+      'conditions' => array(
+        'Productosprecio.tipousuario_id' => 3,
+        'Producto.proveedor like' => 'VIVA',
+        'Productosprecio.escala' => 'MAYOR',
+        'Producto.estado' => '1'),
+      'order' => array('Producto.tipo_producto DESC', 'Productosprecio.precio DESC',
+        'Productosprecio.escala')));
+    //debug($precios);exit;
+    $rows = $this->Productosprecio->find('all', array(
+      'conditions' => array(
+        'Productosprecio.tipousuario_id' => 3,
+        'Producto.proveedor like' => 'VIVA',
+        'Producto.estado' => '1'),
+      'fields' => array(
+        'Count(Productosprecio.id) as cantidad',
+        'Producto.nombre',
+        'Producto.id'),
+      'group' => array('Productosprecio.producto_id')));
+    if ($this->Session->check('form_venta_mayor')) {
+      $this->request->data = $this->Session->read('form_venta_mayor');
+      $this->Session->delete('form_venta_mayor');
+    }
+    $this->set(compact('precios', 'rows', 'idAlmacen', 'usu', 'datoscli', 'sucursal', 'recargas'));
+  }
 
-          $producto = $this->Producto->find('first', array('conditions' => array('Producto.id' =>
-              $productoid)));
-          $prodnomb = $producto['Producto']['nombre'];
-          //**************************************************************
-
-          $movs = $this->Movimiento->find('first', array(
-            'conditions' => array(
-              'Movimiento.almacene_id' => $usuario,
-              'Movimiento.producto_id' => $productoid),
-            'order' => array('Movimiento.id DESC'),
-            'recursive' => -1
-          ));
-
-
-          if (empty($movs)) {
-            $this->Session->setFlash('No cuenta con : ' . $prodnomb, 'msgerror');
-            $ventas = $this->Ventastienda->find('all', array('conditions' => array('Ventastienda.pedidotemporal' => 3)));
-            foreach ($ventas as $v) {
-              $idventa = $v['Ventastienda']['id'];
-              $this->Movimiento->deleteAll(array('Movimiento.ventastienda_id' => $idventa));
-            }
-
-            $this->Ventastienda->deleteAll(array('Ventastienda.pedidotemporal' => 3));
-            $this->redirect(array('action' => 'formulario', $clienteId), null, true);
-          } elseif ($movs['Movimiento']['total'] != 0 && $movs['Movimiento']['total'] >= $cantidad) {
-            $total_ante = $movs['Movimiento']['total'];
-            /*             * *verificar esta parte 15 abril 2013** */
-            $cuenta = $this->Movimiento->find('all', array(
-              'conditions' => array('Movimiento.producto_id' => $productoid,
-                'Movimiento.almacene_id' => $usuario),
-              'fields' => array('count(Movimiento.id) as cantidad', 'Movimiento.producto_id'),
-              'group' => array('Movimiento.producto_id'),
-              'recursive' => -1
-            ));
-
-            $cuenta = $cuenta['0']['0']['cantidad'];
-
-            $fechamov = $movs['Movimiento']['created'];
-            //if movimiento cantidad = 1 es decir si es el primer movimiento es el primer ingreso
-            //$saldo = $movs['Movimiento']['saldo'] - $cantidad;
-            $saldo = $movs['Movimiento']['saldo'];
-            $total = $movs['Movimiento']['total'] - $cantidad;
-
-            if ($cuenta == 1) {
-              $venta = $cantidad;
-              if ($fecha == $fechamov) {
-                $ingreso = $movs['Movimiento']['ingreso'];
-              } else {
-                $ingreso = 0;
-              }
-            } else {
-              if ($fecha == $fechamov) {
-
-                $ingreso = $movs['Movimiento']['ingreso'];
-                $venta = $movs['Movimiento']['salida'] + $cantidad;
-              } else {
-
-                $ingreso = 0;
-                $venta = $cantidad;
-              }
-            }
-            // debug($total_ante);exit;
-            if ($total_ante >= $cantidad) {
-
-              //**************************************************************
-              //guarda la venta
-              //**************************************************************
-              $this->Ventastienda->create();
-              //debug($d);exit;
-              $this->request->data['Ventastienda']['pedidotemporal'] = 3;
-              if (!($this->Ventastienda->save($d))) {
-                $this->Session->setFlash('No se pudo guardar la venta del producto: ' . $prodnomb .
-                  ', consulte al administrador del sistema', 'msgerror');
-                $this->redirect(array('action' => 'formulario', $this->data['0']['Ventastienda']['cliente_id']), null, true);
-              } else {
-                $idventa = $this->Ventastienda->getLastInsertID();
-              }
-            }
-            //debug($idventa);exit;
-            //**************************************************************
-            //guarda el movimiento de la venta
-            //**************************************************************
-
-            $this->Movimiento->create();
-
-            $this->request->data['Movimiento']['producto_id'] = $productoid;
-            $this->request->data['Movimiento']['user_id'] = $usu;
-            $this->request->data['Movimiento']['almacene_id'] = $usuario;
-            $this->request->data['Movimiento']['ingreso'] = $ingreso;
-            $this->request->data['Movimiento']['saldo'] = $saldo;
-            $this->request->data['Movimiento']['salida'] = $venta;
-            $this->request->data['Movimiento']['total'] = $total;
-            $this->request->data['Movimiento']['ventastienda_id'] = $idventa;
-
-            //debug($this->request->data['Movimiento']);exit;
-            if (!($this->Movimiento->save($this->request->data['Movimiento']))) {
-              $this->Session->setFlash('No se pudo guardar el movimiento del producto:' . $prodnomb .
-                ', consulte al administrador del sistema', 'msgerror');
-              $this->redirect(array('action' => 'formulario', $this->request->data['0']['Ventastienda']['cliente_id']), null, true);
-            }
-
-            //**************************************************************
-          } elseif ($movs['Movimiento']['total'] < $cantidad) {
-            //debug($movs);exit;
-            $this->Session->setFlash('Ya no le sobran o no le alcanzan: ' . $prodnomb .
-              '. Ingrese los datos de venta nuevamente!!', 'msgerror');
-            $this->Movimiento->deleteAll(array('Movimiento.ventasdistribuidore_id' => $idventa));
-            //$this->Ventastienda->deleteAll(array('Movimiento.pedidotemporal' => 3));
-            $this->redirect(array('action' => 'formulario', $clienteId), null, true);
-          }
-
-          //**************************************************************
-        } //fin del if decantidad != 0
-        //else{
-        //$this->Ventastienda->create();
-        //$this->Ventastienda->save($d);
-        //}
-      } //end del recorrido de datos del thisdata
-      $recargas = $this->request->data['Recarga'];
-      if (!empty($recargas)) {
-        foreach ($recargas as $data) {
-
-          if (!empty($data['monto'])) {
-            //debug($data);
-            $this->Recarga->create();
-            if (!($this->Recarga->save($data))) {
-              $this->Session->setFlash('No se pudo registrar una de las recargas el registro del pago de recargas', 'msgerror');
-              $this->redirect(array('action' => 'index'), null, true);
-            }
-          }
+  public function registra_venta_mayor() {
+    /* debug($this->request->data);
+      exit; */
+    $this->Ventastienda->create();
+    $this->Ventastienda->save($this->request->data['Ventastienda']);
+    $idVenta = $this->Ventastienda->getLastInsertID();
+    foreach ($this->request->data['Movimiento'] as $dat) {
+      $total = $this->get_total_almacen($dat['producto_id']);
+      if ($dat['salida'] > 0) {
+        if ($dat['salida'] <= $total) {
+          $dat['ventastienda_id'] = $idVenta;
+          $this->Movimiento->create();
+          $dat['total'] = $total - $dat['salida'];
+          $this->Movimiento->save($dat);
+        } else {
+          $this->Session->write('form_venta_mayor', $this->request->data);
+          $this->Movimiento->deleteAll(array('Movimiento.ventastienda_id' => $idVenta));
+          $this->Ventastienda->delete($idVenta);
+          $this->Session->setFlash('Solo hay ' . $total . ' unidades de ' . $dat['nombre_prod'] . '!!!', 'msgerror');
+          $this->redirect(array('action' => 'formulario', $this->request->data['Ventastienda']['cliente_id']));
         }
       }
+    }
+    $this->registra_recarga();
+    $this->Session->setFlash('Se registro correctamente!!!', 'msgbueno');
+    $this->redirect(array('action' => 'pidecodigo'));
+  }
 
-      $this->Session->setFlash('Venta registrada!!!!!', 'msgbueno');
-      $this->redirect(array('action' => 'pidecodigo'), null, true);
-    } else {
-      $fecha = date('Y-m-d');
-
-      $precios = $this->Productosprecio->find('all', array(
-        'conditions' => array(
-          'Productosprecio.tipousuario_id' => 3,
-          'Producto.proveedor like' => 'VIVA',
-          'Producto.estado' => '1'),
-        'order' => array('Producto.tipo_producto DESC', 'Productosprecio.precio DESC',
-          'Productosprecio.escala')));
-      //debug($precios);exit;
-      $rows = $this->Productosprecio->find('all', array(
-        'conditions' => array(
-          'Productosprecio.tipousuario_id' => 3,
-          'Producto.proveedor like' => 'VIVA',
-          'Producto.estado' => '1'),
-        'fields' => array(
-          'Count(Productosprecio.id) as cantidad',
-          'Producto.nombre',
-          'Producto.id'),
-        'group' => array('Productosprecio.producto_id')));
-
-      $this->set(compact('precios', 'rows', 'idAlmacen', 'usu', 'datoscli', 'sucursal', 'recargas'));
+  public function registra_recarga() {
+    $recargas = $this->request->data['Recarga'];
+    if (!empty($recargas)) {
+      foreach ($recargas as $data) {
+        if (!empty($data['monto'])) {
+          //debug($data);
+          $this->Recarga->create();
+          $this->Recarga->save($data);
+        }
+      }
     }
   }
 

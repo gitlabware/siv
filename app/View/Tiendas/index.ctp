@@ -127,7 +127,7 @@
                   + '  <td><a href="javascript:" class="tag red-bg" onclick="quita_venta(' + id_producto + ',' + precio + ');">Quitar</a></td>'
                   + '</tr>';
           $('#sorting-example2 > tbody:last').append(nueva_fila);
-          formulario = '<input type="hidden" name="data[' + id_producto + '][cantidad]" value="1" id="idinpprod-' + id_producto + '">';
+          formulario = '<input type="hidden" name="data[productos][' + id_producto + '][cantidad]" value="1" id="idinpprod-' + id_producto + '">';
           $('#idformventa').append(formulario);
       }
       $('#idcanttotal').html(v_total);
