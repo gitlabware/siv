@@ -5,9 +5,9 @@
     <hgroup id="main-title" class="thin">
         <h1>Editar Cliente</h1>
     </hgroup>
-    
+
     <div class="with-padding"> 
-<?php echo $this->Form->create('Cliente', array('id' => 'formID')) ?>
+        <?php echo $this->Form->create('Cliente', array('id' => 'formID')) ?>
         <div class="columns">
 
             <div class="new-row six-columns">
@@ -55,17 +55,36 @@
                 </p>
             </div>
 
-            <div class="six-columns">
+            <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Mercado<small>(requerido)</small></label>
                     <?php echo $this->Form->text('mercado', array('class' => 'input full-width')); ?>
                 </p>
             </div>
-            
+
+            <div class="three-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
+                    <select id="validation-select" name="data[Cliente][lugare_id]" class="select validate[required]" class="input full-width" style="width: 280px">
+                        <?php foreach ($lugares as $lu): ?>
+                            <?php if ($lu['Lugare']['id'] == $lugar): ?>
+                                <option value="<?php echo $lu['Lugar']['id'] ?>" selected="selected">
+                                    <?php echo $lu['Lugar']['nombre'] ?>
+                                </option>
+                            <?php else: ?>
+                                <option value="<?php echo $lu['Lugare']['id'] ?>">
+                                    <?php echo $lu['Lugare']['nombre'] ?>
+                                </option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </p>
+            </div>
+
             <div class="new-row twelve-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Observaciones<small>(Requerido)</small></label>
-                    <?php echo $this->Form->text('observaciones', array('class'=>'input full-width'));?>
+                    <?php echo $this->Form->text('observaciones', array('class' => 'input full-width')); ?>
                 </p>
             </div>
 

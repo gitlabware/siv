@@ -66,6 +66,25 @@
                 </p>
             </div>
 
+            <div class="two-columns">
+                <p class="block-label button-height">
+                    <label for="validate-selec" class="label">Lugar<small>(Requerido)</small></label>
+                    <select id="validation-select" name="data[User][lugare_id]" class="select validate[required]" class="input full-width">
+                        <?php foreach ($lugares as $lug): ?>
+                        <?php if($lug['Lugare']['id']==$lugar):?>
+                        <option value="<?php $lug['Lugare']['nombre']?>" selected="selected">
+                            
+                        </option>
+                        <?php else:?>
+                        <option value="<?php echo $lug['Lugare']['id']?>">
+                            <?php echo $lug['Lugare']['nombre']?>
+                        </option>
+                        <?php endif;?>
+                        <?php endforeach; ?>
+                    </select>
+                </p>
+            </div>
+
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Usuario <small>(requerido)</small></label>
@@ -82,7 +101,7 @@
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Password <small>(requerido)</small></label>
-                    <?php echo $this->Form->password('User.password2', array('class' => 'input full-width', 'placeholder'=>'Si desea cambiarlo')) ?>
+                    <?php echo $this->Form->password('User.password2', array('class' => 'input full-width', 'placeholder' => 'Si desea cambiarlo')) ?>
                 </p>
             </div>
             <div class="two-columns">
@@ -91,15 +110,15 @@
 
                     <select id="validation-select1" name="data[User][group_id]" class="select validate[required]" class="input full-width" >
                         <?php foreach ($groups as $g): ?>
-                          <?php if ($g['Group']['id'] == $grupo): ?>
-                            <option value="<?php echo $g['Group']['id'] ?>" selected="selected">
-                                <?php echo $g['Group']['name'] ?>
-                            </option>
-                          <?php else: ?>
-                            <option value="<?php echo $g['Group']['id'] ?>">
-                                <?php echo $g['Group']['name'] ?>
-                            </option>
-                          <?php endif; ?>    
+                            <?php if ($g['Group']['id'] == $grupo): ?>
+                                <option value="<?php echo $g['Group']['id'] ?>" selected="selected">
+                                    <?php echo $g['Group']['name'] ?>
+                                </option>
+                            <?php else: ?>
+                                <option value="<?php echo $g['Group']['id'] ?>">
+                                    <?php echo $g['Group']['name'] ?>
+                                </option>
+                            <?php endif; ?>    
                         <?php endforeach; ?>
                     </select>
                 </p>  
@@ -110,9 +129,9 @@
                     <select id="validation-select1" name="data[User][sucursal_id]" class="select"  style="width: 200px"  >
 
                         <?php foreach ($tiendas as $g): ?>                            
-                          <option value="<?php echo $g['Sucursal']['id'] ?>">
-                              <?php echo $g['Sucursal']['nombre'] ?>
-                          </option>
+                            <option value="<?php echo $g['Sucursal']['id'] ?>">
+                                <?php echo $g['Sucursal']['nombre'] ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </p>
@@ -139,21 +158,21 @@
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
-  $(document).ready(function () {
-      $("#validation-select1").change(function () {
-          if (this.value == 5) {
-              $('#mostrartienda').show();
-          } else {
-              $('#mostrartienda').hide();
-          }
-      });
-  });
+    $(document).ready(function () {
+        $("#validation-select1").change(function () {
+            if (this.value == 5) {
+                $('#mostrartienda').show();
+            } else {
+                $('#mostrartienda').hide();
+            }
+        });
+    });
 </script>
 <script>
-  $(document).ready(function () {
+    $(document).ready(function () {
 
-      $("#formID").validationEngine();
+        $("#formID").validationEngine();
 
 
-  });
+    });
 </script>

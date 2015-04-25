@@ -56,10 +56,23 @@
                 </p>
             </div>
 
-            <div class="six-columns">
+            <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Mercado<small>(requerido)</small></label>
                     <?php echo $this->Form->text('mercado', array('class' => 'input full-width')); ?>
+                </p>
+            </div>
+            
+            <div class="three-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
+                    <select id="validation-select" name="data[cliente][lugare_id]" class="select" style="width: 280px">
+                        <?php foreach ($lugares as $lug): ?>
+                        <option value="<?php echo $lug['Lugare']['id']?>">
+                            <?php echo $lug['Lugare']['nombre']?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
                 </p>
             </div>
 
