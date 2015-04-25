@@ -57,7 +57,6 @@
 
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
-
 <script>
 
   function openAjax(id)

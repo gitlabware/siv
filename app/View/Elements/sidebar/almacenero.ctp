@@ -33,6 +33,21 @@
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Users', 'action' => 'add')); ?>">Insertar Nuevo Usuario</a></li>    
                     </ul>
                 </li>
+                
+                <li class="with-right-arrow">
+                    <span>Clientes</span>
+                    <ul class="big-menu">
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Clientes', 'action' => 'index')); ?>">Listado de Clientes</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Clientes', 'action' => 'insertar')); ?>">Nuevo cliente</a></li>
+                    </ul>
+                </li>
+                <li class="with-right-arrow">
+                    <span>Lugares</span>
+                    <ul class="big-menu">
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Lugares', 'action' => 'index')); ?>">Listado de Lugares</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Lugares', 'action' => 'add')); ?>">Nuevo lugar</a></li>
+                    </ul>
+                </li>
                 <li class="with-right-arrow">
                     <span>Entregas</span>
                     <ul class="big-menu">
@@ -71,8 +86,8 @@
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Productos', 'action' => 'insertar')); ?>">Nuevo Producto</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'index')); ?>">Listado de Precio</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'nuevoprecio')); ?>">Nuevos Precios</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiposproductos', 'action' => 'index'));?>"></a>Listado de Categorias</li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiposproductos', 'action'=>'add'));?>">Nueva Categoria</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiposproductos', 'action' => 'index')); ?>"></a>Listado de Categorias</li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiposproductos', 'action' => 'add')); ?>">Nueva Categoria</a></li>
                     </ul>
                 </li>  
                 <li class="with-right-arrow">
@@ -80,7 +95,7 @@
                     <ul class="big-menu">
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Sucursals', 'action' => 'index')); ?>">Listado de tiendas</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Sucursals', 'action' => 'insertar')); ?>">Nueva tienda</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Clientes', 'action' => 'index')); ?>">Clientes</a></li>
+
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Sucursals', 'action' => 'addrecargacabina')); ?>">Nuevo Producto Cabina</a></li>
                     </ul>
                 </li> 
