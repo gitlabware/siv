@@ -1290,6 +1290,9 @@ class VentasdistribuidorController extends AppController {
             }
         }
     }
+    public function clientes(){
+      
+    }
 }
 
 ?>

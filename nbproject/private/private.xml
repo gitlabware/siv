@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-
-            <file>file:/var/www/html/siv/app/View/Clientes/insertar.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Users/editar.ctp</file>
+            <file>file:/var/www/html/siv/app/Controller/VentasdistribuidorController.php</file>
+            <file>file:/var/www/html/siv/app/Controller/ChipsController.php</file>
+            <file>file:/var/www/html/siv/app/View/Chips/asigna_distrib.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/ClientesController.php</file>
-            <file>file:/var/www/html/siv/app/View/Sucursals/index.ctp</file>
-            <file>file:/var/www/html/siv/app/Config/routes.php</file>
+            <file>file:/var/www/html/siv/app/View/Chips/subirexcel.ctp</file>
         </group>
-
     </open-files>
 </project-private>

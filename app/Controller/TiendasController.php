@@ -563,6 +563,9 @@ class TiendasController extends AppController {
     ));
     $this->set(compact('rows', 'cabinas', 'nombre', 'fecha', 'idAlmacen', 'idsucursal'));
   }
+  public function report_may_xproduct(){
+    
+  }
 
 }
 
