@@ -72,8 +72,8 @@
                     <select id="validation-select" name="data[User][lugare_id]" class="select validate[required]" class="input full-width">
                         <?php foreach ($lugares as $lug): ?>
                         <?php if($lug['Lugare']['id']==$lugar):?>
-                        <option value="<?php $lug['Lugare']['nombre']?>" selected="selected">
-                            
+                        <option value="<?php $lug['Lugare']['id']?>" selected="selected">
+                            <?php echo $lug['Lugare']['nombre']?>
                         </option>
                         <?php else:?>
                         <option value="<?php echo $lug['Lugare']['id']?>">
