@@ -32,11 +32,6 @@
                             <span class="button-icon"><span class="icon-tick"></span></span>
                             Guardar Excel
                         </button>
-
-                        <button type="submit" class="button glossy">
-                            <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
-                            Cancelar
-                        </button>
                         &nbsp;
                         <button type="button" class="button glossy mid-margin-right" id="btMuestraFAsignaciones" onclick="openModal()"> 
                             <span class="button-icon"><span class="icon-search"></span></span>
@@ -86,11 +81,6 @@
                         <button type="submit" class="button glossy mid-margin-right">
                             <span class="button-icon"><span class="icon-tick"></span></span>
                             Guardar Excel
-                        </button>
-
-                        <button type="reset" class="button glossy">
-                            <span class="button-icon red-gradient"><span class="icon-cross-round"></span></span>
-                            Cancelar
                         </button>
 
                         <button type="button" class="button glossy mid-margin-right" onclick="openModal2();">

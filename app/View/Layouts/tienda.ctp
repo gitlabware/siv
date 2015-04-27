@@ -34,7 +34,7 @@
         <link rel="stylesheet" media="only all and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5)" href="css/2x.css?v=1">
 
         <!-- Webfonts -->
-       <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
+        <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
 
         <!-- Additional styles -->
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/form.css?v=1">
@@ -86,18 +86,18 @@
         <!--[if lt IE 7]><p class="message red-gradient simpler">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
         <!-- Title bar -->
-        <header role="banner" id="title-bar">
+        <header role="banner" id="title-bar" class="ocultar_impresion">
             <h2>SISTEMA DE INVENTARIOS</h2>
         </header>
 
         <!-- Button to open/hide menu -->
-        <a href="#" id="open-menu"><span>Menu</span></a>
+        <a href="#" id="open-menu" class="ocultar_impresion"><span>Menu</span></a>
 
         <!-- Button to open/hide shortcuts -->
-        <a href="#" id="open-shortcuts"><span class="icon-thumbs"></span></a>
+        <a href="#" id="open-shortcuts" class="ocultar_impresion"><span class="icon-thumbs"></span></a>
 
         <!-- Main content -->
-        
+
         <?php echo $this->Session->flash(); ?>
         <?php echo $this->fetch('content'); ?>
 
@@ -105,9 +105,7 @@
 
         <!-- Side tabs shortcuts -->
         <?php //echo $this->element('menu/admin'); ?>             
-
         <!-- JavaScript at the bottom for fast page loading -->
-
         <!-- Scripts -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery-1.8.2.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/setup.js"></script>
@@ -118,38 +116,37 @@
         <script src="<?php echo $this->webroot; ?>js/developr.notify.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.scroll.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.tooltip.js"></script>
-        <?php echo $this->fetch('js_add');?>
-        
+        <?php echo $this->fetch('js_add'); ?>
+
         <script src="<?php echo $this->webroot; ?>js/developr.table.js"></script>
-        
+
         <?php echo $this->element('jsvalidador') ?>
         <!-- Plugins -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery.tablesorter.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.min.js"></script>
 
         <script>
-            // Call template init (optional, but faster if called manually)
-            $.template.init();
+          // Call template init (optional, but faster if called manually)
+          $.template.init();
 
-            // Table sort - DataTables
-            var table = $('#sorting-advanced');
-            table.dataTable({
-                
-                'sPaginationType': 'full_numbers',
-                'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
-                'fnInitComplete': function( oSettings )
-                {
-                    // Style length select
-                    table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
-                    tableStyled = true;
-                }
-            });
-    
+          // Table sort - DataTables
+          var table = $('#sorting-advanced');
+          table.dataTable({
+              'sPaginationType': 'full_numbers',
+              'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+              'fnInitComplete': function (oSettings)
+              {
+                  // Style length select
+                  table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                  tableStyled = true;
+              }
+          });
+
         </script>
-        
-<div style="text-align: center; color:gray;">
-                <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
-                <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>
-                </div> 
+
+        <div class="ocultar_impresion" style="text-align: center; color:gray;">
+            <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
+            <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>
+        </div> 
     </body>
 </html>
