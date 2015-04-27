@@ -66,7 +66,7 @@
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
-                    <select id="validation-select" name="data[cliente][lugare_id]" class="select" style="width: 280px">
+                    <select id="validation-select" name="data[cliente][lugare_id]" class="select" style="width: 222px">
                         <?php foreach ($lugares as $lug): ?>
                         <option value="<?php echo $lug['Lugare']['id']?>">
                             <?php echo $lug['Lugare']['nombre']?>
@@ -93,7 +93,6 @@
     
     </div>
 </section>
-
 
 <script>
     $(document).ready(function () {
