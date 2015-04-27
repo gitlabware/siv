@@ -12,27 +12,32 @@
 
             <thead>
                 <tr>                      
-                    <th>Nombre</th>
-                    <th>Escala</th>
-                    <th>Precio</th>
-                    <th>Acciones</th>
+                    <th scope="col" width="30%" class="align-center hide-on-mobile">Nombre</th>
+                    <th scope="col" width="20%" class="align-center hide-on-mobile">Escala</th>
+                    <th scope="col" width="20%" class="align-center hide-on-mobile">Precio</th>
+                    <th scope="col" width="10" class="align-center ">Acciones</th>
                 </tr>
-                
+
             </thead>          
 
             <tbody>
-               <?php foreach ($productosprecios as $pe): ?>
-               <tr> 
-                  
-                
-                        <td><?php echo $pe['Producto']['nombre'];?></td>                 
+                <?php foreach ($productosprecios as $pe): ?>
+                    <tr> 
+
+
+                        <td><?php echo $pe['Producto']['nombre']; ?></td>                 
                         <td><?php echo $pe['Productosprecio']['escala']; ?></td>
-                        <td><?php echo $pe['Productosprecio']['precio']?></td>
-                    <td class="low-padding align-center"><a href="<?php echo $this->html->url(array('action'=>'editar',$pe['Productosprecio']['id'])); ?>" class="button compact icon-gear">Edit</a>
-                         <a href="<?php echo $this->html->url(array('action'=>'delete',$pe['Productosprecio']['id'])); ?>" class="button compact icon-gear">Delete</a></td>
+                        <td><?php echo $pe['Productosprecio']['precio'] ?></td>
+                        <td scope="col" width="20%" class="align-center">
+                            <a href="<?php echo $this->html->url(array('action' => 'editar', $pe['Productosprecio']['id'])); ?>" class="button orange-gradient compact icon-pencil">Editar</a>
+                            <a href="<?php echo $this->Html->url(array('action' => 'delete', $pe['Productosprecio']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
+                                  return true;
+                                }
+                                return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
+                        </td>
                     </tr>
-                    <?php endforeach; ?>
-               
+                <?php endforeach; ?>
+
             </tbody>
         </table>       
     </div>
