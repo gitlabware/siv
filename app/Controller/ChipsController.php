@@ -255,7 +255,15 @@ class ChipsController extends AppController {
           'C' => '',
           'D' => '',
           'E' => '',
-          'F' => '');
+          'F' => '',
+          'G' => '',
+          'H' => '',
+          'I' => '',
+          'J' => '',
+          'K' => '',
+          'L' => '',
+          'M' => '',
+          'N' => '');
 
         foreach ($cellIterator as $cell) {
           if ('A' == $cell->getColumn()) {

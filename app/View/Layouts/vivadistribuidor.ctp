@@ -31,10 +31,10 @@
         <link rel="stylesheet" media="only all and (min-width: 992px)" href="<?php echo $this->webroot; ?>css/992.css?v=1">
         <link rel="stylesheet" media="only all and (min-width: 1200px)" href="<?php echo $this->webroot; ?>css/1200.css?v=1">
         <!-- For Retina displays -->
-        <link rel="stylesheet" media="only all and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5)" href="css/2x.css?v=1">
+        <link rel="stylesheet" media="only all and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5)" href="<?php echo $this->webroot; ?>css/2x.css?v=1">
 
         <!-- Webfonts -->
-       <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
+        <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
 
         <!-- Additional styles -->
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/form.css?v=1">
@@ -81,7 +81,7 @@
     </head>
 
     <body class="clearfix with-menu with-shortcuts">
-
+        <script>var urljsontabla = '';var datos_tabla2 = null;</script>
         <!-- Prompt IE 6 users to install Chrome Frame -->
         <!--[if lt IE 7]><p class="message red-gradient simpler">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
@@ -97,7 +97,7 @@
         <a href="#" id="open-shortcuts"><span class="icon-thumbs"></span></a>
 
         <!-- Main content -->
-        
+
         <?php echo $this->Session->flash(); ?>
         <?php echo $this->fetch('content'); ?>
 
@@ -119,34 +119,53 @@
         <script src="<?php echo $this->webroot; ?>js/developr.scroll.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.tooltip.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.table.js"></script>
-        
+
         <?php echo $this->element('jsvalidador') ?>
         <!-- Plugins -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery.tablesorter.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.min.js"></script>
 
         <script>
-            // Call template init (optional, but faster if called manually)
-            $.template.init();
+          // Call template init (optional, but faster if called manually)
+          $.template.init();
 
-            // Table sort - DataTables
-            var table = $('#sorting-advanced');
-            table.dataTable({
-                
-                'sPaginationType': 'full_numbers',
-                'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
-                'fnInitComplete': function( oSettings )
-                {
-                    // Style length select
-                    table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
-                    tableStyled = true;
-                }
-            });
-    
+          // Table sort - DataTables
+          var table = $('#sorting-advanced');
+          table.dataTable({
+              'sPaginationType': 'full_numbers',
+              'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+              'fnInitComplete': function (oSettings)
+              {
+                  // Style length select
+                  table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                  tableStyled = true;
+              }
+          });
+
+          var table2 = $('#tabla-json');
+          //console.log(datos_tabla2);
+          if (datos_tabla2 == null) {
+              datos_tabla2 = {
+                  'sPaginationType': 'full_numbers',
+                  'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+                  'bProcessing': true,
+                  'sAjaxSource': urljsontabla,
+                  'sServerMethod': 'POST',
+                  "order": [],
+                  'fnInitComplete': function (oSettings)
+                  {
+                      // Style length select
+                      table2.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                      tableStyled = true;
+                  }
+              };
+          }
+          table2.dataTable(datos_tabla2);
+
         </script>
-<div style="text-align: center; color:gray;">
-                <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
-                <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>
-                </div> 
+        <div style="text-align: center; color:gray;">
+            <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
+            <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>
+        </div> 
     </body>
 </html>
