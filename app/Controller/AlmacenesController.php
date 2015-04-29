@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class AlmacenesController extends AppController {
 
-    public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga','Sucursal','Banco');
+    public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco');
     public $components = array('Fechasconvert');
     public $layout = 'vivalmacen';
 
@@ -60,8 +60,8 @@ class AlmacenesController extends AppController {
                 $this->Session->setFlash(__('The almacene could not be saved. Please, try again.'));
             }
         }
-        
-        $sucursals = $this->Sucursal->find('list', array('fields'=>'Sucursal.nombre'));
+
+        $sucursals = $this->Sucursal->find('list', array('fields' => 'Sucursal.nombre'));
         $this->set(compact('sucursals'));
     }
 
@@ -87,7 +87,7 @@ class AlmacenesController extends AppController {
         } else {
             $this->request->data = $this->Almacene->read(null, $id);
         }
-        $sucursals = $this->Sucursal->find('list', array('fields'=>'Sucursal.nombre'));
+        $sucursals = $this->Sucursal->find('list', array('fields' => 'Sucursal.nombre'));
         $this->set(compact('sucursals'));
     }
 
@@ -99,18 +99,17 @@ class AlmacenesController extends AppController {
      * @param string $id
      * @return void
      */
-    function eliminar($id = null)
-    {
+    function eliminar($id = null) {
         $this->Almacene->id = $id;
         $this->request->data = $this->Almacene->read();
-        if (!$id){
+        if (!$id) {
             $this->Session->setFlash('No existe el registro a eliminar', 'msgerror');
             $this->redirect(array('action' => 'index'));
-        }else{
-            if($this->Almacene->delete($id)){
+        } else {
+            if ($this->Almacene->delete($id)) {
                 $this->Session->setFlash('Se elimino el almacen' . $this->request->data['Tienda']['nombre'], 'msgbueno');
                 $this->redirect(array('action' => 'index'));
-            }else{
+            } else {
                 $this->Session->setFlash('Error al eliminar', 'msgerror');
             }
         }
@@ -184,7 +183,7 @@ class AlmacenesController extends AppController {
     }
 
     public function ajaxrepartir($idPersona = null, $almacen = null) {
-        $cen = $this->Almacene->find('first',array('conditions'=>array('Almacene.id'=>$idPersona)));
+        $cen = $this->Almacene->find('first', array('conditions' => array('Almacene.id' => $idPersona)));
         $cent = $cen['Almacene']['central'];
 
         $this->layout = 'ajax';
@@ -257,20 +256,16 @@ class AlmacenesController extends AppController {
                             $this->redirect(array('action' => 'listaentregas', $idPersona, $almacen));
                         }
 
-                        
-                                if ($fecha == $ultimoMovimiento['Movimiento']['created']) {
-                                $total = $ultimoMovimiento['Movimiento']['total'] + $cantidad;
-                                $saldo = $ultimoMovimiento['Movimiento']['saldo'];
-                                $ingreso = $ultimoMovimiento['Movimiento']['ingreso'] + $cantidad;
-                            } else {
-                                $saldo = $ultimoMovimiento['Movimiento']['total'];
-                                $total = $cantidad + $saldo;
-                                $ingreso =  $cantidad;
-                            }
-                        
-                        
-                        
-                        
+
+                        if ($fecha == $ultimoMovimiento['Movimiento']['created']) {
+                            $total = $ultimoMovimiento['Movimiento']['total'] + $cantidad;
+                            $saldo = $ultimoMovimiento['Movimiento']['saldo'];
+                            $ingreso = $ultimoMovimiento['Movimiento']['ingreso'] + $cantidad;
+                        } else {
+                            $saldo = $ultimoMovimiento['Movimiento']['total'];
+                            $total = $cantidad + $saldo;
+                            $ingreso = $cantidad;
+                        }
                     }
                 } else {//en caso de ser el primer registro de entrega para el almacen
                     if ($almacenCentral) {
@@ -303,7 +298,7 @@ class AlmacenesController extends AppController {
                         'Movimiento.producto_id' => $idProducto),
                     'order' => array('Movimiento.id DESC')
                 ));
-                
+
                 if (!empty($movimiento)) {
 
                     if ($totalProducto == 0) {
@@ -321,13 +316,11 @@ class AlmacenesController extends AppController {
                         $saldo = $ultimoMovimiento['Movimiento']['saldo'];
                         $ingreso = $ultimoMovimiento['Movimiento']['ingreso'] + $cantidad;
                     } else {
-                        
+
                         $saldo = $ultimoMovimiento['Movimiento']['total'];
-                        $total = $saldo+$cantidad;
+                        $total = $saldo + $cantidad;
                         $ingreso = $cantidad;
-                        
                     }
-                    
                 } else {
                     $total = $cantidad;
                     $saldo = 0;
@@ -421,31 +414,32 @@ class AlmacenesController extends AppController {
                 $this->redirect(array('action' => 'listaentregas', $idPersona, $almacen));
             }
         }
-        $this->set(compact('distribuidores', 'categorias', 'productos', 'idPersona', 'almacen','cent'));
+        $this->set(compact('distribuidores', 'categorias', 'productos', 'idPersona', 'almacen', 'cent'));
     }
 
-    public function ajaxproductos($idCategoria = null,$almacen = null) {
+    public function ajaxproductos($idCategoria = null, $almacen = null) {
         $this->layout = 'ajax';
         $productos = $this->Producto->find('all', array(
             'conditions' => array('Producto.tiposproducto_id' => $idCategoria),
             'recursive' => 0));
         //debug($productos);exit;
-        $this->set(compact('productos','almacen'));
-        
+        $this->set(compact('productos', 'almacen'));
     }
-    public function ajaxcantidad($idProducto  = null,$almacen = null){
+
+    public function ajaxcantidad($idProducto = null, $almacen = null) {
         //debug($almacen);exit;
         $this->layout = 'ajax';
-        $producto = $this->Movimiento->find('first',array(
-        'conditions'=>array('Movimiento.almacene_id'=>1,'Movimiento.producto_id'=>$idProducto),
-        'order'=>array('Movimiento.id DESC'),
-        'recursive'=>-1
+        $producto = $this->Movimiento->find('first', array(
+            'conditions' => array('Movimiento.almacene_id' => 1, 'Movimiento.producto_id' => $idProducto),
+            'order' => array('Movimiento.id DESC'),
+            'recursive' => -1
         ));
         //debug($producto);exit;
         $cantidad = $producto['Movimiento']['total'];
         //debug($cantidad);exit;
-        $this->set(compact('cantidad','almacen'));
+        $this->set(compact('cantidad', 'almacen'));
     }
+
     public function verdetalle($idPersona = null, $almacen = null, $idProducto = null) {
         if ($almacen) {
 
@@ -515,19 +509,18 @@ class AlmacenesController extends AppController {
         $producto = $this->request->data['Persona']['producto_id'];
         $dato = '';
         //debug($idpersona);exit;
-        if (!empty($idpersona))
-        {
-            
-            $movimiento = $this->Movimiento->find('first',array('order'=>'Movimiento.id DESC','conditions'=>array('Movimiento.persona_id'=>$idpersona,'Movimiento.producto_id'=>$producto,'Movimiento.created'=>$fecha)));
+        if (!empty($idpersona)) {
+
+            $movimiento = $this->Movimiento->find('first', array('order' => 'Movimiento.id DESC', 'conditions' => array('Movimiento.persona_id' => $idpersona, 'Movimiento.producto_id' => $producto, 'Movimiento.created' => $fecha)));
         }
-        if (!empty($idalmacen)){
-            $movimiento = $this->Movimiento->find('first',array('order'=>'Movimiento.id DESC','conditions'=>array('Movimiento.almacene_id'=>$idalmacen,'Movimiento.producto_id'=>$producto,'Movimiento.created'=>$fecha)));
-            $almacentral2 = $this->Almacene->find('first',array('conditions'=>array('Almacene.id'=>$idalmacen)));
+        if (!empty($idalmacen)) {
+            $movimiento = $this->Movimiento->find('first', array('order' => 'Movimiento.id DESC', 'conditions' => array('Movimiento.almacene_id' => $idalmacen, 'Movimiento.producto_id' => $producto, 'Movimiento.created' => $fecha)));
+            $almacentral2 = $this->Almacene->find('first', array('conditions' => array('Almacene.id' => $idalmacen)));
             $almacentral = $almacentral2['Almacene']['central'];
         }
-       
-        
-        $this->set(compact('datos', 'dato', 'fecha', 'almacentral', 'idalmacen', 'idpersona', 'producto', 'nombreproducto','movimiento'));
+
+
+        $this->set(compact('datos', 'dato', 'fecha', 'almacentral', 'idalmacen', 'idpersona', 'producto', 'nombreproducto', 'movimiento'));
     }
 
     public function reporteentregas() {
@@ -544,21 +537,27 @@ class AlmacenesController extends AppController {
             $this->Deposito->create();
             if ($this->Deposito->save($this->request->data)) {
                 $this->Session->setFlash('Deposito registrado con exito', 'msgbueno');
-                $this->redirect(array('action' => 'deposito'));
+                $this->redirect(array('action' => 'listadepositos'));
             } else {
                 $this->Session->setFlash('Error al registrar intente de nuevo', 'msgerror');
                 $this->redirect(array('action' => 'deposito'));
             }
         }
-        //$distribuidores = $this->User->find('all', array(
-          //  'conditions' => array('User.group_id' => '2')
-        //));
-        $bancos = $this->Banco->find('list', array('fields'=>'nombre'));  
-        $this->set(compact('distribuidores','bancos'));  
+        $distribuidores = $this->User->find('all', array(
+            'conditions' => array('User.group_id' => '2')
+        ));
+        $bancos = $this->Banco->find('list', array('fields' => 'nombre'));
+        $this->set(compact('distribuidores', 'bancos'));
     }
 
     public function listadepositos() {
-        $depositos = $this->Deposito->find('all', array('oder' => 'Deposito.id DESC'));
+         //debug(''); exit;
+        if ($this->Session->read('Auth.User.Group.name')== 'Administradores') {
+            $depositos = $this->Deposito->find('all', array('oder' => 'Deposito.id DESC'));
+           
+        } else {
+            $depositos = $this->Deposito->find('all', array('oder' => 'Deposito.id DESC', 'conditions' => array('Deposito.user_id' => $this->Session->read('Auth.User.id'))));
+        }
         $this->set(compact('depositos'));
     }
 
@@ -570,10 +569,10 @@ class AlmacenesController extends AppController {
                     $saldo = $recarga['Movimientosrecarga']['saldo'] + $this->request->data['Movimientosrecarga']['ingreso'];
                     $this->request->data['Movimientosrecarga']['saldo_total'] = $this->request->data['Movimientosrecarga']['ingreso'] + $recarga['Movimientosrecarga']['saldo_total'];
                     $this->request->data['Movimientosrecarga']['ingreso'] = $recarga['Movimientosrecarga']['ingreso'] + $this->request->data['Movimientosrecarga']['ingreso'];
-                    
                 } else {
                     $saldo = $recarga['Movimientosrecarga']['saldo'];
-                    $this->request->data['Movimientosrecarga']['saldo_total'] = $this->request->data['Movimientosrecarga']['ingreso'] + $recarga['Movimientosrecarga']['saldo_total'];;
+                    $this->request->data['Movimientosrecarga']['saldo_total'] = $this->request->data['Movimientosrecarga']['ingreso'] + $recarga['Movimientosrecarga']['saldo_total'];
+                    ;
                 }
             } else {
                 $saldo = $this->request->data['Movimientosrecarga']['ingreso'];
@@ -598,4 +597,3 @@ class AlmacenesController extends AppController {
     }
 
 }
-
