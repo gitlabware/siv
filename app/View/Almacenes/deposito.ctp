@@ -10,12 +10,13 @@
         <?php
         echo $this->Form->create('Almacenes', array('action' => 'deposito', 'id' => 'formID'));
         echo $this->Form->hidden('Deposito.user_id', array('value' => $this->Session->read('Auth.User.id')));
+        echo $this->Form->hidden('Deposito.persona_id', array('value' => $this->Session->read('Auth.User.persona_id')));
         ?>
         <div class="columns">
             <div class="new-row three-columns">
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Banco<small>(Requerido)</small></label>
-                    <?php echo $this->Form->select('banco_id', $bancos, array('class' => 'select', 'required')); ?>
+                    <?php echo $this->Form->select('Deposito.banco_id', $bancos, array('class' => 'select', 'required')); ?>
                 </p>
             </div>
 
@@ -68,7 +69,7 @@
     </div>
 </section>
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/almacenero'); ?>
+<?php echo $this->element('sidebar/distribuidor'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
     $(document).ready(function () {

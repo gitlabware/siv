@@ -24,6 +24,7 @@
                 <?php  $id = $this->Session->read("Auth.User.id")?>
                 <li><a href="<?php echo $this->Html->url(array('action'=>'cambiopass', $id)); ?>">Cambiar Password</a></li>
                 <li><a href="<?php echo $this->Html->url(array('action'=>'registrafecha')); ?>">Registrar por Fecha</a></li>
+                <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes', 'action'=>'deposito'))?>">Ingresar Deposito</a></li>
                 <li class="with-right-arrow">
                     <span>Reportes</span>
                     <ul class="big-menu">
