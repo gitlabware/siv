@@ -66,7 +66,7 @@
             <div class="two-columns">
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
-                    <select id="validation-select" name="data[User][lugare_id]" class="select" style="width: 180px">
+                    <select id="validation-select" name="data[User][lugare_id]" class="select" style="width: 147px">
                         <?php foreach ($lugares as $lug): ?>
                         <option value="<?php echo $lug['Lugare']['id']?>">
                             <?php echo $lug['Lugare']['nombre']?>

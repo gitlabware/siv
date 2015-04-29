@@ -42,7 +42,7 @@
                           ?>
                           <div id="tab-<?php echo $llave + 1; ?>" class="with-padding <?php echo $tab_activo; ?>">
                               <?php foreach ($productos as $p): ?>
-                                <?php if ($c['Producto']['tiposproducto_id'] == $p['Producto']['tiposproducto_id']): ?> 
+                                <?php if ($c['Tiposproducto']['id'] == $p['Producto']['tiposproducto_id']): ?> 
                                   <a href="javascript:" class="<?php echo "button $color-gradient glossy"; ?>" onclick="add_venta(<?php echo $p['Producto']['id']; ?>, '<?php echo $p['Producto']['nombre']; ?>',<?php echo $p['Productosprecio']['precio']; ?>)" style="margin-bottom: 10px; text-transform: uppercase; font-size: 150%; padding: 10px 15px 10px 15px"><?php echo $p['Producto']['nombre']; ?></a>
                                   <?php
                                   /* $nombre = $p['Producto']['nombre'];

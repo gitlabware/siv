@@ -65,7 +65,7 @@
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
-                    <select id="validation-select" name="data[Cliente][lugare_id]" class="select validate[required]" class="input full-width" style="width: 280px">
+                    <select id="validation-select" name="data[Cliente][lugare_id]" class="select validate[required]" class="input full-width" style="width: 223px">
                         <?php foreach ($lugares as $lu): ?>
                             <?php if ($lu['Lugare']['id'] == $lugar): ?>
                                 <option value="<?php echo $lu['Lugar']['id'] ?>" selected="selected">

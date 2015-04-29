@@ -35,9 +35,9 @@
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Producto <small>(requerido)</small></label>
 
-                    <select id="validation-select1" name="data[User][group_id]" class="select validate[required]" class="input full-width" style="width: 390px">
+                    <select id="validation-select1" name="data[Cliente][lugar_id]" class="select validate[required]" class="input full-width" style="width: 390px">
                         <?php foreach ($tiposproductos as $t): ?>
-                            <?php if ($t['Tiposproducto']['id'] == $tiposproducto): ?>
+                            <?php if ($t['Tiposproducto']['id'] == $tiposprod): ?>
                                 <option value="<?php echo $t['Tiposproducto']['id'] ?>" selected="selected">
                                     <?php echo $t['Tiposproducto']['nombre'] ?>
                                 </option>
@@ -79,17 +79,6 @@
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
-<script>
-    $(document).ready(function () {
-        $("#validation-select1").change(function () {
-            if (this.value == 5) {
-                $('#mostrartienda').show();
-            } else {
-                $('#mostrartienda').hide();
-            }
-        });
-    });
-</script>
 <script>
     $(document).ready(function () {
 

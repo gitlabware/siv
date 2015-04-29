@@ -35,12 +35,10 @@
                         <li><a href="<?php echo $this->Html->url(array('controller'=>'Ventasdistribuidor', 'action'=>'reporte1492')); ?>">Reporte 149</a></li>                                                                        
                         <li><a href="<?php echo $this->Html->url(array('controller'=>'Ventasdistribuidor', 'action'=>'reporte1492fecha')); ?>">Reporte por Fecha</a></li>
                     </ul>
-                </li> 
-                                             
+                </li>
+                <li><a href="<?php echo $this->Html->url(array('action'=>'clientes')); ?>">Clientes</a></li>
             </ul>
         </section>
-        
-
     </div>
 
 </section>

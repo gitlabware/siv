@@ -12,6 +12,7 @@ class ReportesController extends Controller{
         'User', 
         'Productosprecio', 
         'Recarga', 
+      'Chip',
         'Deposito',
         'Sucursal',
         'Cliente');
@@ -491,6 +492,24 @@ class ReportesController extends Controller{
         }
         $sucursales = $this->Sucursal->find('list',array('fields' => 'Sucursal.nombre'));
         $this->set(compact('sucursales'));
+   }
+   public function reporte_chips(){
+     if(!empty($this->request->data['Dato'])){
+       $fecha_ini = $this->request->data['Dato']['fecha_ini'];
+       $fecha_fin = $this->request->data['Dato']['fecha_fin'];
+       $sql = "(SELECT id FROM activados WHERE activados.phone_number = Chip.telefono)";
+       $this->Chip->virtualFields = array(
+                'activado' => "CONCAT('$sql')"
+            );
+       $datos = $this->Chip->find('all',array(
+         'recursive' => -1,
+         'conditions' => array('Chip.fecha_entrega_d >=' => $fecha_ini,'Chip.fecha_entrega_d <=' => $fecha_fin),
+         'group' => array('Chip.distribuidor_id'),
+         'fields' => array('Distribuidor.nombre','SUM(Chip.distribuidor_id) entregado','SUM(Chip.activado) avtivado','(SUM(Chip.distribuidor_id)-SUM(Chip.activado)) total')
+       ));
+     }else{
+       
+     }
    }
 }
  ?>

@@ -38,13 +38,8 @@
 
                 </fieldset>
             </div>
-
         </form>
-
     </div>
-
-
-
 </section>
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/distribuidor'); ?>
