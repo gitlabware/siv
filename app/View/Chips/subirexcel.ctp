@@ -141,7 +141,6 @@
 <?php endforeach; ?>
             </tbody>
         </table>
-
     </div>
 </section>
 <!-- Sidebar/drop-down menu -->

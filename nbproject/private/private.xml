@@ -7,6 +7,9 @@
             <file>file:/var/www/html/siv/app/View/Almacenes/listadepositos.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/AlmacenesController.php</file>
             <file>file:/var/www/html/siv/app/View/Productos/insertar.ctp</file>
+            <file>file:/var/www/html/siv/app/Controller/ChipsController.php</file>
+            <file>file:/var/www/html/siv/app/View/Chips/subirexcel.ctp</file>
+
         </group>
     </open-files>
 </project-private>

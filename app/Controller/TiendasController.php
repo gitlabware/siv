@@ -18,6 +18,7 @@ class TiendasController extends AppController {
     'Producto',
     'Ventastienda',
     'Cliente',
+    'Tiposproducto',
     'Almacene',
     'Recarga',
     'Deposito', 'Recargascabina', 'Cabina', 'Movimientoscabina'
@@ -138,11 +139,12 @@ class TiendasController extends AppController {
         'Productosprecio.tipousuario_id' => 2
       )
     ));
-    $categorias = $this->Producto->find('all', array(
+    /*$categorias = $this->Producto->find('all', array(
       'recursive' => 0,
       'conditions' => array('Producto.tiposproducto_id !=' => 0),
       'group' => 'Producto.tiposproducto_id'
-    ));
+    ));*/
+    $categorias = $this->Tiposproducto->find('all',array('recursive' => -1));
     //debug($categorias); exit;       
     $this->set(compact('productos', 'categorias'));
   }

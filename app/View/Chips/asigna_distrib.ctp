@@ -1,7 +1,7 @@
 <div id="main" class="contenedor">
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
     <hgroup id="main-title" class="thin">
-        <h1>LISTADO DE SIM;S SIN ASIGNAR</h1>
+        <h1>LISTADO DE SIM'S SIN ASIGNAR</h1>
     </hgroup>
     <div class="with-padding">
         <?php echo $this->Form->create('Chip', array('action' => 'registra_asignado')); ?>
@@ -57,3 +57,6 @@
 <script>
   //urljsontabla = '<?php echo $this->Html->url(array('action' => 'asigna_distrib.json')); ?>';
 </script>
+<!-- Sidebar/drop-down menu -->
+<?php echo $this->element('sidebar/almacenero'); ?>
+<!-- End sidebar/drop-down menu -->

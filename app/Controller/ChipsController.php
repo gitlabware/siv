@@ -7,9 +7,8 @@ App::import('Vendor', 'PHPExcel_IOFactory', array('file' => 'PHPExcel/PHPExcel/I
 class ChipsController extends AppController {
 
   //public $helpers = array('Html', 'Form', 'Session', 'Js');
-  public $uses = array('Chip','Excel', 'Chipstmp', 'User');
+  public $uses = array('Chip', 'Excel', 'Chipstmp', 'User', 'Activado');
   public $layout = 'viva';
-
   public $components = array('RequestHandler', 'DataTable');
 
   public function beforeFilter() {
@@ -238,7 +237,6 @@ class ChipsController extends AppController {
       $rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
 
       $array_data = array();
-
       foreach ($rowIterator as $row) {
         $cellIterator = $row->getCellIterator();
 
@@ -255,23 +253,62 @@ class ChipsController extends AppController {
           'C' => '',
           'D' => '',
           'E' => '',
-          'F' => '');
-
+          'F' => '',
+          'G' => '',
+          'H' => '',
+          'I' => '',
+          'J' => '',
+          'K' => '',
+          'L' => '',
+          'M' => '',
+          'N' => '');
+        
         foreach ($cellIterator as $cell) {
+          
           if ('A' == $cell->getColumn()) {
             $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
           } elseif ('B' == $cell->getColumn()) {
-            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            $fechaExcel = explode('/', $cell->getCalculatedValue());
+            if (count($fechaExcel) > 1) {
+              $array_data[$rowIndex][$cell->getColumn()] = $fechaExcel[2] . '-' . $fechaExcel[0] . '-' . $fechaExcel[1];
+            } else {
+              $array_data[$rowIndex][$cell->getColumn()] = date('Y-m-d', (($cell->getCalculatedValue() - 25568) * 86400));
+            }
           } elseif ('C' == $cell->getColumn()) {
-            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            $fechaExcel = explode('/', $cell->getCalculatedValue());
+            if (count($fechaExcel) > 1) {
+              /*if(strlen($fechaExcel[0]) == 1){
+                $fechaExcel[0] = '0'.$fechaExcel[0];
+              }
+              if(strlen($fechaExcel[1]) == 1){
+                $fechaExcel[1] = '0'.$fechaExcel[1];
+              }*/
+              $array_data[$rowIndex][$cell->getColumn()] = $fechaExcel[2] . '-' . $fechaExcel[0] . '-' . $fechaExcel[1];
+            } else {
+              $array_data[$rowIndex][$cell->getColumn()] = date('Y-m-d', (($cell->getCalculatedValue() - 25568) * 86400));
+            }
           } elseif ('D' == $cell->getColumn()) {
-            $fechaExcel = $cell->getCalculatedValue();
-            $time = PHPExcel_Shared_Date::ExcelToPHP($fechaExcel);
-            $fechaExcelPhp = date('Y-m-d', $time);
-            $array_data[$rowIndex][$cell->getColumn()] = $fechaExcelPhp;
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
           } elseif ('E' == $cell->getColumn()) {
             $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
           } elseif ('F' == $cell->getColumn()) {
+            
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('G' == $cell->getColumn()) {
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('H' == $cell->getColumn()) {
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('I' == $cell->getColumn()) {
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('J' == $cell->getColumn()) {
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('K' == $cell->getColumn()) {
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('L' == $cell->getColumn()) {
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('M' == $cell->getColumn()) {
+            $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+          } elseif ('N' == $cell->getColumn()) {
             $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
           }
         }
@@ -281,37 +318,29 @@ class ChipsController extends AppController {
       $this->request->data = "";
       $i = 0;
       foreach ($array_data as $d) {
-
-        $this->request->data[$i]['Chipstmp']['sim'] = $d['A'];
-        $this->request->data[$i]['Chipstmp']['telefono'] = $d['B'];
-        $this->request->data[$i]['Chipstmp']['cliente'] = $d['C'];
-        $fechaExcelMysql = str_replace("\'", "", $d['D']);
-        $this->request->data[$i]['Chipstmp']['fecha'] = $fechaExcelMysql;
-        $this->request->data[$i]['Chipstmp']['codigo_activacion'] = $d['E'];
-        $this->request->data[$i]['Chipstmp']['subdealer_asignado'] = $d['F'];
-        $this->request->data[$i]['Chipstmp']['excel_id'] = $ultimoExcel;
+        $this->request->data[$i]['Activado']['ciudad_nro_tel'] = $d['A'];
+        $this->request->data[$i]['Activado']['fecha_act'] = $d['B'];
+        $this->request->data[$i]['Activado']['fecha_doc'] = $d['C'];
+        $this->request->data[$i]['Activado']['plan_code'] = $d['D'];
+        $this->request->data[$i]['Activado']['description'] = $d['E'];
+        $this->request->data[$i]['Activado']['phone_number'] = $d['F'];
+        $this->request->data[$i]['Activado']['dealer_code'] = $d['G'];
+        $this->request->data[$i]['Activado']['dealer'] = $d['H'];
+        $this->request->data[$i]['Activado']['dealer_nom_act'] = $d['I'];
+        $this->request->data[$i]['Activado']['subdealer_code'] = $d['J'];
+        $this->request->data[$i]['Activado']['subdealer'] = $d['K'];
+        $this->request->data[$i]['Activado']['subdealer_nom_act'] = $d['L'];
+        $this->request->data[$i]['Activado']['canal_m'] = $d['M'];
+        $this->request->data[$i]['Activado']['canal_n'] = $d['N'];
+        $this->request->data[$i]['Activado']['excel_id'] = $ultimoExcel;
         $i++;
       }
-
       //debug($this->request->data);die;
 
-      if ($this->Chipstmp->saveMany($this->data)) {
-        //echo 'registro corectamente';
-        $this->Chipstmp->deleteAll(array('Chipstmp.sim' => NULL)); //limpiamos el excel con basuras
-        $this->Session->setFlash('se Guardo correctamente el EXCEL');
-        $sqlActivaChips = "select c.id, c.sim, c.telefono, ct.telefono, ct.codigo_activacion
-                                   from chipstmp ct
-                                   inner join chips c on (ct.telefono = c.telefono)";
-        $paraActivar = $this->Chipstmp->query($sqlActivaChips);
-        foreach ($paraActivar as $pa) {
-          $idACambiar = $pa['c']['id'];
-          $codigoActivacion = $pa['ct']['codigo_activacion'];
-          $data = array('id' => $idACambiar, 'codigo_activacion' => $codigoActivacion);
-          $this->Chip->save($data);
-        }
+      if ($this->Activado->saveMany($this->data)) {
+        $this->Session->setFlash('se Guardo correctamente el Excel', 'msgbueno');
         //debug($paraActivar);die;
         $this->redirect(array('action' => 'subirexcel'));
-
         //$verificaActivados = $this
       } else {
         echo 'no se pudo guardar';
@@ -534,7 +563,7 @@ class ChipsController extends AppController {
         'fields' => array('Chip.id', 'Chip.cantidad', 'Chip.cantidad', 'Chip.sim', 'Chip.imsi', 'Chip.telefono', 'Chip.fecha', 'Excel.nombre_original'),
         'recursive' => 0,
         'order' => 'Chip.created'
-        ,'conditions' => array('Chip.distribuidor_id' => NULL)
+        , 'conditions' => array('Chip.distribuidor_id' => NULL)
       );
       $this->DataTable->fields = array('Chip.id', 'Chip.cantidad', 'Chip.cantidad', 'Chip.sim', 'Chip.imsi', 'Chip.telefono', 'Chip.fecha', 'Excel.nombre_original');
       $this->DataTable->emptyEleget_usuarios_adminments = 1;
@@ -543,23 +572,25 @@ class ChipsController extends AppController {
     }
     $this->set(compact('distribuidores'));
   }
-  public function registra_asignado(){
-    if(!empty($this->request->data['Dato'])){
+
+  public function registra_asignado() {
+    if (!empty($this->request->data['Dato'])) {
       $rango_ini = $this->request->data['Dato']['rango_ini'];
       $cantidad = $this->request->data['Dato']['cantidad'];
-      $chips = $this->Chip->find('all',array(
+      $chips = $this->Chip->find('all', array(
         'recursive' => -1,
-        'order' => 'Chip.id','limit' => $cantidad,'fields' => array('Chip.id'),
+        'order' => 'Chip.id', 'limit' => $cantidad, 'fields' => array('Chip.id'),
         'conditions' => array('Chip.id >=' => $rango_ini)
       ));
-      foreach ($chips as $ch){
-        $this->Chip->id =$ch['Chip']['id'];
+      foreach ($chips as $ch) {
+        $this->Chip->id = $ch['Chip']['id'];
+        $dato['Chip']['fecha_entrega_d'] = date('Y-m-d');
         $dato['Chip']['distribuidor_id'] = $this->request->data['Dato']['distribuidor_id'];
         $this->Chip->save($dato['Chip']);
       }
-      $this->Session->setFlash('Se asigno correctamente','msgbueno');
-    }else{
-      $this->Session->setFlash('No se pudo asignar!!','msgerror');
+      $this->Session->setFlash('Se asigno correctamente', 'msgbueno');
+    } else {
+      $this->Session->setFlash('No se pudo asignar!!', 'msgerror');
     }
     $this->redirect(array('action' => 'asigna_distrib'));
   }
