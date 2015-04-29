@@ -11,8 +11,9 @@
         <table class="table responsive-table" id="sorting-advanced">
             <thead>
                 <tr>                     
-                    <th scope="col" width="15%" class="align-center">Distribuidor</th>  
+                    <th scope="col" width="15%" class="align-center">Distribuidor</th> 
                     <th scope="col" width="15%" class="align-center">Banco</th>
+                    <th scope="col" width="15%" class="align-center">Cuenta</th>
                     <th scope="col" width="5%" class="align-center hide-on-mobile">Comprobante</th>
                     <th scope="col" width="15%" class="align-center">Efectivo</th>
                     <th scope="col" width="5%" class="align-center hide-on-mobile">Recibo</th>
@@ -28,6 +29,7 @@
                 ?>
                     <tr>    
                         <td><?php echo $d['Persona']['nombre'].' '.$d['Persona']['ap_paterno']; ?></td>
+                        <td><?php echo $d['Banco']['nombre'];?></td>
                         <td><?php echo $d['Deposito']['banco']; ?></td>               
                         <td><?php echo $d['Deposito']['comprobante']; ?></td>                   
                         <td><?php echo $d['Deposito']['efectivo'] ?></td>

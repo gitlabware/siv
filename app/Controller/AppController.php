@@ -46,6 +46,7 @@ class AppController extends Controller {
         'Javascript', 
         'Ajax');
 
+    
     public function beforeFilter()
     {
         //Configure AuthComponent
@@ -53,5 +54,18 @@ class AppController extends Controller {
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->loginRedirect = array('controller' => 'users', 'action' => 'index');
+    }
+    public function validar($modelo) {
+        $devuelve = '';
+        if ($this->$modelo->validates()) {
+            $this->$modelo->set($this->request->data);
+            $errores = $this->$modelo->invalidFields();
+            if (!empty($errores)) {
+                $devuelve = current(current($errores));
+            }
+        } else {
+            
+        }
+        return $devuelve;
     }
 }

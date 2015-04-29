@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class AlmacenesController extends AppController {
 
-    public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga','Sucursal');
+    public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga','Sucursal','Banco');
     public $components = array('Fechasconvert');
     public $layout = 'vivalmacen';
 
@@ -550,11 +550,11 @@ class AlmacenesController extends AppController {
                 $this->redirect(array('action' => 'deposito'));
             }
         }
-        $distribuidores = $this->User->find('all', array(
-            'conditions' => array('User.group_id' => '2')
-        ));
-
-        $this->set(compact('distribuidores'));
+        //$distribuidores = $this->User->find('all', array(
+          //  'conditions' => array('User.group_id' => '2')
+        //));
+        $bancos = $this->Banco->find('list', array('fields'=>'nombre'));  
+        $this->set(compact('distribuidores','bancos'));  
     }
 
     public function listadepositos() {
