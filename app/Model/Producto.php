@@ -43,15 +43,7 @@ class Producto extends AppModel
             'finderQuery' => '',
             'counterQuery' => ''));
     var $name = 'Producto';
-    var $validate = array(
-        'nombre' => array('isUnique' => array(
-                'rule' => 'isUnique',
-                'required' => true,
-                'message' => 'el producto ya existe')),
-        'precio_compra' => array('rule' => array('numeric'), 'message' => 'debe ser un valor numerico'),
 
-
-        'estado' => array('rule' => array('boolean')));
 
 }
 

@@ -30,6 +30,13 @@ class Deposito extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+                'Banco'=>array(
+                    'className' =>'Banco',
+                    'foreignKey'=> 'banco_id',
+                    'conditions'=>'',
+                    'fields'=>'',
+                    'order'=>''
+                )
 	);
 }
