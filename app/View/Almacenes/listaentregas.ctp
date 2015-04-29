@@ -14,11 +14,7 @@
                 <h3 class="thin">
                     Listado entrega
                 </h3>
-                <?php if (empty($entregas)): ?>
-                    <p>
-                        No se entreg&oacute; ning&uacute;n producto a&uacute;n
-                    </p>
-                <?php else: ?>
+                
                     <table class="table responsive-table" id="sorting-advanced">
                         <thead>
                             <tr>
@@ -63,16 +59,15 @@
 
                         </tbody>
                     </table>
-                <?php endif; ?>
                 <div>
                     <?php
-                    echo
+                    /*echo
                     $this->Ajax->link(
                             'entregar mas +', array(
                         'controller' => 'Almacenes',
                         'action' => 'ajaxrepartir', $idPersona, $almacen), array('update' => 'cargaForm',
                         'title' => 'Formulario de entregas','class'=>'button green-gradient')
-                    )
+                    )*/
                     ?>					
                 </div>
             </div>
@@ -84,6 +79,10 @@
 
     </div>
 </section>
+<script>
+var urlentrega = '<?php echo $this->Html->url(array('controller' => 'Almacenes','action' => 'ajaxrepartir', $idPersona, $almacen));?>';
+</script>
+<?php echo $this->Html->script(array('ini_entrega'),array('block' => 'js_add'))?>
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu -->

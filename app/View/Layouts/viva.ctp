@@ -168,6 +168,7 @@
           });
 
         </script>
+        
         <div style="text-align: center; color:gray;">
             <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
             <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>

@@ -6,7 +6,7 @@
         Productos
     </label>
 
-    <select id="select1" name="data[Movimiento][producto_id]" class="select expandable-list anthracite-gradient glossy validate[required]" style="width:100px" tabindex="2">
+    <select id="select1" name="data[Movimiento][producto_id]" class="select expandable-list anthracite-gradient glossy validate[required]" tabindex="2">
 
         <option value="">
             Seleccione un producto

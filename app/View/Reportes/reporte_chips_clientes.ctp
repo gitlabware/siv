@@ -2,10 +2,10 @@
 <div id="main" class="contenedor">
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
     <hgroup id="main-title" class="thin">
-        <h1>REPORTE DE CHIP'S</h1>
+        <h1>REPORTE DE CHIP'S CLIENTES</h1>
     </hgroup>
     <div class="with-padding">
-        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Reportes', 'action' => 'reporte_chips'))); ?>
+        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Reportes', 'action' => 'reporte_chips_clientes'))); ?>
 
         <div class="columns ocultar_impresion">
             <div class="three-columns">
@@ -38,20 +38,34 @@
         <table class="table responsive-table">
             <thead>
                 <tr>
-                    <th style="width: 40%;">Distribuidor</th>
-                    <th >#Entregados</th>
-                    <th >#Activos</th>
-                    <th >#Quedan</th>
+                    <th>Cant.</th>
+                    <th>TipoSim</th>
+                    <th>SIM</th>
+                    <th>IMSI</th>
+                    <th>Telefono</th>
+                    <th>Fecha</th>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Zona</th>
+                    <th>Estado</th>
+                    <th>Dealer</th>
                 </tr>
             </thead>          
 
             <tbody>
                 <?php foreach ($datos as $da): ?>
                   <tr>
+                      <td><?php echo $da['Chip']['cantidad'] ?></td>
+                      <td><?php echo $da['Chip']['tipo_sim'] ?></td>
+                      <td><?php echo $da['Chip']['sim'] ?></td>
+                      <td><?php echo $da['Chip']['imsi'] ?></td>
+                      <td><?php echo $da['Chip']['telefono'] ?></td>
+                      <td><?php echo $da['Chip']['fecha'] ?></td>
+                      <td><?php echo $da['Cliente']['num_registro'] ?></td>
+                      <td><?php echo $da['Cliente']['nombre'] ?></td>
+                      <td><?php echo $da['Cliente']['zona'] ?></td>
                       <td><?php echo $da['Chip']['distribuidor'] ?></td>
-                      <td><?php echo $da[0]['entregados'] ?></td>
-                      <td><?php echo $da['Chip']['activados'] ?></td>
-                      <td><?php echo $da[0]['entregados'] - $da['Chip']['activados'] ?></td>
+                      <td><?php echo $da['Chip']['lugar_dis'] ?></td>
                   </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -63,6 +77,5 @@
 echo $this->Html->script(array('libs/glDatePicker/glDatePicker.min.js?v=1', 'ini_lg_datepicker'), array('block' => 'js_add'))
 ?>
 <!-- Sidebar/drop-down menu -->
-
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 

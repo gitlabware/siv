@@ -43,7 +43,7 @@ if ($almacen == 1) {
                     Productos
                 </label>
 
-                <select  name="data[Movimiento][producto_id]" class="select expandable-list anthracite-gradient glossy validate[required]" style="width:100px" tabindex="2">
+                <select  name="data[Movimiento][producto_id]" class="select expandable-list anthracite-gradient glossy validate[required]" tabindex="2">
                     <option value="" >
                         Seleccione un producto
                     </option>
@@ -81,7 +81,7 @@ if ($almacen == 1) {
 
     </fieldset>
     <div class="button-height">
-        <button class="button blue-gradient" type="submit">Registrar</button>
+        <button class="button blue-gradient full-width" type="submit">Registrar</button>
     </div>
 </div>
 

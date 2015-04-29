@@ -121,6 +121,7 @@
         <script src="<?php echo $this->webroot; ?>js/developr.table.js"></script>
         
         <?php echo $this->element('jsvalidador') ?>
+        <?php echo $this->fetch('js_add'); ?>
         <!-- Plugins -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery.tablesorter.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.min.js"></script>
@@ -144,6 +145,7 @@
             });
     
         </script>
+        
 <div style="text-align: center; color:gray;">
                 <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
                 <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>

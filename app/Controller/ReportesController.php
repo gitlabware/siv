@@ -509,12 +509,31 @@ class ReportesController extends Controller {
         'recursive' => 0,
         'conditions' => array('Chip.fecha_entrega_d >=' => $fecha_ini, 'Chip.fecha_entrega_d <=' => $fecha_fin),
         'group' => array('Chip.distribuidor_id'),
-        'fields' => array('Chip.distribuidor', 'Chip.activados','COUNT(*) entregados')
+        'fields' => array('Chip.distribuidor', 'Chip.activados', 'COUNT(*) entregados')
       ));
-      
-      /*debug($datos);
-      exit;*/
-    } 
+
+      /* debug($datos);
+        exit; */
+    }
+    $this->set(compact('datos'));
+  }
+
+  public function reporte_chips_clientes() {
+    $datos = array();
+    if (!empty($this->request->data['Dato'])) {
+      $fecha_ini = $this->request->data['Dato']['fecha_ini'];
+      $fecha_fin = $this->request->data['Dato']['fecha_fin'];
+      $sql1 = "(SELECT users.persona_id FROM users WHERE (users.id = Chip.distribuidor_id))";
+      $sql11 = "(SELECT CONCAT(personas.nombre,' ',personas.ap_paterno,' ',personas.ap_materno) FROM personas WHERE (personas.id = ($sql1)))";
+      $sql2 = "(SELECT nombre FROM lugares WHERE lugares.id = (SELECT users.lugare_id FROM users WHERE (users.id = Chip.distribuidor_id)))";
+      $this->Chip->virtualFields = array(
+        'distribuidor' => "CONCAT($sql11)",
+        'lugar_dis' => "CONCAT($sql2)"
+      );
+      $datos = $this->Chip->find('all', array(
+        'conditions' => array('Chip.fecha >=' => $fecha_ini,'Chip.fecha <=' => $fecha_fin,'Chip.cliente_id !=' => NULL)
+      ));
+    }
     $this->set(compact('datos'));
   }
 
