@@ -125,8 +125,8 @@
             </div>
             <div class="two-columns">
                 <p class="block-label button-height" id="mostrartienda" style="display: none">
-                    <label for="validation-select" class="label"><b>Tienda en la que trabaja:</b></label>
-                    <select id="validation-select1" name="data[User][sucursal_id]" class="select"  style="width: 200px"  >
+                    <label for="validation-select" class="label"><b>Tienda de trabajo:</b></label>
+                    <select id="validation-select1" name="data[User][sucursal_id]" class="select"  style="width: 145px"  >
 
                         <?php foreach ($tiendas as $g): ?>                            
                             <option value="<?php echo $g['Sucursal']['id'] ?>">
