@@ -41,6 +41,7 @@
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/switches.css?v=1">
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/table.css?v=1">
 
+        
         <!-- DataTables -->
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.css?v=1">
 
@@ -126,7 +127,7 @@
         <script src="<?php echo $this->webroot; ?>js/developr.tooltip.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.table.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.modal.js"></script>
-
+        <?php echo $this->fetch('js_add'); ?>
         <?php echo $this->element('jsvalidador') ?>
         <!-- Plugins -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery.tablesorter.min.js"></script>
