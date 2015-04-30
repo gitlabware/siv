@@ -76,6 +76,8 @@
                     <ul class="big-menu">
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listadepositos')) ?>">Listado depositos</a></li>	
                         <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes', 'action'=>'deposito'));?>">Nuevo Deposito</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Bancos', 'action'=>'index'))?>">Listado de Bancos</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Bancos', 'action'=>'add'));?>">Nuevo Banco</a></li>
                     </ul>
                 </li>
 
