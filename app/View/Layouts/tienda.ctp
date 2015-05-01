@@ -81,6 +81,7 @@
     </head>
 
     <body class="clearfix with-menu with-shortcuts">
+        <script>var urljsontabla = '';var datos_tabla2 = null;</script>
 
         <!-- Prompt IE 6 users to install Chrome Frame -->
         <!--[if lt IE 7]><p class="message red-gradient simpler">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
@@ -141,6 +142,26 @@
                   tableStyled = true;
               }
           });
+          
+          var table2 = $('#tabla-json');
+          //console.log(datos_tabla2);
+          if (datos_tabla2 == null) {
+              datos_tabla2 = {
+                  'sPaginationType': 'full_numbers',
+                  'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+                  'bProcessing': true,
+                  'sAjaxSource': urljsontabla,
+                  'sServerMethod': 'POST',
+                  "order": [],
+                  'fnInitComplete': function (oSettings)
+                  {
+                      // Style length select
+                      table2.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                      tableStyled = true;
+                  }
+              };
+          }
+          table2.dataTable(datos_tabla2);
 
         </script>
 

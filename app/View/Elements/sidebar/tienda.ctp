@@ -21,7 +21,7 @@
             <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'index')) ?>" title="PANEL VENTAS"><span class="icon-gear"></span></span></a></li>
             <li><a href="<?php echo $this->Html->url(array('controller' => 'Users', 'action' => 'salir')) ?>" title="Cerrar Session"><span class="icon-user"></span></a></li>
             <!--<li><a href="<?php //echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'listacabinas')) ?>" title="CARGAS CABINAS"><span class="icon-inbox"></span></span></a></li>-->
-            <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'pidecodigo')) ?>" title="Venta mayor"><span class="icon-calendar"></span></a></li>
+            <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'clientes')) ?>" title="Venta mayor"><span class="icon-calendar"></span></a></li>
         </ul>
 
         <section class="navigable">            

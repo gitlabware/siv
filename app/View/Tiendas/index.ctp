@@ -9,7 +9,6 @@
             <div class="seven-columns twelve-columns-mobile twelve-columns-tablet">
                 <h4>Productos</h4>
                 <div class="standard-tabs margin-bottom">
-
                     <ul class="tabs">
                         <?php foreach ($categorias as $llave => $c): ?>
                           <?php

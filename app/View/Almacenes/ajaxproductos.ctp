@@ -17,10 +17,8 @@
             </option>
         <?php endforeach; ?>
     </select>
-
 </p>
 </div>
-
 <script>
     $(document).ready(function() {
 

@@ -23,6 +23,7 @@ class TiendasController extends AppController {
     'Recarga',
     'Deposito', 'Recargascabina', 'Cabina', 'Movimientoscabina'
   );
+  public $components = array('RequestHandler', 'DataTable');
 
   public function beforeFilter() {
     parent::beforeFilter();
@@ -45,8 +46,8 @@ class TiendasController extends AppController {
       'order' => 'Movimiento.id DESC',
       'conditions' => array('Movimiento.almacene_id' => $this->get_id_almacen(), 'Movimiento.producto_id' => $idProducto)
     ));
-    /*debug($movimiento);
-    exit;*/
+    /* debug($movimiento);
+      exit; */
     if (!empty($movimiento)) {
       return $movimiento['Movimiento']['total'];
     } else {
@@ -63,30 +64,25 @@ class TiendasController extends AppController {
   }
 
   public function registra_venta_t() {
-    $this->Ventastienda->create();
-    $this->request->data['Ventastienda']['sucursal_id'] = $this->Session->read('Auth.User.sucursal_id');
-    $this->request->data['Ventastienda']['user_id'] = $this->Session->read('Auth.User.id');
-    $this->request->data['Ventastienda']['escala'] = 'TIENDA';
-    $this->Ventastienda->save($this->request->data['Ventastienda']);
-    $idVenta = $this->Ventastienda->getLastInsertID();
     foreach ($this->request->data['productos'] as $key => $ped) {
       $total = $this->get_total_almacen($key);
-      if ($ped['cantidad'] <= $total) {
-        $this->Movimiento->create();
-        $this->request->data['Movimiento']['producto_id'] = $key;
-        $this->request->data['Movimiento']['user_id'] = $this->Session->read('Auth.User.id');
-        $this->request->data['Movimiento']['almacene_id'] = $this->get_id_almacen();
-        $this->request->data['Movimiento']['salida'] = $ped['cantidad'];
-        $this->request->data['Movimiento']['ingreso'] = 0;
-        $this->request->data['Movimiento']['total'] = $total - $ped['cantidad'];
-        $this->request->data['Movimiento']['ventastienda_id'] = $idVenta;
-        $this->Movimiento->save($this->request->data['Movimiento']);
-      } else {
-        $this->Movimiento->deleteAll(array('Movimiento.ventastienda_id' => $idVenta));
-        $this->Ventastienda->delete($idVenta);
+      if ($ped['cantidad'] > $total) {
         $this->Session->setFlash('No se pudo registrar verifique las cantidades antes!!!', 'msgerror');
         $this->redirect(array('action' => 'index'));
       }
+    }
+    foreach ($this->request->data['productos'] as $key => $ped) {
+      $total = $this->get_total_almacen($key);
+      $this->Movimiento->create();
+      $this->request->data['Movimiento']['producto_id'] = $key;
+      $this->request->data['Movimiento']['user_id'] = $this->Session->read('Auth.User.id');
+      $this->request->data['Movimiento']['sucursal_id'] = $this->Session->read('Auth.User.sucursal_id');
+      $this->request->data['Movimiento']['almacene_id'] = $this->get_id_almacen();
+      $this->request->data['Movimiento']['escala'] = 'TIENDA';
+      $this->request->data['Movimiento']['salida'] = $ped['cantidad'];
+      $this->request->data['Movimiento']['ingreso'] = 0;
+      $this->request->data['Movimiento']['total'] = $total - $ped['cantidad'];
+      $this->Movimiento->save($this->request->data['Movimiento']);
     }
     $this->Session->setFlash('Venta registrada', 'msgbueno');
     $this->redirect(array('action' => 'index'));
@@ -139,12 +135,12 @@ class TiendasController extends AppController {
         'Productosprecio.tipousuario_id' => 2
       )
     ));
-    /*$categorias = $this->Producto->find('all', array(
+    /* $categorias = $this->Producto->find('all', array(
       'recursive' => 0,
       'conditions' => array('Producto.tiposproducto_id !=' => 0),
       'group' => 'Producto.tiposproducto_id'
-    ));*/
-    $categorias = $this->Tiposproducto->find('all',array('recursive' => -1));
+      )); */
+    $categorias = $this->Tiposproducto->find('all', array('recursive' => -1));
     //debug($categorias); exit;       
     $this->set(compact('productos', 'categorias'));
   }
@@ -232,25 +228,21 @@ class TiendasController extends AppController {
   public function registra_venta_mayor() {
     /* debug($this->request->data);
       exit; */
-    $this->Ventastienda->create();
-    $this->Ventastienda->save($this->request->data['Ventastienda']);
-    $idVenta = $this->Ventastienda->getLastInsertID();
     foreach ($this->request->data['Movimiento'] as $dat) {
       $total = $this->get_total_almacen($dat['producto_id']);
       if ($dat['salida'] > 0) {
-        if ($dat['salida'] <= $total) {
-          $dat['ventastienda_id'] = $idVenta;
-          $this->Movimiento->create();
-          $dat['total'] = $total - $dat['salida'];
-          $this->Movimiento->save($dat);
-        } else {
+        if ($dat['salida'] > $total) {
           $this->Session->write('form_venta_mayor', $this->request->data);
-          $this->Movimiento->deleteAll(array('Movimiento.ventastienda_id' => $idVenta));
-          $this->Ventastienda->delete($idVenta);
           $this->Session->setFlash('Solo hay ' . $total . ' unidades de ' . $dat['nombre_prod'] . '!!!', 'msgerror');
           $this->redirect(array('action' => 'formulario', $this->request->data['Ventastienda']['cliente_id']));
         }
       }
+    }
+    foreach ($this->request->data['Movimiento'] as $dat) {
+      $total = $this->get_total_almacen($dat['producto_id']);
+      $this->Movimiento->create();
+      $dat['total'] = $total - $dat['salida'];
+      $this->Movimiento->save($dat);
     }
     $this->registra_recarga();
     $this->Session->setFlash('Se registro correctamente!!!', 'msgbueno');
@@ -565,8 +557,50 @@ class TiendasController extends AppController {
     ));
     $this->set(compact('rows', 'cabinas', 'nombre', 'fecha', 'idAlmacen', 'idsucursal'));
   }
-  public function report_may_xproduct(){
+
+  public function report_may_xproduct() {
     
+  }
+
+  public function clientes() {
+    if ($this->RequestHandler->responseType() == 'json') {
+      $asignar = '<button class="button blue-gradient compact icon-list" type="button" onclick="asignar(' . "',Cliente.id,'" . ')">Asignar</button>';
+      $venta = '<button class="button green-gradient compact icon-list" type="button" onclick="venta(' . "',Cliente.id,'" . ')">Venta</button>';
+      $acciones = "$asignar $venta";
+      $this->Cliente->virtualFields = array(
+        'acciones' => "CONCAT('$acciones')"
+      );
+      $this->paginate = array(
+        'fields' => array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones'),
+        'recursive' => -1,
+        'order' => 'Cliente.id DESC'
+      );
+      $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
+      //$this->DataTable->emptyEleget_usuarios_adminments = 1;
+      $this->set('clientes', $this->DataTable->getResponse('Tiendas', 'Cliente'));
+      $this->set('_serialize', 'clientes');
+    }
+  }
+
+  public function reportes_tienda() {
+    $fecha_ini = $this->request->data['Dato']['fecha_ini'];
+    $fecha_fin = $this->request->data['Dato']['fecha_fin'];
+    $datos = array();
+    if (!empty($this->request->data['Dato'])) {
+      $sql1 = "(SELECT * FROM movimientos WHERE )";
+      $this->Movimiento->virtualFields = array(
+        'ventas' => "CONCAT($sql1)"
+      );
+      $datos = $this->Movimiento->find('all', array(
+        'recursive' => 0, 'order' => 'Movimiento.id DESC',
+        'conditions' => array('Almacene.sucursal_id' => $this->Session->read('Auth.User.sucursal_id'), 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin),
+        'group' => array('Movimiento.producto_id'),
+        'fields' => array('Producto.nombre', 'SUM(Movimiento.ingreso) entregado')
+      ));
+      debug($datos);
+      exit;
+    }
+    $this->set(compact('datos'));
   }
 
 }

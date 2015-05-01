@@ -1281,7 +1281,7 @@ class VentasdistribuidorController extends AppController {
 
   public function clientes() {
     if ($this->RequestHandler->responseType() == 'json') {
-      $asignar = '<button class="button green-gradient compact icon-pencil" type="button" onclick="asignar(' . "',Cliente.id,'" . ')">Asignar</button>';
+      $asignar = '<button class="button green-gradient compact icon-list" type="button" onclick="asignar(' . "',Cliente.id,'" . ')">Asignar</button>';
       $acciones = "$asignar";
       $this->Cliente->virtualFields = array(
         'acciones' => "CONCAT('$acciones')"
