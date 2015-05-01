@@ -13,6 +13,24 @@
         echo $this->Form->hidden('Deposito.persona_id', array('value' => $this->Session->read('Auth.User.persona_id')));
         ?>
         <div class="columns">
+            <?php if ($this->Session->read('Auth.User.Group.name') == 'Administradores'):?>
+            <div class="new-row six-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label"> Quien entrega <small>(requerido)</small></label>
+                    <select id="validation-select1" name="data[Deposito][persona_id]" class="select" style="width: 200px">
+                        <option value="">
+                            Seleccione el distribuidor...
+                        </option>
+                        <?php foreach ($distribuidores as $d): ?>
+                            <option value="<?php echo $d['User']['persona_id'] ?>">
+                                <?php echo $d['Persona']['nombre'] . ' ' . $d['Persona']['ap_paterno'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </p>
+            </div>
+            
+            <?php endif; ?>
             <div class="new-row three-columns">
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Banco<small>(Requerido)</small></label>

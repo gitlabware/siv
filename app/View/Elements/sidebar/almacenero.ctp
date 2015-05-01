@@ -74,8 +74,10 @@
                 <li class="with-right-arrow">
                     <span>Depositos</span>
                     <ul class="big-menu">
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'deposito')); ?>">Registrar Deposito</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listadepositos')) ?>">Listado depositos</a></li>	
+                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes', 'action'=>'deposito'));?>">Nuevo Deposito</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Bancos', 'action'=>'index'))?>">Listado de Bancos</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Bancos', 'action'=>'add'));?>">Nuevo Banco</a></li>
                     </ul>
                 </li>
 
@@ -84,8 +86,8 @@
                     <ul class="big-menu">
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Productos', 'action' => 'index')); ?>">Listado de Productos</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Productos', 'action' => 'insertar')); ?>">Nuevo Producto</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'index')); ?>">Listado de Precio</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'nuevoprecio')); ?>">Nuevos Precios</a></li>
+                        <!--<li><a href="<?php //echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'index')); ?>">Listado de Precio</a></li>-->
+                        <!--<li><a href="<?php //echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'nuevoprecio')); ?>">Nuevos Precios</a></li>-->
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiposproductos', 'action' => 'index')); ?>"></a>Listado de Categorias</li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiposproductos', 'action' => 'add')); ?>">Nueva Categoria</a></li>
                     </ul>

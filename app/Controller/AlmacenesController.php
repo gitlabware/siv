@@ -553,10 +553,10 @@ class AlmacenesController extends AppController {
     public function listadepositos() {
          //debug(''); exit;
         if ($this->Session->read('Auth.User.Group.name')== 'Administradores') {
-            $depositos = $this->Deposito->find('all', array('oder' => 'Deposito.id DESC'));
+            $depositos = $this->Deposito->find('all', array('oder' => 'Deposito.id ASC'));
            
         } else {
-            $depositos = $this->Deposito->find('all', array('oder' => 'Deposito.id DESC', 'conditions' => array('Deposito.user_id' => $this->Session->read('Auth.User.id'))));
+            $depositos = $this->Deposito->find('all', array('oder' => 'Deposito.id ASC', 'conditions' => array('Deposito.user_id' => $this->Session->read('Auth.User.id'))));
         }
         $this->set(compact('depositos'));
     }
