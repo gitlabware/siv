@@ -45,6 +45,13 @@
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Lugares', 'action' => 'add')); ?>">Nuevo lugar</a></li>
                     </ul>
                 </li>
+                 <li class="with-right-arrow">
+                    <span>Rutas</span>
+                    <ul class="big-menu">
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Rutas', 'action' => 'index')); ?>">Listado de Lugares</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Rutas', 'action' => 'add')); ?>">Nuevo lugar</a></li>
+                    </ul>
+                </li>
                 
                 <li class="with-right-arrow">
                     <span>Entregas</span>
