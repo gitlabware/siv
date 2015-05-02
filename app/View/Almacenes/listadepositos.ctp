@@ -44,7 +44,10 @@
         </table>       
     </div>
 </section>	
-
+<?php if($this->Session->read('Auth.User.Group.name')=='Distribuidores'):?>
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/almacenero'); ?>
+<?php echo $this->element('sidebar/distribuidor'); ?>
 <!-- End sidebar/drop-down menu --> 
+<?php elseif($this->Session->read('Auth.User.Group.name')=='Administradores'):?>
+<?php echo $this->element('sidebar/administrador'); ?>
+<?php endif; ?>

@@ -35,5 +35,5 @@
     </div>
 </section>
 
-<?php echo $this->element('sidebar/almacenero'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 

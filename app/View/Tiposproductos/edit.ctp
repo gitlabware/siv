@@ -18,10 +18,20 @@
             </div>
             <div class=" new-row six-columns">                
                 <p class="block-label button-height">
-                    <label for="block-label-2" class="label">Descripcion<small>(requerido)</small></label>
-                    <?php echo $this->Form->textarea('desc', array('class' => 'input full-width autoexpanding','style'=>'overflow: hidden; resize: none; height: 50px;' ,'placeholder' => 'Descripcion categoria')); ?>
+                    <label for="validation-select" class="label">Color Categoria<small>(requerido)</small></label>
+                    <select id="validation-select" name="data[Tiposproducto][desc]" class="select validate[required]">
+                        <option value="black">Negro</option>
+                        <option value="anthracite">Plomo</option>
+                        <option value="grey">Gris</option>
+                        <option value="white">Blanco</option>
+                        <option value="red">Rojo</option>
+                        <option value="orange">Anaranjado</option>
+                        <option value="green">Verde</option>
+                        <option value="blue">Azul</option>
+                    </select>
                 </p>  
             </div>
+
             
             <div class="new-row six-columns">
 
@@ -39,4 +49,4 @@
         </div>
     </div>
 </section>
-<?php echo $this->element('sidebar/almacenero');?>
+<?php echo $this->element('sidebar/administrador');?>

@@ -42,7 +42,7 @@
 <script>
 $(document).ready(function(){$("#formID").validationEngine();});
 </script>
-<?php echo $this->element('sidebar/almacenero');?>
+<?php echo $this->element('sidebar/administrador');?>
 
 
 
