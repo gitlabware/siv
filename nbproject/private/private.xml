@@ -5,10 +5,7 @@
         <group>
             <file>file:/var/www/html/siv/app/View/Tiendas/reportes_tienda.ctp</file>
             <file>file:/var/www/html/siv/app/View/Ventasdistribuidor/clientes.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Tiendas/formulario.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Tiendas/index.ctp</file>
-            <file>file:/var/www/html/siv/app/Controller/ReportesController.php</file>
-            <file>file:/var/www/html/siv/app/View/Reportes/reporte_chips.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Tiendas/reporte_detallado_precio.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/TiendasController.php</file>
         </group>
     </open-files>
