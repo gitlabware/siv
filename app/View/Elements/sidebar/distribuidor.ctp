@@ -24,7 +24,14 @@
                 <?php  $id = $this->Session->read("Auth.User.id")?>
                 <li><a href="<?php echo $this->Html->url(array('action'=>'cambiopass', $id)); ?>">Cambiar Password</a></li>
                 <li><a href="<?php echo $this->Html->url(array('action'=>'registrafecha')); ?>">Registrar por Fecha</a></li>
-                <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes', 'action'=>'deposito'))?>">Ingresar Deposito</a></li>
+                <li class="with-right-arrow">
+                    <span>Depositos</span>
+                    <ul class="big-menu">
+                         <li><a href="<?php echo $this->Html->url(array('controller'=>'Almacenes', 'action'=>'deposito'))?>">Ingresar Deposito</a></li>
+                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listadepositos')); ?>">Depositos Realizados</a></li>                                                                        
+
+                    </ul>
+                </li>
                 <li class="with-right-arrow">
                     <span>Reportes</span>
                     <ul class="big-menu">
@@ -37,7 +44,16 @@
                         <li><a href="<?php echo $this->Html->url(array('controller'=>'Ventasdistribuidor', 'action'=>'reporte1492fecha')); ?>">Reporte por Fecha</a></li>
                     </ul>
                 </li>
-                <li><a href="<?php echo $this->Html->url(array('action'=>'clientes')); ?>">Clientes</a></li>
+                
+                <li class="with-right-arrow">
+                    <span>Clientes</span>
+                    <ul class="big-menu">
+                         <li><a href="<?php echo $this->Html->url(array('action'=>'clientes')); ?>">Clientes</a></li>
+                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Clientes', 'action' => 'insertar')); ?>">Nuevo Cliente</a></li>                                                                        
+
+                    </ul>
+                </li>
+                
             </ul>
         </section>
     </div>

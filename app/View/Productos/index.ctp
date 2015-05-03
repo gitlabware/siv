@@ -70,7 +70,7 @@
   }
 
 </script>
-<?php echo $this->element('sidebar/almacenero'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
   function mensaje_nota(titulo, texto) {

@@ -40,8 +40,9 @@
     }
   }
 </script>
+
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/almacenero'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
 <?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'edit', $p['Cliente']['id']), array('escape' => false));?>
 <?php //echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'eliminar', 'title' => 'eliminar')), array('action' => 'delete', $p['Cliente']['id']), array('escape' => false), ("Desea eliminar realmente??"));

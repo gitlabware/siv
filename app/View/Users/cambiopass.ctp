@@ -43,5 +43,5 @@
 
 </section>
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/almacenero'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 

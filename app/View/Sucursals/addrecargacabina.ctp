@@ -3,7 +3,7 @@
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
 
     <hgroup id="main-title" class="thin">
-        <h1>Nuevo Producto Caina </h1>
+        <h1>Nuevo Producto Cabina </h1>
     </hgroup>
     <div class="with-padding"> 
 
@@ -88,5 +88,5 @@
     });
 </script>
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/almacenero'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
