@@ -9,8 +9,16 @@
     <div class="with-padding"> 
         <?php echo $this->Form->create('Cliente', array('id' => 'formID')) ?>
         <div class="columns">
+            <?php if($this->Session->read('Auth.User.Group.name') == 'Administradores'):?>
+            <div class="new-row six-columns">
 
-            <div class="new six-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Codigo 149 <small>(requerido)</small></label>                    
+                    <?php echo $this->Form->text('num_registro', array('class' => 'input full-width')); ?>
+                </p>
+            </div>
+            <?php endif;?>
+            <div class="new-row six-columns">
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>                    
@@ -39,11 +47,17 @@
                 </p>
             </div>
 
-            <div class="six-columns">
+            <div class="three-columns">
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Zona<small>(requerido)</small></label>
                     <?php echo $this->Form->text('zona', array('class' => 'input full-width')); ?>                       
+                </p>
+            </div>
+            <div class="three-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label">Ruta<small>(Requerido)</small></label>
+                    <?php echo $this->Form->select('ruta_id', $rutas, array('class' => 'select', 'style' => 'width: 222px', 'required')); ?>
                 </p>
             </div>
 
@@ -62,15 +76,15 @@
                     <?php echo $this->Form->text('mercado', array('class' => 'input full-width')); ?>
                 </p>
             </div>
-            
+
             <div class="three-columns">
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
                     <select id="validation-select" name="data[cliente][lugare_id]" class="select" style="width: 222px">
                         <?php foreach ($lugares as $lug): ?>
-                        <option value="<?php echo $lug['Lugare']['id']?>">
-                            <?php echo $lug['Lugare']['nombre']?>
-                        </option>
+                            <option value="<?php echo $lug['Lugare']['id'] ?>">
+                                <?php echo $lug['Lugare']['nombre'] ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </p>
@@ -90,7 +104,7 @@
 
             </div>
         </div>
-    
+
     </div>
 </section>
 
@@ -99,10 +113,10 @@
         $("#formID").validationEngine();
     });
 </script>
-<?php if($this->Session->read('Auth.User.Group.name')=='Distribuidores'):?>
-<!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/distribuidor'); ?>
-<!-- End sidebar/drop-down menu --> 
-<?php elseif($this->Session->read('Auth.User.Group.name')=='Administradores'):?>
-<?php echo $this->element('sidebar/administrador'); ?>
+<?php if ($this->Session->read('Auth.User.Group.name') == 'Distribuidores'): ?>
+    <!-- Sidebar/drop-down menu -->
+    <?php echo $this->element('sidebar/distribuidor'); ?>
+    <!-- End sidebar/drop-down menu --> 
+<?php elseif ($this->Session->read('Auth.User.Group.name') == 'Administradores'): ?>
+    <?php echo $this->element('sidebar/administrador'); ?>
 <?php endif; ?>
