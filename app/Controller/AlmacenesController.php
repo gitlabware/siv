@@ -191,10 +191,10 @@ class AlmacenesController extends AppController {
     $productos = $this->Producto->find('all', array('recursive' => 0));
 
     if (!empty($this->request->data)) {
-      /*debug($idPersona);
-      debug($almacen);
-      debug($this->request->data);
-      exit;*/
+      /* debug($idPersona);
+        debug($almacen);
+        debug($this->request->data);
+        exit; */
       $idProducto = $this->request->data['Movimiento']['producto_id'];
       $cantidad = $this->request->data['Movimiento']['ingreso'];
       $producto = $this->Producto->find('first', array('conditions' => array('Producto.id' => $idProducto)));
@@ -238,16 +238,8 @@ class AlmacenesController extends AppController {
         if (!empty($ultimoMovimiento)) {
 
           if ($almacenCentral) {
-
-            if ($ultimoMovimiento['Movimiento']['created'] == $fecha) {
-              $total = $ultimoMovimiento['Movimiento']['total'] + $cantidad;
-              $saldo = $ultimoMovimiento['Movimiento']['saldo'];
-              $ingreso = $ultimoMovimiento['Movimiento']['ingreso'] + $cantidad;
-            } else {
-              $saldo = $ultimoMovimiento['Movimiento']['total'];
-              $total = $cantidad + $saldo;
-              $ingreso = $cantidad;
-            }
+            $total = $cantidad + $ultimoMovimiento['Movimiento']['total'];
+            $ingreso = $cantidad;
           } else {//para otro almacenes de las tiendas
             //movimiento es la consulta de datos desde almacen central
             if (!empty($movimiento)) {
@@ -259,17 +251,8 @@ class AlmacenesController extends AppController {
               $this->Session->setFlash("Error en el registro de entrega'!!!...No existe $productoNombre en almacen central", 'msgerror');
               $this->redirect(array('action' => 'listaentregas', $idPersona, $almacen));
             }
-
-
-            if ($fecha == $ultimoMovimiento['Movimiento']['created']) {
-              $total = $ultimoMovimiento['Movimiento']['total'] + $cantidad;
-              $saldo = $ultimoMovimiento['Movimiento']['saldo'];
-              $ingreso = $ultimoMovimiento['Movimiento']['ingreso'] + $cantidad;
-            } else {
-              $saldo = $ultimoMovimiento['Movimiento']['total'];
-              $total = $cantidad + $saldo;
-              $ingreso = $cantidad;
-            }
+            $total = $cantidad + $ultimoMovimiento['Movimiento']['total'];
+            $ingreso = $cantidad;
           }
         } else {//en caso de ser el primer registro de entrega para el almacen
           if ($almacenCentral) {

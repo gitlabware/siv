@@ -76,7 +76,7 @@
         <h1>REPORTE DE TIENDA <?php echo strtoupper($this->Session->read('Auth.User.Sucursal.nombre')); ?></h1>
     </hgroup>
     <div class="with-padding">
-        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reporte_detallado_precio'))); ?>
+        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reporte_cliente'))); ?>
 
         <div class="columns ocultar_impresion">
             <div class="three-columns twelve-columns-mobile">
@@ -108,39 +108,36 @@
         <?php echo $this->Form->end(); ?>
         <table class="CSSTableGenerator" >
             <tr>
-                <td>Producto</td>
-                <td>Entregado</td>
-                <td>Por Precios</td>
+                <td>Cod cliente</td>
+                <td>Cliente</td>
+                <td>Por Productos</td>
                 <td>Venta Total</td>
                 <td>Precio Total (Bs)</td>
-                <td>Saldo Anterior</td>
-                <td>Quedan Total</td>
             </tr>
             <?php foreach ($datos as $da): ?>
-            <?php 
-            $venta_total = 0;
-            $venta_prec_total = 0;
-            ?>
+              <?php
+              $venta_total = 0;
+              $venta_prec_total = 0;
+              ?>
               <tr>
-                  <td><?php echo $da['Producto']['nombre'] ?></td>
-                  <td><?php echo $da[0]['entregado']?></td>
+                  <td><?php echo $da['Cliente']['num_registro'] ?></td>
+                  <td><?php echo $da['Cliente']['nombre'] ?></td>
                   <td>
                       <table>
-                          <?php foreach ($da['precios'] as $dato): ?>
-                          <tr>
-                              <td><?php echo $dato['Movimiento']['precio_uni']?> Bs</td>
-                              <td><?php echo $dato[0]['vendidos']?> vendidos</td>
-                              <td><?php echo $dato[0]['precio_total']?> Bs</td>
-                          </tr>
-                          <?php $venta_total = $venta_total + $dato[0]['vendidos'];?>
-                          <?php $venta_prec_total = $venta_prec_total + $dato[0]['precio_total'];?>
+                          <?php foreach ($da['productos'] as $dat): ?>
+                            <tr>
+                                <td><?php echo $dat['Producto']['nombre'];?></td>
+                                <td><?php echo $dat['Movimiento']['precio_uni']?></td>
+                                <td><?php echo $dat[0]['vendidos']?></td>
+                                <td><?php echo $dat[0]['precio_total']?></td>
+                            </tr>
+                            <?php $venta_total = $venta_total + $dat[0]['vendidos'];?>
+                            <?php $venta_prec_total = $venta_prec_total + $dat[0]['precio_total'];?>
                           <?php endforeach; ?>
                       </table>
                   </td>
-                  <td><?php echo $venta_total?></td>
-                  <td><?php echo $venta_prec_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $dato[0]['vendidos']?></td>
-                  <td><?php echo $da['Movimiento']['total_s']?></td>
+                  <td><?php echo $venta_total;?></td>
+                  <td><?php echo $venta_prec_total;?></td>
               </tr>
             <?php endforeach; ?>
         </table> 

@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/var/www/html/siv/app/View/Tiendas/reportes_tienda.ctp</file>
             <file>file:/var/www/html/siv/app/View/Ventasdistribuidor/clientes.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Tiendas/reporte_cliente.ctp</file>
+            <file>file:/var/www/html/siv/app/Model/Cliente.php</file>
             <file>file:/var/www/html/siv/app/View/Tiendas/reporte_detallado_precio.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Elements/sidebar/tienda.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/TiendasController.php</file>
-=======
-            <file>file:/var/www/html/siv/app/View/Elements/sidebar/administrador.ctp</file>
->>>>>>> 5a46e02358423842d3d145948b35f5d3143d1254
         </group>
     </open-files>
 </project-private>

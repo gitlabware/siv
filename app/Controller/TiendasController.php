@@ -637,11 +637,37 @@ class TiendasController extends AppController {
           'recursive' => -1, 'order' => 'Movimiento.producto_id',
           'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.producto_id' => $da['Producto']['id']),
           'group' => array('Movimiento.precio_uni'),
-          'fields' => array('SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total','Movimiento.producto_id')
+          'fields' => array('SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total', 'Movimiento.producto_id')
         ));
         $datos[$key]['precios'] = $datos_aux;
         //debug($datos);exit;
       }
+    }
+    $this->set(compact('datos'));
+  }
+
+  public function reporte_cliente() {
+    $fecha_ini = $this->request->data['Dato']['fecha_ini'];
+    $fecha_fin = $this->request->data['Dato']['fecha_fin'];
+    $sucursal = $this->Session->read('Auth.User.sucursal_id');
+    $datos = array();
+    if (!empty($this->request->data['Dato'])) {
+      $datos = $this->Movimiento->find('all', array(
+        'recursive' => 0, 'order' => 'Movimiento.producto_id',
+        'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin),
+        'group' => array('Movimiento.cliente_id'),
+        'fields' => array('Cliente.nombre','Cliente.num_registro', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)')
+      ));
+      foreach ($datos as $key => $da){
+        $datos_aux = $this->Movimiento->find('all', array(
+          'recursive' => 0, 'order' => 'Movimiento.producto_id',
+          'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.cliente_id' => $da['Movimiento']['cliente_id']),
+          'group' => array('Movimiento.producto_id','Movimiento.precio_uni'),
+          'fields' => array('Producto.nombre','SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total')
+        ));
+        $datos[$key]['productos'] = $datos_aux;
+      }
+      //debug($datos);exit;
     }
     $this->set(compact('datos'));
   }

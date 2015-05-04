@@ -4,7 +4,6 @@
         <header>
             TIENDAS
         </header>
-
         <div id="profile">
             <img src="<?php echo $this->webroot; ?>img/user.png" width="64" height="64" alt="User name" class="user-icon">
             Bienvenido
@@ -15,7 +14,6 @@
             </span>
 
         </div>
-
         <!-- By default, this section is made for 4 icons, see the doc to learn how to change this, in "basic markup explained" -->
         <ul id="access" class="children-tooltip">
             <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'index')) ?>" title="PANEL VENTAS"><span class="icon-gear"></span></span></a></li>
@@ -32,43 +30,20 @@
                 <li class="with-right-arrow">
                     <span>Reportes</span>
                     <ul class="big-menu">
-                        <?php
-                        $idusuario = $this->Session->read("Auth.User.id");
-                        $fecha = date('Y-m-d');
-                        ?>
-                        <li class="with-right-arrow">
-                            <span>Reporte ventas x mayor</span>
-                            <ul class="big-menu">
-                                <?php
-                                $idusuario = $this->Session->read("Auth.User.id");
-                                $fecha = date('Y-m-d');
-                                ?>
-                                <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'reporteventasxmayorproductos')); ?>">Productos</a></li>
-                                <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'reporte149', $this->Session->read('Auth.User.sucursal_id'))); ?>">Clientes</a></li>                                                                        
-
-                            </ul>
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reportes_tienda'));?>">Reporte general</a>
                         </li>
-                        <li class="with-right-arrow">
-                            <span>Reporte ventas al detalle</span>
-                            <ul class="big-menu">
-                                <?php
-                                $idusuario = $this->Session->read("Auth.User.id");
-                                $fecha = date('Y-m-d');
-                                ?>
-                                <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'reporteventashoy', $this->Session->read("Auth.User.sucursal_id"))); ?>">Resumen</a></li>
-                                <li><a href="<?php echo $this->Html->url(array('controller' => 'Tiendas', 'action' => 'reporteventastienda', $this->Session->read('Auth.User.sucursal_id'))); ?>">detalle</a></li>                                                                        
-
-                            </ul>
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reporte_detallado_precio'));?>">Reporte x precios</a>
                         </li>
-                                                                                                
-
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reporte_cliente'));?>">Reporte x Clientes</a>
+                        </li>
                     </ul>
                 </li> 
 
             </ul>
         </section>
-
-
     </div>
 
 </section>
