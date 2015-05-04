@@ -19,6 +19,7 @@ class TiendasController extends AppController {
     'Ventastienda',
     'Cliente',
     'Tiposproducto',
+    'Chip',
     'Almacene',
     'Recarga',
     'Deposito', 'Recargascabina', 'Cabina', 'Movimientoscabina'
@@ -656,12 +657,12 @@ class TiendasController extends AppController {
         'recursive' => 0, 'order' => 'Movimiento.producto_id',
         'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin),
         'group' => array('Movimiento.cliente_id'),
-        'fields' => array('Cliente.nombre','Cliente.num_registro', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)')
+        'fields' => array('Cliente.nombre','Cliente.num_registro','Movimiento.cliente_id', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)')
       ));
       foreach ($datos as $key => $da){
         $datos_aux = $this->Movimiento->find('all', array(
           'recursive' => 0, 'order' => 'Movimiento.producto_id',
-          'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.cliente_id' => $da['Movimiento']['cliente_id']),
+          'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.cliente_id' => $da['Movimiento']['cliente_id'],'Movimiento.salida !=' => 'null'),
           'group' => array('Movimiento.producto_id','Movimiento.precio_uni'),
           'fields' => array('Producto.nombre','SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total')
         ));
@@ -670,6 +671,44 @@ class TiendasController extends AppController {
       //debug($datos);exit;
     }
     $this->set(compact('datos'));
+  }
+  
+  public function chips($idCliente = null) {
+    $cliente = $this->Cliente->find('first', array('recursive' => -1, 'fields' => array('Cliente.nombre'), 'conditions' => array('Cliente.id' => $idCliente)));
+
+    if ($this->RequestHandler->responseType() == 'json') {
+      $this->paginate = array(
+        'fields' => array('Chip.id', 'Chip.cantidad', 'Chip.cantidad', 'Chip.sim', 'Chip.imsi', 'Chip.telefono', 'Chip.fecha'),
+        'recursive' => 0,
+        'order' => 'Chip.created'
+        , 'conditions' => array('Chip.distribuidor_id' => $this->Session->read('Auth.User.id'),'Chip.cliente_id' => NULL)
+      );
+      $this->DataTable->fields = array('Chip.id', 'Chip.cantidad', 'Chip.cantidad', 'Chip.sim', 'Chip.imsi', 'Chip.telefono', 'Chip.fecha');
+      $this->DataTable->emptyEleget_usuarios_adminments = 1;
+      $this->set('chips', $this->DataTable->getResponse('Tiendas', 'Chip'));
+      $this->set('_serialize', 'chips');
+    }
+    $this->set(compact('cliente', 'idCliente'));
+  }
+  
+  public function registra_asignado() {
+    $datos = $this->request->data['Dato'];
+    if (!empty($datos['rango_ini']) && !empty($datos['cantidad'])) {
+      $chips = $this->Chip->find('all', array(
+        'recursive' => -1,
+        'order' => 'Chip.id', 'limit' => $datos['cantidad'], 'fields' => array('Chip.id'),
+        'conditions' => array('Chip.id >=' => $datos['rango_ini'], 'Chip.distribuidor_id' => $this->Session->read('Auth.User.id'))
+      ));
+      foreach ($chips as $ch) {
+        $this->Chip->id = $ch['Chip']['id'];
+        $dato['Chip']['cliente_id'] = $datos['cliente_id'];
+        $this->Chip->save($dato['Chip']);
+      }
+      $this->Session->setFlash('Se asigno correctamente', 'msgbueno');
+    } else {
+      $this->Session->setFlash('No se pudo registrar','msgerror');
+    }
+    $this->redirect(array('action' => 'chips',$datos['cliente_id']));
   }
 
 }

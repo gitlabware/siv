@@ -5,8 +5,9 @@
         <group>
             <file>file:/var/www/html/siv/app/View/Ventasdistribuidor/clientes.ctp</file>
             <file>file:/var/www/html/siv/app/View/Tiendas/reporte_cliente.ctp</file>
-            <file>file:/var/www/html/siv/app/Model/Cliente.php</file>
             <file>file:/var/www/html/siv/app/View/Tiendas/reporte_detallado_precio.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Tiendas/clientes.ctp</file>
+            <file>file:/var/www/html/siv/app/Model/Movimiento.php</file>
             <file>file:/var/www/html/siv/app/View/Elements/sidebar/tienda.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/TiendasController.php</file>
         </group>
