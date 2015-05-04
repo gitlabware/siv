@@ -9,7 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
-  public $uses = array('User', 'Migralmacen', 'Group', 'Persona', 'Sucursal','Lugare');
+  public $uses = array('User', 'Migralmacen', 'Group', 'Persona', 'Sucursal','Lugare','Ruta');
   public $layout = 'viva';
   var $components = array('Acl', 'Auth');
 
@@ -132,8 +132,8 @@ class UsersController extends AppController {
     $groups = $this->Group->find('all', array('recursive' => -1));
     $groups2 = $this->Group->find('list', array('fields' => array('Group.name')));
     $lugares = $this->Lugare->find('all', array('recursive'=>-1));
+    //debug($rutas); exit;
     $this->set(compact('groups', 'tiendas', 'groups2','lugares'));
-    
   }
 
   public function insertar() {

@@ -52,6 +52,13 @@ class User extends AppModel {
                          'conditions' => '',
                          'fields' => '',
                          'order' => ''
+                ),
+                'Ruta' => array(
+                         'className' => 'Ruta',
+                         'foreignKey' => 'ruta_id',
+                         'conditions' =>'',
+                         'fields' => '',
+                         'order' =>''
                 )
 	);
 }

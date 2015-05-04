@@ -4,7 +4,7 @@ App::uses('AppController', 'Controller');
 
 class ClientesController extends AppController {
 
-    public $uses = array('Cliente', 'Recarga', 'Lugare');
+    public $uses = array('Cliente', 'Recarga', 'Lugare','Ruta');
     var $components = array('RequestHandler', 'DataTable');
     public $layout = 'viva';
 
@@ -84,7 +84,8 @@ class ClientesController extends AppController {
             }
         }
         $lugares = $this->Lugare->find('all', array('recursive' => -1));
-        $this->set(compact('lugares'));
+        $rutas = $this->Ruta->find('list', array('fields' => 'Ruta.nombre'));
+        $this->set(compact('lugares','rutas'));
         //$groups = $this->User->Group->find('all', array ('recursive'=>-1));
         //$this->set(compact('groups'));
     }

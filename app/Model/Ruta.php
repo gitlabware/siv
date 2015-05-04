@@ -28,7 +28,20 @@ class Ruta extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+                'User' => array(
+                        'className' => 'User',
+                        'foreignKey' => 'ruta_id',
+                        'dependent' => false,
+                        'conditions' => '',
+                        'fields' => '',
+                        'order' => '',
+                        'limit' => '',
+                        'offset' => '',
+                        'exclusive' => '',
+                        'finderQuery' => '',
+                        'counterQuery' => ''
+                )
 	);
 
 }
