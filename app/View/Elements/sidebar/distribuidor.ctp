@@ -35,13 +35,12 @@
                 <li class="with-right-arrow">
                     <span>Reportes</span>
                     <ul class="big-menu">
-                    <?php 
-                    $idusuario = $this->Session->read("Auth.User.id");
-                    $fecha = date('Y-m-d');
-                    ?>
-                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Reportes', 'action'=>'saldoshorizontal', $idusuario, $fecha)); ?>">Reporte General</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Ventasdistribuidor', 'action'=>'reporte1492')); ?>">Reporte 149</a></li>                                                                        
-                        <li><a href="<?php echo $this->Html->url(array('controller'=>'Ventasdistribuidor', 'action'=>'reporte1492fecha')); ?>">Reporte por Fecha</a></li>
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Ventasdistribuidor','action' => 'reporte_detallado_precio'));?>">Reporte x precios</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Ventasdistribuidor','action' => 'reporte_cliente'));?>">Reporte x Clientes</a>
+                        </li>
                     </ul>
                 </li>
                 

@@ -18,7 +18,7 @@
                 <div id="imprimir">
                     <?php $id = $precios['0']['Producto']['id']; ?>
                     <?php echo $this->Form->create(null, array('url' => array('controller' =>
-        'ventasdistribuidor', 'action' => 'formulario'), 'id' => 'formID')); ?>
+        'Ventasdistribuidor', 'action' => 'registra_venta_mayor'), 'id' => 'formID')); ?>
                     <table class="simple-table responsive-table">
                         <tr>
                             <th class="txt">149:</th>
@@ -59,38 +59,33 @@
 $r['Producto']['id']): ?>
                                                 <tr>
                                                      <?php echo $this->Form->
-                hidden("Ventasdistribuidore.$n.user_id", array('value' => $usu)); ?>
+                hidden("Movimiento.$n.user_id", array('value' => $usu)); ?>
                                                     <?php echo $this->Form->
-                hidden("Ventasdistribuidore.$n.producto_id", array('value' => $p['Productosprecio']['producto_id'])); ?>
-                                                    <?php echo $this->Form->
-                hidden("Ventasdistribuidore.$n.persona_id", array('value' => $usuario)); ?>
-                                                    <?php echo $this->Form->
-                hidden("Ventasdistribuidore.$n.cliente_id", array('value' => $datoscli['Cliente']['id'])); ?>
+                hidden("Movimiento.$n.producto_id", array('value' => $p['Productosprecio']['producto_id'])); ?>
+                                                    <?php echo $this->Form->hidden("Movimiento.$n.cliente_id", array('value' => $datoscli['Cliente']['id'])); ?>
+                                                    <?php echo $this->Form->hidden("Movimiento.$n.persona_id", array('value' => $this->Session->read('Auth.User.persona_id'))); ?>
+                                                    <?php echo $this->Form->hidden("Movimiento.$n.nombre_prod",array('value' => $r['Producto']['nombre']))?>
+                                                    <?php echo $this->Form->hidden("Movimiento.$n.escala",array('value' => 'MAYOR'))?>
                                                     <td>
                                                         <?php echo $this->Form->
-                hidden("Ventasdistribuidore.$n.precio", array('value' => $p['Productosprecio']['precio'],
+                hidden("Movimiento.$n.precio_uni", array('value' => $p['Productosprecio']['precio'],
                         "id" => "price_item_$n")); ?>
                                                         <?php $precio = $p['Productosprecio']['precio']; ?>
                                                         <?php echo "$" . $precio; ?>
                                                     </td>
                                                     <td><?php echo $this->Form->
-                text("Ventasdistribuidore.$n.cantidad", array(
-                    'value' => '0',
+                text("Movimiento.$n.salida", array(
+                    //'value' => '0',
                     "id" => "qty_item_$n",
-                    'class' => 'input validate[required,custom[integer], min[0]]',
+                    'class' => 'input validate[custom[integer], min[0]]',
                     'size' => '6')); ?></td>
                                                     <td align="center" id="total2_item_<?php echo
                 $n; ?>">
                                                         0
                                                     </td>
                                                 </tr>
-                                                <?php echo $this->Form->hidden("Ventasdistribuidore.$n.escala",
-                array('value' => $p['Productosprecio']['escala'])); ?>
-                                                <?php echo $this->Form->hidden("Ventasdistribuidore.$n.total",
+                                                <?php echo $this->Form->hidden("Movimiento.$n.total_p",
                 array('id' => "total_item_$n")); ?>
-                                                <?php $fecha = date('Y-m-d'); ?>
-                                                <?php echo $this->Form->hidden("Ventasdistribuidore.$n.fecha",
-                array('value' => $fecha)); ?>
                                             
                                             <script>
                                                 function redondeo2decimales(numero)
@@ -189,8 +184,8 @@ $r['Producto']['id']): ?>
                             <?php for ($n = 1; $n <= 3; $n++): ?>
                             <?php echo $this->Form->hidden("Recarga.$n.user_id",
             array('value' => $usu)); ?>
-                            <?php echo $this->Form->hidden("Recarga.$n.persona_id",
-            array('value' => $usuario)); ?> 
+                            <?php echo $this->Form->hidden("Recarga.$n.sucursal_id",
+            array('value' => $sucursal)); ?> 
                             <?php echo $this->Form->hidden("Recarga.$n.cliente_id",
             array('value' => $datoscli['Cliente']['id'])); ?> 
             <?php echo $this->Form->hidden("Recarga.$n.estado", array('value' =>
@@ -224,7 +219,8 @@ $r['Producto']['id']): ?>
                                                 </td>
                                                 <?php echo $this->Form->hidden("Recarga.$n.total",
             array('id' => "monto_$n")); ?>
-                                                <td id="subtotalrecarga_<?php echo $n ?>">
+                                                <td id="subtotalrecarga_<?php echo
+            $n ?>">
                                                     0
                                                 </td>
                                                 <td>

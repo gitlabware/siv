@@ -575,7 +575,8 @@ class TiendasController extends AppController {
       $this->paginate = array(
         'fields' => array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones'),
         'recursive' => -1,
-        'order' => 'Cliente.id DESC'
+        'order' => 'Cliente.id DESC',
+        'conditions' => array('Cliente.ruta_id' => $this->Session->read('Auth.User.ruta_id'))
       );
       $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
       //$this->DataTable->emptyEleget_usuarios_adminments = 1;
