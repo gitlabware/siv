@@ -16,10 +16,10 @@
                     <?php echo $this->Form->text('nombre', array('class' => 'input full-width', 'placeholder' => 'Ingrese el nombre de la categoria', 'value' => "", 'required')); ?>
                 </p>
             </div>
-            <div class=" new-row six-columns">                
+            <div class="six-columns">                
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Color Categoria<small>(requerido)</small></label>
-                    <select id="validation-select" name="data[Tiposproducto][desc]" class="select validate[required]">
+                    <select id="validation-select" name="data[Tiposproducto][desc]" class="select validate[required] full-width">
                         <option value="black">Negro</option>
                         <option value="anthracite">Plomo</option>
                         <option value="grey">Gris</option>

@@ -27,13 +27,18 @@ class ClientesController extends AppController {
             $this->Cliente->virtualFields = array(
                 'acciones' => "CONCAT('$acciones')"
             );
+            $condiciones = array();
+            if($this->Session->read('Auth.User.Group.name') == 'Distribuidores'){
+                $condiciones['Cliente.ruta_id'] = $this->Session->read('Auth.User.ruta_id');
+            }
             $this->paginate = array(
                 'fields' => array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones'),
                 'recursive' => -1,
-                'order' => 'Cliente.id DESC'
+                'order' => 'Cliente.id DESC',
+                'conditions' => $condiciones
             );
             $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
-            $this->DataTable->emptyEleget_usuarios_adminments = 1;
+            
             $this->set('clientes', $this->DataTable->getResponse());
             $this->set('_serialize', 'clientes');
         }
@@ -50,6 +55,7 @@ class ClientesController extends AppController {
             throw new NotFoundException(__('Invalid cliente'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
+            //debug($this->request->data); exit;
             if ($this->Cliente->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
                 $this->redirect(array('action' => 'index'));
@@ -60,7 +66,8 @@ class ClientesController extends AppController {
             $this->request->data = $this->Cliente->read(null, $id);
         }
         $lugares = $this->Lugare->find('all', array('recursive' => -1));
-        $this->set(compact('lugares'));
+        $rutas = $this->Ruta->find('list', array('fields'=>'Ruta.nombre'));
+        $this->set(compact('lugares','rutas'));
         // $groups = $this->User->Group->find('all');
         //$this->set(compact('groups'));
     }

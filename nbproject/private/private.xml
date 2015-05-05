@@ -5,7 +5,6 @@
         <group>
             <file>file:/var/www/html/siv/app/View/Almacenes/deposito.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/UsersController.php</file>
-            <file>file:/var/www/html/siv/app/View/Clientes/insertar.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/ClientesController.php</file>
             <file>file:/var/www/html/siv/app/Controller/AlmacenesController.php</file>
             <file>file:/var/www/html/siv/app/View/Almacenes/add.ctp</file>

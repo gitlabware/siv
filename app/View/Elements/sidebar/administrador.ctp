@@ -48,8 +48,8 @@
                  <li class="with-right-arrow">
                     <span>Rutas</span>
                     <ul class="big-menu">
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Rutas', 'action' => 'index')); ?>">Listado de Lugares</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Rutas', 'action' => 'add')); ?>">Nuevo lugar</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Rutas', 'action' => 'index')); ?>">Listado de Rutas</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Rutas', 'action' => 'add')); ?>">Nueva Ruta</a></li>
                     </ul>
                 </li>
                 
