@@ -70,6 +70,7 @@ $r['Producto']['id']): ?>
                                                     <?php echo $this->Form->hidden("Movimiento.$n.cliente_id", array('value' => $datoscli['Cliente']['id'])); ?>
                                                     <?php echo $this->Form->hidden("Movimiento.$n.sucursal_id", array('value' => $this->Session->read('Auth.User.sucursal_id'))); ?>
                                                     <?php echo $this->Form->hidden("Movimiento.$n.nombre_prod",array('value' => $r['Producto']['nombre']))?>
+                                                    <?php echo $this->Form->hidden("Movimiento.$n.escala",array('value' => 'MAYOR'))?>
                                                     <td>
                                                         <?php echo $this->Form->
                 hidden("Movimiento.$n.precio_uni", array('value' => $p['Productosprecio']['precio'],
