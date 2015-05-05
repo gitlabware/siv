@@ -18,7 +18,14 @@
                 </p>
             </div>
             
-            <div class="new-row six-columns">
+            <div class="six-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label">Tienda<small>(Requerido)</small></label>
+                    <?php echo $this->Form->select('sucursal_id', $sucursals, array('class' => 'select full-width','required')); ?>
+                </p>
+            </div>
+            
+            <div class="twelve-columns">
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Descripcion<small>(requerido)</small></label>
@@ -26,12 +33,7 @@
                 </p>
             </div>
             
-            <div class="new-row six-columns">
-                <p class="block-label button-height">
-                    <label for="validation-select" class="label">Tienda<small>(Requerido)</small></label>
-                    <?php echo $this->Form->select('sucursal_id', $sucursals, array('class' => 'select', 'required')); ?>
-                </p>
-            </div>
+            
 
             <div class="new-row six-columns">
 

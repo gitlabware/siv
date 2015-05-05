@@ -83,7 +83,11 @@
 var urlentrega = '<?php echo $this->Html->url(array('controller' => 'Almacenes','action' => 'ajaxrepartir', $idPersona, $almacen));?>';
 </script>
 <?php echo $this->Html->script(array('ini_entrega'),array('block' => 'js_add'))?>
+<?php if($this->Session->read('Auth.User.Group.name')=='Almaceneros'):?>
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu -->
+<?php elseif($this->Session->read('Auth.User.Group.name')=='Administradores'):?>
+<?php echo $this->element('sidebar/administrador'); ?>
+<?php endif;?>
 <?php echo $this->element('jsvalidador'); ?>

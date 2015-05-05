@@ -17,19 +17,19 @@
                     <?php echo $this->Form->text('nombre', array('class' => 'input full-width')); ?>
                 </p>
             </div>
-            
-            <div class="new-row six-columns">
+
+            <div class="six-columns">
+                <p class="block-label button-height">
+                    <label for="validation-select" class="label">Tienda<small>(Requerido)</small></label>
+                    <?php echo $this->Form->select('sucursal_id', $sucursals, array('class' => 'select full-width', 'required')); ?>
+                </p>
+            </div>
+
+            <div class="new-row twelve-columns">
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Descripcion<small>(requerido)</small></label>
                     <?php echo $this->Form->textarea('descripcion', array('class' => 'input full-width')); ?>
-                </p>
-            </div>
-            
-            <div class="new-row six-columns">
-                <p class="block-label button-height">
-                    <label for="validation-select" class="label">Tienda<small>(Requerido)</small></label>
-                    <?php echo $this->Form->select('sucursal_id', $sucursals, array('class' => 'select', 'required')); ?>
                 </p>
             </div>
 
@@ -52,8 +52,14 @@
 </section>
 
 <script>
-$(document).ready(function(){$("#formID").validationEngine();});
+    $(document).ready(function () {
+        $("#formID").validationEngine();
+    });
 </script>
+<?php if($this->Session->read('Auth.User.Group.name')=='Almaceneros'):?>
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/almacenero'); ?>
 <!-- End sidebar/drop-down menu --> 
+<?php elseif($this->Session->read('Auth.User.Group.name')=='Administradores'):?>
+<?php echo $this->element('sidebar/administrador'); ?>
+<?php endif; ?>

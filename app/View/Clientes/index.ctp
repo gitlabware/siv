@@ -40,10 +40,13 @@
     }
   }
 </script>
-
+<?php if($this->Session->read('Auth.User.Group.name')=='Administradores'):?>
 <!-- Sidebar/drop-down menu -->
 <?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
+<?php elseif($this->Session->read('Auth.User.Group.name')=='Distribuidores'):?>
+<?php echo $this->element('sidebar/distribuidor'); ?>
+<?php endif;?>
 <?php //echo $this->Html->link($this->Html->image("iconos/editar.png", array("alt" => 'Editar', 'title' => 'editar')), array('action' => 'edit', $p['Cliente']['id']), array('escape' => false));?>
 <?php //echo $this->Html->link($this->Html->image("iconos/eliminar.png", array("alt" => 'eliminar', 'title' => 'eliminar')), array('action' => 'delete', $p['Cliente']['id']), array('escape' => false), ("Desea eliminar realmente??"));
 ?>

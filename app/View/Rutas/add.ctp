@@ -16,13 +16,13 @@
                     <?php echo $this->Form->text('nombre', array('class' => 'input full-width', 'placeholder' => 'Ingrese el nombre de la ruta', 'value' => "")); ?>
                 </p>
             </div>
-            <div class="new-row six-columns">
+            <div class="six-columns">
                 <p class="block-label button-height">
                     <label for="block-label-2" class="label">Codigo de Ruta<small>(Requerido)</small></label>
                     <?php echo $this->Form->text('cod_ruta', array('class'=>'input full-width', 'placeholder'=>'Ingresar codigo de ruta'));?>
                 </p>
             </div>
-            <div class=" new-row six-columns">                
+            <div class=" new-row twelve-columns">                
                 <p class="block-label button-height">
                     <label for="block-label-2" class="label">Descripcion<small>(requerido)</small></label>
                     <?php echo $this->Form->textarea('descripcion', array('class' => 'input full-width autoexpanding','style'=>'overflow: hidden; resize: none; height: 50px;' ,'placeholder' => 'Descripcion')); ?>

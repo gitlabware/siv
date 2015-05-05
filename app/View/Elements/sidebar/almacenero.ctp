@@ -30,9 +30,8 @@
                     <span>Almacenes</span>
                     <ul class="big-menu">
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'add')); ?>">Insertar Almacen</a></li>
-
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'index')); ?>">Listado de Almacenes</a></li>                                                                        
-
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listaalmacenes'));?>">Repartir Almacenes</a></li>
                     </ul>
                 </li>
                 

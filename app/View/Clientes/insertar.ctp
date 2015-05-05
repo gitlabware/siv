@@ -32,13 +32,6 @@
                 </p>  
             </div>
 
-            <div class="new three-columns">                
-                <p class="block-label button-height">
-                    <label for="block-label-2" class="label">Numero de Registro<small>(requerido)</small></label>
-                    <?php echo $this->Form->text('num_registro', array('class' => 'input full-width')); ?>
-                </p>  
-            </div>
-
             <div class="three-columns">
 
                 <p class="block-label button-height">
@@ -52,6 +45,12 @@
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Zona<small>(requerido)</small></label>
                     <?php echo $this->Form->text('zona', array('class' => 'input full-width')); ?>                       
+                </p>
+            </div>
+            <div class="three-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Mercado<small>(requerido)</small></label>
+                    <?php echo $this->Form->text('mercado', array('class' => 'input full-width')); ?>
                 </p>
             </div>
             <div class="three-columns">
@@ -70,12 +69,7 @@
                 </p>
             </div>
 
-            <div class="three-columns">
-                <p class="block-label button-height">
-                    <label for="block-label-1" class="label">Mercado<small>(requerido)</small></label>
-                    <?php echo $this->Form->text('mercado', array('class' => 'input full-width')); ?>
-                </p>
-            </div>
+            
 
             <div class="three-columns">
                 <p class="block-label button-height">
