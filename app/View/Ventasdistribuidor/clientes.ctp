@@ -11,8 +11,7 @@
         <table class="table responsive-table" id="tabla-json">
 
             <thead>
-                <tr>                      
-
+                <tr>
                     <th style="width: 10%;">numero de registro</th>
                     <th >nombre</th>
                     <th style="width: 30%;">direccion</th>  
@@ -32,6 +31,9 @@
   urljsontabla = '<?php echo $this->Html->url(array('action' => 'clientes.json')); ?>';
   function asignar(idcliente) {
       location = '<?php echo $this->Html->url(array('action' => 'chips')); ?>/' + idcliente;
+  }
+  function venta(idcliente) {
+      location = '<?php echo $this->Html->url(array('action' => 'formulario')); ?>/' + idcliente;
   }
 </script>
 <!-- Sidebar/drop-down menu -->

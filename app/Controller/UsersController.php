@@ -38,7 +38,7 @@ class UsersController extends AppController {
         switch ($rol) {
           case '1':$this->redirect(array('controller' => 'Users', 'action' => 'index'));
             break;
-          case '2':$this->redirect(array('controller' => 'Ventasdistribuidor', 'action' => 'pidecodigo'));
+          case '2':$this->redirect(array('controller' => 'Ventasdistribuidor', 'action' => 'clientes'));
             break;
           case '3': $this->redirect(array('controller' => 'Almacenes', 'action' => 'listadistribuidores'));
             break;
