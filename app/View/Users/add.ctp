@@ -68,9 +68,9 @@
                     <label for="validation-select" class="label">Lugar<small>(Requerido)</small></label>
                     <select id="validation-select" name="data[User][lugare_id]" class="select" style="width: 147px">
                         <?php foreach ($lugares as $lug): ?>
-                        <option value="<?php echo $lug['Lugare']['id']?>">
-                            <?php echo $lug['Lugare']['nombre']?>
-                        </option>
+                            <option value="<?php echo $lug['Lugare']['id'] ?>">
+                                <?php echo $lug['Lugare']['nombre'] ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </p>
@@ -114,8 +114,14 @@
                     </select>
                 </p>
             </div>
-
-            <div class="six-columns">
+            <div class=" new-row two-columns">
+                <p class="block-label button-height" id="mostrarruta" style="display: none">
+                    <label for="validation-select" class="label"><b>Ruta:</b></label>
+                   <?php echo $this->Form->select('ruta_id', $rutas, array('class' => 'select', 'required')); ?>
+                </p>
+            </div>
+            
+            <div class="new-row six-columns">
 
                 <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
                     <span class="button-icon"><span class="icon-tick"></span></span>
@@ -142,6 +148,17 @@
                 $('#mostrartienda').show();
             } else {
                 $('#mostrartienda').hide();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#validation-select1").change(function () {
+            if (this.value == 2) {
+                $('#mostrarruta').show();
+            } else {
+                $('#mostrarruta').hide();
             }
         });
     });

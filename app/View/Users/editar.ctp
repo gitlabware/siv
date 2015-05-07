@@ -71,15 +71,15 @@
                     <label for="validate-selec" class="label">Lugar<small>(Requerido)</small></label>
                     <select id="validation-select" name="data[User][lugare_id]" class="select validate[required]" class="input full-width">
                         <?php foreach ($lugares as $lug): ?>
-                        <?php if($lug['Lugare']['id']==$lugar):?>
-                        <option value="<?php $lug['Lugare']['id']?>" selected="selected">
-                            <?php echo $lug['Lugare']['nombre']?>
-                        </option>
-                        <?php else:?>
-                        <option value="<?php echo $lug['Lugare']['id']?>">
-                            <?php echo $lug['Lugare']['nombre']?>
-                        </option>
-                        <?php endif;?>
+                            <?php if ($lug['Lugare']['id'] == $lugar): ?>
+                                <option value="<?php $lug['Lugare']['id'] ?>" selected="selected">
+                                    <?php echo $lug['Lugare']['nombre'] ?>
+                                </option>
+                            <?php else: ?>
+                                <option value="<?php echo $lug['Lugare']['id'] ?>">
+                                    <?php echo $lug['Lugare']['nombre'] ?>
+                                </option>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
                 </p>
@@ -136,8 +136,13 @@
                     </select>
                 </p>
             </div>
-
-            <div class="six-columns">
+            <div class=" new-row two-columns">
+                <p class="block-label button-height" id="mostrarruta" style="display: none">
+                    <label for="validation-select" class="label"><b>Ruta:</b></label>
+                    <?php echo $this->Form->select('ruta_id', $rutas, array('class' => 'select', 'required','value'=>$idPersona['User']['ruta_id'])); ?>
+                </p>
+            </div>
+            <div class="new-row six-columns">
 
                 <button type="submit" class="button glossy mid-margin-right" onClick="javascript:verificar()">
                     <span class="button-icon"><span class="icon-tick"></span></span>
@@ -164,6 +169,17 @@
                 $('#mostrartienda').show();
             } else {
                 $('#mostrartienda').hide();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#validation-select1").change(function () {
+            if (this.value == 2) {
+                $('#mostrarruta').show();
+            } else {
+                $('#mostrarruta').hide();
             }
         });
     });
