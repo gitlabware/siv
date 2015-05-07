@@ -580,8 +580,10 @@ class ChipsController extends AppController {
       $chips = $this->Chip->find('all', array(
         'recursive' => -1,
         'order' => 'Chip.id', 'limit' => $cantidad, 'fields' => array('Chip.id'),
-        'conditions' => array('Chip.id >=' => $rango_ini)
+        'conditions' => array('Chip.id >=' => $rango_ini,'Chip.distribuidor_id' => NULL)
       ));
+      /*debug($chips);
+      exit;*/
       foreach ($chips as $ch) {
         $this->Chip->id = $ch['Chip']['id'];
         $dato['Chip']['fecha_entrega_d'] = date('Y-m-d');

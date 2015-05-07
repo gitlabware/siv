@@ -119,8 +119,9 @@
         <script src="<?php echo $this->webroot; ?>js/developr.scroll.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.tooltip.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.table.js"></script>
-
+        
         <?php echo $this->element('jsvalidador') ?>
+        <?php echo $this->fetch('js_add'); ?>
         <!-- Plugins -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery.tablesorter.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.min.js"></script>
