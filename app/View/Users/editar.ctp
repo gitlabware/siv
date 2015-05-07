@@ -137,7 +137,7 @@
                 </p>
             </div>
             <div class=" new-row two-columns">
-                <p class="block-label button-height" id="mostrarruta" style="display: none">
+                <p class="block-label button-height" id="mostrarruta" style="<?php if($grupo != 2){echo 'display: none';}?>">
                     <label for="validation-select" class="label"><b>Ruta:</b></label>
                     <?php echo $this->Form->select('ruta_id', $rutas, array('class' => 'select', 'required','value'=>$idPersona['User']['ruta_id'])); ?>
                 </p>
