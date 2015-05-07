@@ -73,7 +73,7 @@
 <div id="main" class="contenedor">
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
     <hgroup id="main-title" class="thin">
-        <h1>REPORTE DE TIENDA <?php echo strtoupper($this->Session->read('Auth.User.Sucursal.nombre')); ?></h1>
+        <h1>REPORTE DE <?php echo strtoupper($this->Session->read('Auth.User.Persona.nombre').' '.$this->Session->read('Auth.User.Persona.ap_paterno')); ?></h1>
     </hgroup>
     <div class="with-padding">
         <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Ventasdistribuidor', 'action' => 'reporte_detallado_precio'))); ?>
@@ -139,7 +139,7 @@
                   </td>
                   <td><?php echo $venta_total?></td>
                   <td><?php echo $venta_prec_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $dato[0]['vendidos']?></td>
+                  <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $venta_total?></td>
                   <td><?php echo $da['Movimiento']['total_s']?></td>
               </tr>
             <?php endforeach; ?>
