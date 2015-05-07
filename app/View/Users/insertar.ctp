@@ -89,7 +89,7 @@
                     <div id="mostrartienda" style="display: none">
                         <div class="field-block button-height">
                             <label for="validation-select" class="label"><b>Tienda en la que trabaja:</b></label>
-                            <select id="validation-select1" name="data[User][sucursal_id]" class="select"  style="width: 200px"  >
+                            <select id="validation-select12" name="data[User][sucursal_id]" class="select"  style="width: 200px"  >
                                 <option value="" >
                                     Seleccione la tienda
                                 </option>
@@ -102,6 +102,14 @@
                             
                         </div>
                     </div>
+                    
+                    <div id="mostrarruta" style="display: none">
+                        <div class="field-block button-height">
+                            <label for="validation-select" class="label"><b>Ruta:</b></label>
+                            <?php echo $this->Form->select('ruta_id', $rutas, array('class' => 'select', 'required')); ?>
+                        </div>
+                    </div>
+                    
                     </fieldset>
                     <div class="field-block button-height">
                         
@@ -135,6 +143,23 @@ $(document).ready(function(){
             $('#mostrartienda').show();
            }else{
             $('#mostrartienda').hide();
+           }
+           alert(this.value);
+           if(this.value == 2){
+               
+            $('#mostrarruta').show();
+           }
+       });
+   });
+</script>
+<script>
+$(document).ready(function(){
+       $("#validation-select1").change(function(){
+           if(this.value == 2){
+               
+            $('#mostrarruta').show();
+           }else{
+            $('#mostrarruta').hide();
            }
        });
    });

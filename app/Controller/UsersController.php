@@ -132,8 +132,9 @@ class UsersController extends AppController {
     $groups = $this->Group->find('all', array('recursive' => -1));
     $groups2 = $this->Group->find('list', array('fields' => array('Group.name')));
     $lugares = $this->Lugare->find('all', array('recursive'=>-1));
+    $rutas = $this->Ruta->find('list', array('fields' => 'Ruta.nombre'));
     //debug($rutas); exit;
-    $this->set(compact('groups', 'tiendas', 'groups2','lugares'));
+    $this->set(compact('groups', 'tiendas', 'groups2','lugares', 'rutas'));
   }
 
   public function insertar() {
@@ -171,7 +172,8 @@ class UsersController extends AppController {
     $tiendas = $this->Sucursal->find('all', array('recursive' => -1));
     $groups = $this->Group->find('all', array('recursive' => -1));
     $groups2 = $this->Group->find('list', array('fields' => array('Group.name')));
-    $this->set(compact('groups', 'tiendas', 'groups2'));
+    
+    $this->set(compact('groups', 'tiendas', 'groups2', 'rutas'));
   }
 
   public function salir() {
@@ -271,7 +273,8 @@ class UsersController extends AppController {
     $groups = $this->User->Group->find('all', array('recursive' => -1));
     $tiendas = $this->Sucursal->find('all', array('recursive' => -1));
     $lugares =  $this->Lugare->find('all', array('recursive'=> -1));
-    $this->set(compact('groups', 'tiendas', 'lugares'));
+    $rutas = $this->Ruta->find('list', array('fields' => 'Ruta.nombre'));
+    $this->set(compact('groups', 'tiendas', 'lugares','rutas','idPersona'));
   }
 
   public function delete($id = null) {
