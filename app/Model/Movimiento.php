@@ -53,6 +53,13 @@ class Movimiento extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Sucursal' => array(
+			'className' => 'Sucursal',
+			'foreignKey' => 'sucursal_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 }

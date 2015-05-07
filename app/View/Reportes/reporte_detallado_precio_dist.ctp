@@ -73,10 +73,10 @@
 <div id="main" class="contenedor">
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
     <hgroup id="main-title" class="thin">
-        <h1>REPORTE DE TIENDA <?php echo strtoupper($this->Session->read('Auth.User.Sucursal.nombre')); ?></h1>
+        <h1>REPORTE DE <?php echo strtoupper($this->Session->read('Auth.User.Persona.nombre').' '.$this->Session->read('Auth.User.Persona.ap_paterno')); ?></h1>
     </hgroup>
     <div class="with-padding">
-        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reporte_detallado_precio'))); ?>
+        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Reportes', 'action' => 'reporte_detallado_precio_dist'))); ?>
 
         <div class="columns ocultar_impresion">
             <div class="three-columns twelve-columns-mobile">
@@ -99,6 +99,12 @@
             </div>
             <div class="three-columns new-row-mobile twelve-columns-mobile">
                 <p class="block-label button-height">
+                    <label class="label">Distribuidor</label>
+                    <?php echo $this->Form->select('Dato.persona_id',$distribuidores,array('class' => 'select full-width'))?>
+                </p>
+            </div>
+            <div class="three-columns new-row-mobile twelve-columns-mobile">
+                <p class="block-label button-height">
                     <label for="block-label-1" class="label">&nbsp;</label>
                     <button class="button green-gradient full-width" type="submit">GENERAR</button>
                 </p>
@@ -108,6 +114,7 @@
         <?php echo $this->Form->end(); ?>
         <table class="CSSTableGenerator" >
             <tr>
+                <td>Distribuidor</td>
                 <td>Producto</td>
                 <td>Entregado</td>
                 <td>Por Precios</td>
@@ -122,6 +129,7 @@
             $venta_prec_total = 0;
             ?>
               <tr>
+                  <td><?php echo $da['Persona']['nombre'].' '.$da['Persona']['ap_paterno']?></td>
                   <td><?php echo $da['Producto']['nombre'] ?></td>
                   <td><?php echo $da[0]['entregado']?></td>
                   <td>
@@ -152,5 +160,5 @@ echo $this->Html->script(array('libs/glDatePicker/glDatePicker.min.js?v=1', 'ini
 ?>
 
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/tienda'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 

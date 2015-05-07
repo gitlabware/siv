@@ -607,7 +607,7 @@ class TiendasController extends AppController {
       );
       $datos = $this->Movimiento->find('all', array(
         'recursive' => 0, 'order' => 'Movimiento.producto_id',
-        'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin),
+        'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin,'Movimiento.salida !=' => NULL),
         'group' => array('Movimiento.producto_id'),
         'fields' => array('Producto.nombre', 'SUM(Movimiento.ingreso) entregado', 'Producto.id', 'Movimiento.ventas', 'Movimiento.ventas_mayor', 'Movimiento.precio_v_t', 'Movimiento.precio_v_mayor', 'Movimiento.total_s')
       ));
@@ -630,7 +630,7 @@ class TiendasController extends AppController {
       );
       $datos = $this->Movimiento->find('all', array(
         'recursive' => 0, 'order' => 'Movimiento.producto_id',
-        'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin),
+        'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin,'Movimiento.salida !=' => NULL),
         'group' => array('Movimiento.producto_id'),
         'fields' => array('Producto.nombre', 'SUM(Movimiento.ingreso) entregado', 'Producto.id', 'Movimiento.total_s')
       ));
@@ -656,7 +656,7 @@ class TiendasController extends AppController {
     if (!empty($this->request->data['Dato'])) {
       $datos = $this->Movimiento->find('all', array(
         'recursive' => 0, 'order' => 'Movimiento.producto_id',
-        'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin),
+        'conditions' => array('Movimiento.sucursal_id' => $sucursal, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin,'Movimiento.cliente_id'),
         'group' => array('Movimiento.cliente_id'),
         'fields' => array('Cliente.nombre','Cliente.num_registro','Movimiento.cliente_id', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)')
       ));
@@ -669,7 +669,7 @@ class TiendasController extends AppController {
         ));
         $datos[$key]['productos'] = $datos_aux;
       }
-      //debug($datos);exit;
+      //($datos);exit;
     }
     $this->set(compact('datos'));
   }
