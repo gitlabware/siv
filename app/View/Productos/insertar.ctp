@@ -6,7 +6,7 @@
         <h1>Nuevo Producto</h1>
     </hgroup>
 
-    <?php echo $this->Form->create('Producto', array('id' => 'formID')); ?>
+    <?php echo $this->Form->create('Producto', array('id' => 'formID', 'enctype' => 'multipart/form-data'),array('type' => 'file')); ?>
     <div class="with-padding"> 
 
         <div class="columns">
@@ -38,9 +38,9 @@
 
                     <select id="validation-select" name="data[Producto][tiposproducto_id]" class="select" style="width: 310px">
                         <?php foreach ($tiposproductos as $tip): ?>
-                            <option value="<?php echo $tip['Tiposproducto']['id'] ?>">
-                                <?php echo $tip['Tiposproducto']['nombre'] ?>
-                            </option>
+                          <option value="<?php echo $tip['Tiposproducto']['id'] ?>">
+                              <?php echo $tip['Tiposproducto']['nombre'] ?>
+                          </option>
                         <?php endforeach; ?>
                     </select>
                 </p>  
@@ -51,10 +51,15 @@
                     <label for="block-label-2" class="label">Observaciones<small>(Requerido)</small></label>
                     <?php echo $this->Form->text('observaciones', array('class' => 'input full-width')); ?>
                 </p>
-
+            </div>
+            <div class="new-row six-columns">
+                <p class="block-label button-height">
+                   <label for="block-label-2" class="label">Imagen</label>
+                   <?php echo $this->Form->text('imagen',array('class' => 'file','type' => 'file'));?>
+                </p>
             </div>
 
-            <div class="six-columns">
+            <div class="new-row six-columns">
 
                 <button type="submit" class="button glossy mid-margin-right">
                     <span class="button-icon"><span class="icon-tick"></span></span>
@@ -67,6 +72,8 @@
                 </button>
 
             </div>
+
+            
         </div>
     </div>
 </section>
@@ -74,10 +81,10 @@
 <?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        $("#formID").validationEngine();
+      $("#formID").validationEngine();
 
 
-    });
+  });
 </script>
