@@ -25,13 +25,15 @@
                     <tr>    
                         <td scope="col" width="25%"><?php echo $distribuidor['Almacene']['nombre']; ?></td>
                         <td><?php echo $distribuidor['Sucursal']['nombre']; ?></td>               
-                        <td scope="col" width="30%"><?php echo $distribuidor['Sucursal']['direccion']; ?></td>                   
+                        <td scope="col" width="25%"><?php echo $distribuidor['Sucursal']['direccion']; ?></td>                   
                         <td><?php echo $distribuidor['Sucursal']['telefono'] ?></td>
-                        <td scope="col" width="20%" class="align-center">
+                        <td scope="col" width="25%" class="align-center">
                           <?php if($distribuidor['Almacene']['central'] == 1): ?>
-                            <a href="<?php echo $this->Html->url(array('action' => 'listaentregas', $distribuidor['Almacene']['id'],1)); ?>" class="button green-gradient compact icon-down-fat">Recargar</a>
+                            <a href="<?php echo $this->Html->url(array('action' => 'listaentregas', $distribuidor['Almacene']['id'],1)); ?>" class="button green-gradient compact icon-down-fat">Recargar</a> 
+                            <a href="<?php echo $this->Html->url(array('action' => 'entrega_celulares', $distribuidor['Almacene']['id'],1)); ?>" class="button green-gradient compact icon-down-fat">Rec. Celulares</a>
                             <?php else: ?>
                             <a href="<?php echo $this->Html->url(array('action' => 'listaentregas', $distribuidor['Almacene']['id'],1)); ?>" class="button orange-gradient compact icon-up-fat">Entregar</a>
+                            <a href="<?php echo $this->Html->url(array('action' => 'entrega_celulares', $distribuidor['Almacene']['id'],1)); ?>" class="button blue-gradient compact icon-up-fat">Ent. celulares</a>
                             <?php endif; ?>
                            <?php 
                            /*if($distribuidor['Almacene']['central'] == 1){

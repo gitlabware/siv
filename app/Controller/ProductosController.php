@@ -4,7 +4,7 @@ class ProductosController extends AppController {
 
   public $layout = 'viva';
   public $name = 'Productos';
-  public $uses = array('Producto', 'Preciosventa', 'Tiposproducto');
+  public $uses = array('Producto', 'Preciosventa', 'Tiposproducto', 'Marca');
   public $helpers = array('Html', 'Form');
   public $components = array('Session', 'RequestHandler', 'DataTable');
 
@@ -28,11 +28,11 @@ class ProductosController extends AppController {
         'acciones' => "CONCAT('$acciones')"
       );
       $this->paginate = array(
-        'fields' => array('Producto.precios', 'Producto.nombre', 'Producto.precio_compra', 'Producto.proveedor', 'Producto.fecha_ingreso', 'Producto.observaciones', 'Producto.acciones'),
+        'fields' => array('Producto.precios', 'Producto.nombre', 'Producto.precio_compra', 'Producto.proveedor', 'Producto.fecha_ingreso', 'Producto.acciones'),
         'recursive' => -1,
         'order' => 'Producto.id DESC'
       );
-      $this->DataTable->fields = array('Producto.precios', 'Producto.nombre', 'Producto.precio_compra', 'Producto.proveedor', 'Producto.fecha_ingreso', 'Producto.observaciones', 'Producto.acciones');
+      $this->DataTable->fields = array('Producto.precios', 'Producto.nombre', 'Producto.precio_compra', 'Producto.proveedor', 'Producto.fecha_ingreso', 'Producto.acciones');
       $this->DataTable->emptyEleget_usuarios_adminments = 1;
       $this->set('productos', $this->DataTable->getResponse());
       $this->set('_serialize', 'productos');
@@ -48,40 +48,42 @@ class ProductosController extends AppController {
       $this->request->data['Producto']['tipo_producto'] = $producto['Tiposproducto']['nombre'];
       $this->request->data['Producto']['fecha_ingreso'] = date('Y-m-d');
       $this->Producto->create();
-      /*debug($this->request->data);
-      die;*/
+      /* debug($this->request->data);
+        die; */
       $url_img = $this->guarda_imagen();
-      if (!empty($url_img)) {
+      if (!empty($url_img) || empty($this->request->data['Producto']['imagen'])) {
         $this->request->data['Producto']['url_imagen'] = $url_img;
         if ($this->Producto->save($this->request->data['Producto'])) {
           $this->Session->setFlash('Producto Registrado', 'msgbueno');
         } else {
-          $this->Session->setFlash('No se pudo registrar!!!','msgerror');
+          $this->Session->setFlash('No se pudo registrar!!!', 'msgerror');
         }
       } else {
-        $this->Session->setFlash('No se pudo registrar, problemas al cargar la imagen','msgerror');
+        $this->Session->setFlash('No se pudo registrar, problemas al cargar la imagen', 'msgerror');
       }
       $this->redirect(array('action' => 'index'), null, true);
       //debug($valida); exit;
     } //debug($this->data);
     //exit;
     $tiposproductos = $this->Producto->Tiposproducto->find('all', array('recursive' => -1));
-    $this->set(compact('tiposproductos'));
+    $marcas = $this->Marca->find('list', array('fields' => 'Marca.nombre'));
+    //debug($marcas);exit;
+    $this->set(compact('tiposproductos', 'marcas'));
   }
 
   public function guarda_imagen() {
     $archivoImagen = $this->request->data['Producto']['imagen'];
     //$nombreOriginal = $this->request->data['Producto']['imagen']['name'];
-    //debug($archivoImagen['error']);exit;
+    //debug($archivoImagen);exit;
     if ($archivoImagen['error'] === UPLOAD_ERR_OK) {
       $nombre = string::uuid();
       if (move_uploaded_file($archivoImagen['tmp_name'], WWW_ROOT . 'img_producto' . DS . $nombre . '.jpg')) {
         return 'img_producto' . DS . $nombre . '.jpg';
       } else {
-        return '';
+        return NULL;
       }
     } else {
-      return '';
+      return NULL;
     }
   }
 
@@ -121,15 +123,26 @@ class ProductosController extends AppController {
     if (empty($this->data)) {
       $this->data = $this->Producto->read(); //find(array('id' => $id));
     } else {
-      if ($this->Producto->save($this->data)) {
-        $this->Session->setFlash('Los datos fueron modificados');
-        $this->redirect(array('action' => 'index'), null, true);
-      } else {
-        $this->Session->setFlash('no se pudo modificar!!');
+      //debug($this->request->data);exit;
+      if (!empty($this->request->data['Producto']['imagen'])) {
+        $url_img = $this->guarda_imagen();
+        if (!empty($url_img)) {
+          $this->request->data['Producto']['url_imagen'] = $url_img;
+        } else {
+          $this->Session->setFlash('No se pudo registrar, problemas al cargar la imagen', 'msgerror');
+          $this->redirect(array('action' => 'index'), null, true);
+        }
       }
+      if ($this->Producto->save($this->request->data['Producto'])) {
+        $this->Session->setFlash('Producto Registrado', 'msgbueno');
+      } else {
+        $this->Session->setFlash('No se pudo registrar!!!', 'msgerror');
+      }
+      $this->redirect(array('action' => 'index'), null, true);
     }
+    $marcas = $this->Marca->find('list', array('fields' => 'Marca.nombre'));
     $tiposproductos = $this->Producto->Tiposproducto->find('all', array('recursive' => -1));
-    $this->set(compact('tiposproductos'));
+    $this->set(compact('tiposproductos', 'marcas'));
   }
 
   function buscar() {

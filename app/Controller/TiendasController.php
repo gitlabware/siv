@@ -142,7 +142,7 @@ class TiendasController extends AppController {
       'conditions' => array('Producto.tiposproducto_id !=' => 0),
       'group' => 'Producto.tiposproducto_id'
       )); */
-    $categorias = $this->Tiposproducto->find('all', array('recursive' => -1));
+    $categorias = $this->Tiposproducto->find('all', array('recursive' => -1,'conditions' => array('Tiposproducto.nombre !=' => 'CELULARES')));
     //debug($categorias); exit;       
     $this->set(compact('productos', 'categorias'));
   }
@@ -710,6 +710,29 @@ class TiendasController extends AppController {
       $this->Session->setFlash('No se pudo registrar','msgerror');
     }
     $this->redirect(array('action' => 'chips',$datos['cliente_id']));
+  }
+  public function lista_celulares() {
+    if ($this->RequestHandler->responseType() == 'json') {
+      //$asignar = '<button class="button blue-gradient compact icon-list" type="button" onclick="asignar(' . "',Cliente.id,'" . ')">Asignar</button>';
+      //$venta = '<button class="button green-gradient compact icon-list" type="button" onclick="venta(' . "',Cliente.id,'" . ')">Venta</button>';
+      //$acciones = "$asignar $venta";
+      
+      
+      $this->Producto->virtualFields = array(
+        'acciones' => "CONCAT('$acciones')",
+        'imagen' => "CONCAT()"
+      );
+      $this->paginate = array(
+        'fields' => array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones'),
+        'recursive' => -1,
+        'order' => 'Cliente.id DESC',
+        'conditions' => array('Cliente.ruta_id' => $this->Session->read('Auth.User.ruta_id'))
+      );
+      $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
+      //$this->DataTable->emptyEleget_usuarios_adminments = 1;
+      $this->set('clientes', $this->DataTable->getResponse('Tiendas', 'Cliente'));
+      $this->set('_serialize', 'clientes');
+    }
   }
 
 }

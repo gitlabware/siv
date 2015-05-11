@@ -6,7 +6,7 @@
         <h1>Nuevo Producto</h1>
     </hgroup>
 
-    <?php echo $this->Form->create('Producto', array('id' => 'formID', 'enctype' => 'multipart/form-data'),array('type' => 'file')); ?>
+    <?php echo $this->Form->create('Producto', array('id' => 'formID', 'enctype' => 'multipart/form-data'), array('type' => 'file')); ?>
     <div class="with-padding"> 
 
         <div class="columns">
@@ -38,7 +38,7 @@
 
                     <select id="validation-select" name="data[Producto][tiposproducto_id]" class="select" style="width: 310px">
                         <?php foreach ($tiposproductos as $tip): ?>
-                          <option value="<?php echo $tip['Tiposproducto']['id'] ?>">
+                          <option value="<?php echo $tip['Tiposproducto']['id'] ?>" data-valor="eynar">
                               <?php echo $tip['Tiposproducto']['nombre'] ?>
                           </option>
                         <?php endforeach; ?>
@@ -46,20 +46,28 @@
                 </p>  
             </div>
 
-            <div class="eight-columns">
+
+            <div class="eight-columns" id="iddivimagen">
                 <p class="block-label button-height">
-                    <label for="block-label-2" class="label">Observaciones<small>(Requerido)</small></label>
-                    <?php echo $this->Form->text('observaciones', array('class' => 'input full-width')); ?>
+                    <label for="block-label-2" class="label">Imagen</label>
+                    <?php echo $this->Form->text('imagen', array('class' => 'file full-width', 'type' => 'file')); ?>
                 </p>
             </div>
-            <div class="new-row six-columns">
+            <div class="four-columns" style="display: none;" id="iddivmarca">
                 <p class="block-label button-height">
-                   <label for="block-label-2" class="label">Imagen</label>
-                   <?php echo $this->Form->text('imagen',array('class' => 'file','type' => 'file'));?>
+                    <label class="label">Marca</label>
+                    <?php echo $this->Form->select('marca_id',$marcas, array('class' => 'select full-width')); ?>
+                </p>
+            </div>
+            <div class="new-row twelve-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-2" class="label">Observaciones<small>(Requerido)</small></label>
+                    <textarea name="data[Producto][observaciones]" id="ckeditor"></textarea>
+                    <?php //echo $this->Form->text('observaciones', array('class' => 'input full-width', 'id' => 'ckeditor')); ?>
                 </p>
             </div>
 
-            <div class="new-row six-columns">
+            <div class="new-row twelve-columns">
 
                 <button type="submit" class="button glossy mid-margin-right">
                     <span class="button-icon"><span class="icon-tick"></span></span>
@@ -73,7 +81,7 @@
 
             </div>
 
-            
+
         </div>
     </div>
 </section>
@@ -81,10 +89,32 @@
 <?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
+  var categoria = [];
+<?php foreach ($tiposproductos as $tip): ?>
+  categoria[<?php echo $tip['Tiposproducto']['id'] ?>] = '<?php echo $tip['Tiposproducto']['nombre'] ?>';
+<?php endforeach; ?>
   $(document).ready(function () {
-
+      $('#validation-select').change(function () {
+        if(categoria[$('#validation-select').val()] == 'CELULARES'){
+          $('#iddivimagen').removeClass('eight-columns');$('#iddivimagen').addClass('four-columns');$('#iddivmarca').show(200);
+        }else{
+          $('#iddivimagen').removeClass('four-columns');$('#iddivimagen').addClass('eight-columns');$('#iddivmarca').hide(200);
+        }
+      });
       $("#formID").validationEngine();
-
-
   });
+</script>
+<!-- CKEditor -->
+<script src="<?php echo $this->webroot; ?>js/libs/ckeditor/ckeditor.js"></script>
+
+<script>
+
+  // Call template init (optional, but faster if called manually)
+  $.template.init();
+
+  // CKEditor
+  CKEDITOR.replace('ckeditor', {
+      height: 300
+  });
+
 </script>
