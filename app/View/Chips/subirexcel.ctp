@@ -15,21 +15,21 @@
             <div class="new-row twelve-columns">                
                 <!--                <h3 class="thin underline">&nbsp;</h3>                                          -->
                 <fieldset class="fieldset fields-list">
-                    <legend class="legend">Formulario Subida Excel Asignaciones</legend>
+                    <legend class="legend orange-gradient">Formulario Subida Excel Asignaciones</legend>
                     <div class="field-block button-height">							
                         <label for="login" class="label"><b>Seleccionar Excel :</b></label>
                         <?php //echo $this->Form->text('Persona.nombre', array('class' => 'span12', 'required')); ?>
                         <!--<input type="text" name="login" id="login" value="" class="input">-->
                         <span class="input file">
                             <span class="file-text"></span>
-                            <span class="button compact">Seleccione</span>
+                            <span class="button compact orange-gradient">Seleccione</span>
                             <input type="file" name="data[Excel][excel]" id="special-input-1" value="" class="file withClearFunctions" multiple="" />
                         </span>
                     </div>                                                                 
 
                     <div class="field-block button-height">
                         <button type="submit" class="button glossy mid-margin-right">
-                            <span class="button-icon"><span class="icon-tick"></span></span>
+                            <span class="button-icon orange-gradient"><span class="icon-save"></span></span>
                             Guardar Excel
                         </button>
                         &nbsp;
@@ -50,8 +50,8 @@
                                 //console.log('hizo click');
                                 $.modal({
                                     title: 'Formato del Archivo',
-                                    content: '<?php echo $this->Html->image('iconos/excelAsignados.png'); ?>',
-                                    center: true
+                                    content: '<?php echo $this->Html->image('iconos/asignados.png'); ?>',
+                                    //center: true
                                 });
                             }
                             ;
@@ -65,21 +65,21 @@
             <div class="new-row twelve-columns">                
                 <!--                <h3 class="thin underline">&nbsp;</h3>                                          -->
                 <fieldset class="fieldset fields-list">
-                    <legend class="legend">Formulario Subida Excel Activaciones</legend>
+                    <legend class="legend green-gradient">Formulario Subida Excel Activaciones</legend>
                     <div class="field-block button-height">							
                         <label for="login" class="label"><b>Seleccionar Excel :</b></label>
 <?php //echo $this->Form->text('Persona.nombre', array('class' => 'span12', 'required'));   ?>
                         <!--<input type="text" name="login" id="login" value="" class="input">-->
                         <span class="input file">
                             <span class="file-text"></span>
-                            <span class="button compact">Seleccione</span>
+                            <span class="button compact green-gradient">Seleccione</span>
                             <input type="file" name="data[Excel][excel]" id="special-input-1" value="" class="file withClearFunctions" multiple="" />
                         </span>
                     </div>                                                                 
 
                     <div class="field-block button-height">
                         <button type="submit" class="button glossy mid-margin-right">
-                            <span class="button-icon"><span class="icon-tick"></span></span>
+                            <span class="button-icon green-gradient"><span class="icon-save"></span></span>
                             Guardar Excel
                         </button>
 
@@ -118,7 +118,7 @@
             ;
         </script>
 
-
+        <p>&nbsp;</p>
         <table class="table responsive-table" id="sorting-advanced">
 
             <thead>

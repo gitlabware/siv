@@ -11,7 +11,7 @@ App::uses('AppController', 'Controller');
 class AlmacenesController extends AppController {
 
   public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare');
-  public $components = array('Fechasconvert', 'RequestHandler', 'DataTable');
+  public $components = array('Session', 'Fechasconvert', 'RequestHandler', 'DataTable');
   public $layout = 'viva';
 
   public function beforeFilter() {
@@ -50,6 +50,7 @@ class AlmacenesController extends AppController {
    * @return void
    */
   public function add() {
+    
     if ($this->request->is('post')) {
       $this->Almacene->create();
       $this->request->data['Almacene']['central'] = 0;
