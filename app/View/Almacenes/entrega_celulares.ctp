@@ -26,7 +26,7 @@
 </section>	
 
 <script>
-  urljsontabla = '<?php echo $this->Html->url(array('action' => 'entrega_celulares.json')); ?>';
+  urljsontabla = '<?php echo $this->Html->url(array('action' => "entrega_celulares/$id_a/$es_almacen.json")); ?>';
   function add(id_celular) {
       cargarmodal('<?php echo $this->Html->url(array('action' => 'ajax_entrega_cel',$id_a));?>/1/'+id_celular,'ENTREGA DE PRODUCTO');
   }

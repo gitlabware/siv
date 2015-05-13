@@ -22,7 +22,7 @@
                 <label for="block-label-1" class="label">Cantidad a entregar<small>(requerido)</small></label> 
                 <?php echo $this->Form->hidden('Ventascelulare.producto_id', array('value' => $idProducto)) ?>
                 <?php echo $this->Form->hidden('Ventascelulare.almacene_id', array('value' => $almacen['Almacene']['id'])) ?>
-                <?php echo $this->Form->hidden('Ventascelulare.sucursal_id', array('value' => $almacen['Sucursal']['id'])) ?>
+                <?php echo $this->Form->hidden('Ventascelulare.sucursal_id', array('value' => $almacen['Almacene']['sucursal_id'])) ?>
                 <?php echo $this->Form->hidden('Ventascelulare.user_id', array('value' => $this->Session->read('Auth.User.id'))) ?>
                 <?php echo $this->Form->text('Ventascelulare.entrada', array('class' => 'input full-width', 'placeholder' => 'Ingrese la cantidad', 'value' => "", 'required')); ?>
             </p>
