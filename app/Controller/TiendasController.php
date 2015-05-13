@@ -712,26 +712,27 @@ class TiendasController extends AppController {
     $this->redirect(array('action' => 'chips',$datos['cliente_id']));
   }
   public function lista_celulares() {
+    $idSucursal = $this->Session->read('Auth.User.sucursal_id');
+    //debug($idSucursal);exit;
     if ($this->RequestHandler->responseType() == 'json') {
-      //$asignar = '<button class="button blue-gradient compact icon-list" type="button" onclick="asignar(' . "',Cliente.id,'" . ')">Asignar</button>';
-      //$venta = '<button class="button green-gradient compact icon-list" type="button" onclick="venta(' . "',Cliente.id,'" . ')">Venta</button>';
-      //$acciones = "$asignar $venta";
-      
-      
-      $this->Producto->virtualFields = array(
-        'acciones' => "CONCAT('$acciones')",
-        'imagen' => "CONCAT()"
+      $add = '<button class="button green-gradient compact icon-plus" type="button" onclick="add(' . "',Producto.id,'" . ',' . "',Producto.nombre,'" . ')">Add Compra</button>';
+      $acciones = "$add";
+      $sql = "SELECT v.total FROM ventascelulares v WHERE v.producto_id = Producto.id AND v.sucursal_id = $idSucursal ORDER BY v.id DESC LIMIT 1";
+      $this->Productosprecio->virtualFields = array(
+        'imagen' => "CONCAT(IF(ISNULL(Producto.url_imagen),'',CONCAT('" . '<img src="../' . "',Producto.url_imagen,'" . '" height="51" width="51">' . "')))",
+        'cantidad' => "$sql",
+        'acciones' => "CONCAT('$acciones')"
       );
+      /*debug($id_a);
+      exit;*/
       $this->paginate = array(
-        'fields' => array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones'),
-        'recursive' => -1,
-        'order' => 'Cliente.id DESC',
-        'conditions' => array('Cliente.ruta_id' => $this->Session->read('Auth.User.ruta_id'))
+        'fields' => array('Producto.imagen', 'Producto.nombre', 'Marca.nombre', 'Producto.cantidad', 'Producto.acciones'),
+        'recursive' => 2,
+        'order' => 'Producto.nombre DESC',
+        'conditions' => array('Tiposproducto.nombre' => 'CELULARES')
       );
-      $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
-      //$this->DataTable->emptyEleget_usuarios_adminments = 1;
-      $this->set('clientes', $this->DataTable->getResponse('Tiendas', 'Cliente'));
-      $this->set('_serialize', 'clientes');
+      $this->set('productosprecio', $this->DataTable->getResponse('Tiendas', 'Productosprecio'));
+      $this->set('_serialize', 'productosprecio');
     }
   }
 
