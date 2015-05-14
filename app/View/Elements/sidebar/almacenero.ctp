@@ -31,10 +31,21 @@
                     <ul class="big-menu">
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'add')); ?>">Insertar Almacen</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'index')); ?>">Listado de Almacenes</a></li>                                                                        
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listaalmacenes'));?>">Repartir Almacenes</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listaalmacenes')); ?>">Repartir Almacenes</a></li>
                     </ul>
                 </li>
-                
+                <li class="with-right-arrow">
+                    <span>Recargas</span>
+                    <ul class="big-menu">
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Recargas', 'action' => 'nuevo')); ?>">Registrar recarga</a></li>
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Recargas', 'action' => 'estadorecargas2')); ?>">Reporte Recargas</a>
+
+                        </li>                        
+                    </ul>
+                </li>
+
                 <li class="with-right-arrow">
                     <span>Reportes</span>
                     <ul class="big-menu">
