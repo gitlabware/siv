@@ -11,7 +11,7 @@ class UsersController extends AppController {
 
   public $uses = array('User', 'Migralmacen', 'Group', 'Persona', 'Sucursal','Lugare','Ruta');
   public $layout = 'viva';
-  var $components = array('Acl', 'Auth');
+  public $components = array('Acl', 'Auth');
 
   public function beforeFilter() {
     parent::beforeFilter();

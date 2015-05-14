@@ -73,10 +73,10 @@
 <div id="main" class="contenedor">
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
     <hgroup id="main-title" class="thin">
-        <h1>REPORTE DE TIENDA <?php echo strtoupper($this->Session->read('Auth.User.Sucursal.nombre')); ?></h1>
+        <h1>REPORTE DE <?php echo strtoupper($this->Session->read('Auth.User.Persona.nombre').' '.$this->Session->read('Auth.User.Persona.ap_paterno')); ?> (CLIENTES)</h1>
     </hgroup>
     <div class="with-padding">
-        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reporte_detallado_precio'))); ?>
+        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Reportes', 'action' => 'reporte_cliente_dist'))); ?>
 
         <div class="columns ocultar_impresion">
             <div class="three-columns twelve-columns-mobile">
@@ -99,6 +99,12 @@
             </div>
             <div class="three-columns new-row-mobile twelve-columns-mobile">
                 <p class="block-label button-height">
+                    <label class="label">Distribuidor</label>
+                    <?php echo $this->Form->select('Dato.persona_id',$distribuidores,array('class' => 'select full-width'))?>
+                </p>
+            </div>
+            <div class="three-columns new-row-mobile twelve-columns-mobile">
+                <p class="block-label button-height">
                     <label for="block-label-1" class="label">&nbsp;</label>
                     <button class="button green-gradient full-width" type="submit">GENERAR</button>
                 </p>
@@ -108,39 +114,38 @@
         <?php echo $this->Form->end(); ?>
         <table class="CSSTableGenerator" >
             <tr>
-                <td>Producto</td>
-                <td>Entregado</td>
-                <td>Por Precios</td>
+                <td>Distribuidor</td>
+                <td>Cod cliente</td>
+                <td>Cliente</td>
+                <td>Por Productos</td>
                 <td>Venta Total</td>
                 <td>Precio Total (Bs)</td>
-                <td>Saldo Anterior</td>
-                <td>Quedan Total</td>
             </tr>
             <?php foreach ($datos as $da): ?>
-            <?php 
-            $venta_total = 0;
-            $venta_prec_total = 0;
-            ?>
+              <?php
+              $venta_total = 0;
+              $venta_prec_total = 0;
+              ?>
               <tr>
-                  <td><?php echo $da['Producto']['nombre'] ?></td>
-                  <td><?php echo $da[0]['entregado']?></td>
+                  <td><?php echo $da['Persona']['nombre'].' '.$da['Persona']['ap_paterno'];?></td>
+                  <td><?php echo $da['Cliente']['num_registro'] ?></td>
+                  <td><?php echo $da['Cliente']['nombre'] ?></td>
                   <td>
                       <table>
-                          <?php foreach ($da['precios'] as $dato): ?>
-                          <tr>
-                              <td><?php echo $dato['Movimiento']['precio_uni']?> Bs</td>
-                              <td><?php echo $dato[0]['vendidos']?> vendidos</td>
-                              <td><?php echo $dato[0]['precio_total']?> Bs</td>
-                          </tr>
-                          <?php $venta_total = $venta_total + $dato[0]['vendidos'];?>
-                          <?php $venta_prec_total = $venta_prec_total + $dato[0]['precio_total'];?>
+                          <?php foreach ($da['productos'] as $dat): ?>
+                            <tr>
+                                <td><?php echo $dat['Producto']['nombre'];?></td>
+                                <td><?php echo $dat['Movimiento']['precio_uni']?></td>
+                                <td><?php echo $dat[0]['vendidos']?></td>
+                                <td><?php echo $dat[0]['precio_total']?></td>
+                            </tr>
+                            <?php $venta_total = $venta_total + $dat[0]['vendidos'];?>
+                            <?php $venta_prec_total = $venta_prec_total + $dat[0]['precio_total'];?>
                           <?php endforeach; ?>
                       </table>
                   </td>
-                  <td><?php echo $venta_total?></td>
-                  <td><?php echo $venta_prec_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $venta_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s']?></td>
+                  <td><?php echo $venta_total;?></td>
+                  <td><?php echo $venta_prec_total;?></td>
               </tr>
             <?php endforeach; ?>
         </table> 
@@ -152,5 +157,5 @@ echo $this->Html->script(array('libs/glDatePicker/glDatePicker.min.js?v=1', 'ini
 ?>
 
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/tienda'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 

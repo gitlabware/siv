@@ -10,9 +10,9 @@ App::uses('AppController', 'Controller');
  */
 class AlmacenesController extends AppController {
 
-  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco');
-  public $components = array('Fechasconvert');
-  public $layout = 'vivalmacen';
+  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare');
+  public $components = array('Session', 'Fechasconvert', 'RequestHandler', 'DataTable');
+  public $layout = 'viva';
 
   public function beforeFilter() {
     parent::beforeFilter();
@@ -50,6 +50,7 @@ class AlmacenesController extends AppController {
    * @return void
    */
   public function add() {
+    
     if ($this->request->is('post')) {
       $this->Almacene->create();
       $this->request->data['Almacene']['central'] = 0;
@@ -544,7 +545,6 @@ class AlmacenesController extends AppController {
         } else {
           $saldo = $recarga['Movimientosrecarga']['saldo'];
           $this->request->data['Movimientosrecarga']['saldo_total'] = $this->request->data['Movimientosrecarga']['ingreso'] + $recarga['Movimientosrecarga']['saldo_total'];
-          ;
         }
       } else {
         $saldo = $this->request->data['Movimientosrecarga']['ingreso'];
@@ -566,6 +566,102 @@ class AlmacenesController extends AppController {
     $this->layout = 'modal';
     $recarga = $this->Movimientosrecarga->find('first', array('order' => array('Movimientosrecarga.id DESC')));
     $this->set(compact('recarga'));
+  }
+
+  public function entrega_celulares($id_a = null, $es_almacen = NULL) {
+    $cond_sql = '';
+    $almacen = array();
+    if ($es_almacen == 1) {
+      $cond_sql = "AND v.almacene_id = $id_a";
+      $almacen = $this->Almacene->find('first', array('fields' => array('Sucursal.nombre'), 'conditions' => array('Almacene.id' => $id_a)));
+    }
+    if ($this->RequestHandler->responseType() == 'json') {
+      $add = '<button class="button green-gradient compact icon-plus" type="button" onclick="add(' . "',Producto.id,'" . ')">Add</button>';
+      $acciones = "$add";
+      $sql = "SELECT v.total FROM ventascelulares v WHERE v.producto_id = Producto.id $cond_sql ORDER BY v.id DESC LIMIT 1";
+      $this->Producto->virtualFields = array(
+        'imagen' => "CONCAT(IF(ISNULL(Producto.url_imagen),'',CONCAT('" . '<img src="../../../' . "',Producto.url_imagen,'" . '" height="51" width="51">' . "')))",
+        'cantidad' => "$sql",
+        'acciones' => "CONCAT('$acciones')"
+      );
+      /*debug($id_a);
+      exit;*/
+      $this->paginate = array(
+        'fields' => array('Producto.imagen', 'Producto.nombre', 'Marca.nombre', 'Producto.cantidad', 'Producto.acciones'),
+        'recursive' => 0,
+        'order' => 'Producto.nombre DESC',
+        'conditions' => array('Tiposproducto.nombre' => 'CELULARES')
+      );
+      $this->set('productos', $this->DataTable->getResponse('Almacenes', 'Producto'));
+      $this->set('_serialize', 'productos');
+    }
+    $this->set(compact('almacen', 'id_a', 'es_almacen'));
+  }
+
+  public function ajax_entrega_cel($id_a = null, $es_alamacen = null, $idProducto = null) {
+    $this->layout = 'ajax';
+    $almacen = $this->Almacene->find('first', array('conditions' => array('Almacene.id' => $id_a)));
+    $movimientos = $this->Ventascelulare->find('all', array('order' => 'Ventascelulare.id DESC', 'limit' => 10,
+      'conditions' => array('Ventascelulare.producto_id' => $idProducto, 'Ventascelulare.almacene_id' => $id_a)
+    ));
+    $producto = $this->Producto->find('first', array(
+      'fields' => array('Producto.nombre'),
+      'conditions' => array('Producto.id' => $idProducto)
+    ));
+    if ($almacen['Almacene']['central'] != 1) {
+      $Almacen_central = $this->Almacene->find('first', array('recursive' => -1, 'ALmacene.central' => 1));
+      $ultimo = $this->Ventascelulare->find('first', array(
+        'order' => 'Ventascelulare.id DESC', 'recursive' => -1,
+        'conditions' => array('Ventascelulare.producto_id' => $idProducto, 'Ventascelulare.almacene_id' => $Almacen_central['Almacene']['id'])
+      ));
+    }
+    $this->set(compact('movimientos', 'producto', 'idProducto', 'almacen', 'ultimo'));
+  }
+
+  public function registra_entrega() {
+    $idProducto = $this->request->data['Ventascelulare']['producto_id'];
+    $idAlmacen = $this->request->data['Ventascelulare']['almacene_id'];
+    $almacen = $this->Almacene->findByid($idAlmacen, null, null, -1);
+    $ultimo = $this->Ventascelulare->find('first', array(
+      'order' => 'Ventascelulare.id DESC',
+      'conditions' => array('Ventascelulare.producto_id' => $idProducto, 'Ventascelulare.almacene_id' => $idAlmacen)
+    ));
+    if (!empty($ultimo)) {
+      $total = $ultimo['Ventascelulare']['total'] + $this->request->data['Ventascelulare']['entrada'];
+    } else {
+      $total = $this->request->data['Ventascelulare']['entrada'];
+    }
+    if ($almacen['Almacene']['central'] == 1) {
+      $this->request->data['Ventascelulare']['total'] = $total;
+      $this->Ventascelulare->create();
+      $this->Ventascelulare->save($this->request->data['Ventascelulare']);
+      $this->Session->setFlash('Se registro correctamente!!!' . 'msgbueno');
+    } else {
+      $Almacen_central = $this->Almacene->find('first', array('recursive' => -1, 'ALmacene.central' => 1));
+      $ultimo_central = $this->Ventascelulare->find('first', array(
+        'order' => 'Ventascelulare.id DESC',
+        'recursive' => -1, 'conditions' => array('Ventascelulare.almacene_id' => $Almacen_central['Almacene']['id'], 'Ventascelulare.producto_id' => $idProducto
+      )));
+      if (!empty($ultimo_central)) {
+        if ($ultimo_central['Ventascelulare']['total'] >= $this->request->data['Ventascelulare']['entrega']) {
+          $this->request->data['Ventascelulare']['total'] = $total;
+          $this->Ventascelulare->create();
+          $this->Ventascelulare->save($this->request->data['Ventascelulare']);
+          $this->request->data['Ventascelulare']['salida'] = $this->request->data['Ventascelulare']['entrada'];
+          $this->request->data['Ventascelulare']['total'] = $ultimo_central['Ventascelulare']['total'] - $this->request->data['Ventascelulare']['salida'];
+          $this->request->data['Ventascelulare']['almacene_id'] = $ultimo_central['Ventascelulare']['almacene_id'];
+          $this->request->data['Ventascelulare']['sucursal_id'] = $ultimo_central['Ventascelulare']['sucursal_id'];
+          $this->Ventascelulare->create();
+          $this->Ventascelulare->save($this->request->data['Ventascelulare']);
+          $this->Session->setFlash('Se registro correctamente!!!' . 'msgbueno');
+        } else {
+          $this->Session->setFlash('No hay sudiciente en almacen central!!', 'msgerror');
+        }
+      } else {
+        $this->Session->setFlash('No hay sudiciente en almacen central!!', 'msgerror');
+      }
+    }
+    $this->redirect(array('action' => 'entrega_celulares', $idAlmacen, 1));
   }
 
 }

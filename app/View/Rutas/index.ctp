@@ -23,13 +23,13 @@
                         <td><?php echo $ru['Ruta']['nombre']; ?></td>
                         <td><?php echo $ru['Ruta']['cod_ruta']; ?></td>
                         <td><?php echo $ru['Ruta']['descripcion'] ?></td>
-                        <td  scope="col" width="20%" class="align-center">
+                        <td  scope="col" width="28%" class="align-center">
                             <a href="<?php echo $this->Html->url(array('action' => 'edit', $ru['Ruta']['id'])); ?>" class="button orange-gradient compact icon-pencil">Editar</a>
-                            
+                            <a href="<?php echo $this->Html->url(array('action' => 'listadoclientes', $ru['Ruta']['id'])); ?>" class="button green-gradient compact icon-users">Clientes</a>
                             <a href="<?php echo $this->Html->url(array('action' => 'delete', $ru['Ruta']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
                                         return true;
                                         }
-                                        return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
+                                        return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>                            
                         </td>
                     </tr>
 <?php endforeach; ?>

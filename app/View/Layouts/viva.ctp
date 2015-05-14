@@ -41,7 +41,7 @@
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/switches.css?v=1">
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>css/styles/table.css?v=1">
 
-        
+
         <!-- DataTables -->
         <link rel="stylesheet" href="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.css?v=1">
 
@@ -167,8 +167,26 @@
               }
           });
 
+          function cargarmodal(url,titulo) {
+              $.modal({
+                  content: '<div id="idmodal"></div>',
+                  title: titulo,
+                  width: 600,
+                  height: 400,
+                  actions: {
+                      'Close': {
+                          color: 'red',
+                          click: function (win) {
+                              win.closeModal();
+                          }
+                      }
+                  },
+                  buttonsLowPadding: true
+              });
+              $('#idmodal').load(url);
+          }
         </script>
-        
+
         <div style="text-align: center; color:gray;">
             <p class="f-left">&copy; 2013 <strong class="green">SASEZ SRL.</strong>, Todos Los Derechos Reservados &reg;</p>
             <p class="f-right">Dise&ntilde;ado y Desarrollado por la Consultora <a href="http://www.labware.com.bo/">LabWare</a></p>

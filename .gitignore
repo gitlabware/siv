@@ -7,6 +7,7 @@
 /dist
 .DS_Store
 /tags
-/nbproject
-/app/Config/webroot/files/
-/nbproject
+/nbproject/*
+/app/Config/webroot/files/*
+/app/webroot/img_producto/*
+

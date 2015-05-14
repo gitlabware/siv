@@ -113,11 +113,13 @@
                 <li class="with-right-arrow">
                     <span>Reportes</span>
                     <ul class="big-menu">
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'form')); ?>">Reporte ventas</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'filtra')); ?>">Reporte entregas</a></li>                                                                       
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'form2')); ?>">Reporte ventas distribuidor x fechas</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'detalletienda')); ?>">Reporte detalle tienda</a></li>
-                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'xmayortienda')); ?>">Reporte x Mayor tienda</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'reportes_tienda')); ?>">General de tiendas</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'reporte_detallado_precio_tienda')); ?>">Tiendas detallado por precio</a></li>                                                                       
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'reporte_cliente_tienda')); ?>">Tiendas por Cliente</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'reporte_detallado_precio_dist')); ?>">Distribuidor detallado por precio</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'reporte_cliente_dist')); ?>">Distribuidor por cliente</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'reporte_chips')); ?>">Chips</a></li>
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Reportes', 'action' => 'reporte_chips_clientes')); ?>">Chips x clientes</a></li>
                     </ul>
                 </li>
                 

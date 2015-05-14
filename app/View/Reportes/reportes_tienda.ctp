@@ -76,7 +76,7 @@
         <h1>REPORTE DE TIENDA <?php echo strtoupper($this->Session->read('Auth.User.Sucursal.nombre')); ?></h1>
     </hgroup>
     <div class="with-padding">
-        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reporte_detallado_precio'))); ?>
+        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Reportes', 'action' => 'reportes_tienda'))); ?>
 
         <div class="columns ocultar_impresion">
             <div class="three-columns twelve-columns-mobile">
@@ -99,6 +99,12 @@
             </div>
             <div class="three-columns new-row-mobile twelve-columns-mobile">
                 <p class="block-label button-height">
+                    <label class="label">Sucursal</label>
+                    <?php echo $this->Form->select('Dato.sucursal_id',$sucursales,array('class' => 'select full-width'))?>
+                </p>
+            </div>
+            <div class="three-columns new-row-mobile twelve-columns-mobile">
+                <p class="block-label button-height">
                     <label for="block-label-1" class="label">&nbsp;</label>
                     <button class="button green-gradient full-width" type="submit">GENERAR</button>
                 </p>
@@ -108,40 +114,33 @@
         <?php echo $this->Form->end(); ?>
         <table class="CSSTableGenerator" >
             <tr>
+                <td>Tienda</td>
                 <td>Producto</td>
+                <td>Saldo</td>
                 <td>Entregado</td>
-                <td>Por Precios</td>
-                <td>Venta Total</td>
-                <td>Precio Total (Bs)</td>
-                <td>Saldo Anterior</td>
-                <td>Quedan Total</td>
+                <td>Venta</td>
+                <td>Venta x May</td>
+                <td>Total ventas</td>
+                <td>Saldo Total</td>
+                <td>Total venta (Bs)</td>
+                <td>Total mayor (Bs)</td>
+                <td>Total (Bs)</td>
             </tr>
             <?php foreach ($datos as $da): ?>
-            <?php 
-            $venta_total = 0;
-            $venta_prec_total = 0;
-            ?>
-              <tr>
-                  <td><?php echo $da['Producto']['nombre'] ?></td>
-                  <td><?php echo $da[0]['entregado']?></td>
-                  <td>
-                      <table>
-                          <?php foreach ($da['precios'] as $dato): ?>
-                          <tr>
-                              <td><?php echo $dato['Movimiento']['precio_uni']?> Bs</td>
-                              <td><?php echo $dato[0]['vendidos']?> vendidos</td>
-                              <td><?php echo $dato[0]['precio_total']?> Bs</td>
-                          </tr>
-                          <?php $venta_total = $venta_total + $dato[0]['vendidos'];?>
-                          <?php $venta_prec_total = $venta_prec_total + $dato[0]['precio_total'];?>
-                          <?php endforeach; ?>
-                      </table>
-                  </td>
-                  <td><?php echo $venta_total?></td>
-                  <td><?php echo $venta_prec_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $venta_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s']?></td>
-              </tr>
+            <tr>
+              
+            </tr>
+              <td><?php echo $da['Sucursal']['nombre'] ?></td>
+              <td><?php echo $da['Producto']['nombre'] ?></td>
+              <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $da['Movimiento']['ventas'] + $da['Movimiento']['ventas_mayor'] ?></td>
+              <td><?php echo $da[0]['entregado'] ?></td>
+              <td><?php echo $da['Movimiento']['ventas'] ?></td>
+              <td><?php echo $da['Movimiento']['ventas_mayor'] ?></td>
+              <td><?php echo $da['Movimiento']['ventas'] + $da['Movimiento']['ventas_mayor'] ?></td>
+              <td><?php echo $da['Movimiento']['total_s'] ?></td>
+              <td><?php echo $da['Movimiento']['precio_v_t'] ?></td>
+              <td><?php echo $da['Movimiento']['precio_v_mayor'] ?></td>
+              <td><?php echo $da['Movimiento']['precio_v_t'] + $da['Movimiento']['precio_v_mayor'] ?></td>
             <?php endforeach; ?>
         </table> 
     </div>
@@ -152,5 +151,5 @@ echo $this->Html->script(array('libs/glDatePicker/glDatePicker.min.js?v=1', 'ini
 ?>
 
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/tienda'); ?>
+<?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
