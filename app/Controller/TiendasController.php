@@ -742,8 +742,8 @@ class TiendasController extends AppController {
   }
 
   public function registra_venta_celu() {
-    /*debug($this->request->data);
-    exit;*/
+    /* debug($this->request->data);
+      exit; */
     foreach ($this->request->data['productos'] as $key => $ped) {
       $total = $this->get_total_cel_almacen($key);
       if ($ped['cantidad'] > $total) {
@@ -757,7 +757,7 @@ class TiendasController extends AppController {
       for ($j = 1; $j <= $ped['cantidad']; $j++) {
         $producto = $this->Producto->find('first', array(
           'conditions' => array('Producto.id' => $key)
-          , 'fields' => array('Producto.nombre', 'Producto.url_imagen', 'Marca.nombre', 'Producto.observaciones')
+          , 'fields' => array('Producto.nombre', 'Producto.url_imagen', 'Marca.nombre', 'Producto.observaciones', 'Producto.id')
         ));
         $celulares[$i] = $producto;
         $celulares[$i]['precio'] = $ped['precio'];
@@ -779,6 +779,11 @@ class TiendasController extends AppController {
     } else {
       return 0;
     }
+  }
+
+  public function registra_venta_celu_2() {
+    debug($this->request->data);
+    exit;
   }
 
 }
