@@ -592,8 +592,6 @@ class AlmacenesController extends AppController {
         'order' => 'Producto.nombre DESC',
         'conditions' => array('Tiposproducto.nombre' => 'CELULARES')
       );
-
-
       $this->set('productos', $this->DataTable->getResponse('Almacenes', 'Producto'));
       $this->set('_serialize', 'productos');
     }
@@ -611,9 +609,10 @@ class AlmacenesController extends AppController {
       'conditions' => array('Producto.id' => $idProducto)
     ));
     if ($almacen['Almacene']['central'] != 1) {
+      $Almacen_central = $this->Almacene->find('first', array('recursive' => -1, 'ALmacene.central' => 1));
       $ultimo = $this->Ventascelulare->find('first', array(
         'order' => 'Ventascelulare.id DESC', 'recursive' => -1,
-        'conditions' => array('Ventascelulare.producto_id' => $idProducto, 'Ventascelulare.almacene_id' => $id_a)
+        'conditions' => array('Ventascelulare.producto_id' => $idProducto, 'Ventascelulare.almacene_id' => $Almacen_central['Almacene']['id'])
       ));
     }
     $this->set(compact('movimientos', 'producto', 'idProducto', 'almacen', 'ultimo'));

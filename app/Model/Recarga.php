@@ -38,6 +38,13 @@ class Recarga extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+                'Porcentaje' => array(
+                        'className' => 'Porcentaje',
+                        'foreignKey' => 'porcentaje_id',
+                        'conditions' =>'',
+                        'fields' => '',
+                        'order' =>''
+                )
 	);
 }
