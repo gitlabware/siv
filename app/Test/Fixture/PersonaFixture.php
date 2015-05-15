@@ -11,7 +11,7 @@ class PersonaFixture extends CakeTestFixture {
  * @var array
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 7, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 7, 'unsigned' => false, 'key' => 'primary'),
 		'nombre' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'ap_paterno' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'ap_materno' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
@@ -21,7 +21,7 @@ class PersonaFixture extends CakeTestFixture {
 		'celular' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'fechanacimiento' => array('type' => 'date', 'null' => true, 'default' => null),
 		'created' => array('type' => 'date', 'null' => true, 'default' => null),
-		'sucursal_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 7),
+		'sucursal_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 7, 'unsigned' => false),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -43,8 +43,8 @@ class PersonaFixture extends CakeTestFixture {
 			'direccion' => 'Lorem ipsum dolor sit amet',
 			'telefono' => 'Lorem ipsum dolor ',
 			'celular' => 'Lorem ipsum dolor ',
-			'fechanacimiento' => '2013-04-19',
-			'created' => '2013-04-19',
+			'fechanacimiento' => '2015-05-14',
+			'created' => '2015-05-14',
 			'sucursal_id' => 1
 		),
 	);

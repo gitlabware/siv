@@ -18,14 +18,26 @@ class PersonaTest extends CakeTestCase {
 		'app.almacene',
 		'app.user',
 		'app.group',
-		'app.movimiento',
+		'app.lugare',
+		'app.cliente',
+		'app.ruta',
+		'app.recarga',
+		'app.porcentaje',
+		'app.ventasdistribuidore',
 		'app.producto',
 		'app.tiposproducto',
+		'app.marca',
 		'app.productosprecio',
 		'app.tipousuario',
-		'app.recarga',
-		'app.cliente',
-		'app.ventasdistribuidore'
+		'app.deposito',
+		'app.banco',
+		'app.movimiento',
+		'app.movimientoscabina',
+		'app.movimientosrecarga',
+		'app.recargado',
+		'app.encargado',
+		'app.ventascelulare',
+		'app.detalle'
 	);
 
 /**
