@@ -76,7 +76,7 @@
         <h1>REPORTE DE TIENDA <?php echo strtoupper($this->Session->read('Auth.User.Sucursal.nombre')); ?></h1>
     </hgroup>
     <div class="with-padding">
-        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reportes_tienda'))); ?>
+        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reporte_pagos'))); ?>
 
         <div class="columns ocultar_impresion">
             <div class="three-columns twelve-columns-mobile">
@@ -97,6 +97,12 @@
                     </span>
                 </p>
             </div>
+            <div class="three-columns twelve-columns-mobile">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Tipo pago</label>
+                    <?php echo $this->Form->select('Dato.tipo', array('Boucher' => 'Boucher', 'Ticket' => 'Ticket', 'Efectivo' => 'Efectivo', 'Tarjeta' => 'Tarjeta', 'Todos' => 'Todos'), array('class' => 'select full-width','value' => 'Todos','required')); ?>
+                </p>
+            </div>
             <div class="three-columns new-row-mobile twelve-columns-mobile">
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">&nbsp;</label>
@@ -108,32 +114,33 @@
         <?php echo $this->Form->end(); ?>
         <table class="CSSTableGenerator" >
             <tr>
+                <td>Fecha</td>
+                <td>Codigo</td>
+                <td>Tipo</td>
+                <td>Cliente</td>
                 <td>Producto</td>
-                <td>Saldo</td>
-                <td>Entregado</td>
-                <td>Venta</td>
-                <td>Venta x May</td>
-                <td>Total ventas</td>
-                <td>Saldo Total</td>
-                <td>Total venta (Bs)</td>
-                <td>Total mayor (Bs)</td>
-                <td>Total (Bs)</td>
+                <td>Monto</td>
             </tr>
+            <?php $total = 0.00; ?>
             <?php foreach ($datos as $da): ?>
-            <tr>
-              <td><?php echo $da['Producto']['nombre'] ?></td>
-              <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $da['Movimiento']['ventas'] + $da['Movimiento']['ventas_mayor'] ?></td>
-              <td><?php echo $da[0]['entregado'] ?></td>
-              <td><?php echo $da['Movimiento']['ventas'] ?></td>
-              <td><?php echo $da['Movimiento']['ventas_mayor'] ?></td>
-              <td><?php echo $da['Movimiento']['ventas'] + $da['Movimiento']['ventas_mayor'] ?></td>
-              <td><?php echo $da['Movimiento']['total_s'] ?></td>
-              <td><?php echo $da['Movimiento']['precio_v_t'] ?></td>
-              <td><?php echo $da['Movimiento']['precio_v_mayor'] ?></td>
-              <td><?php echo $da['Movimiento']['precio_v_t'] + $da['Movimiento']['precio_v_mayor'] ?></td>
-            </tr>
-              
+              <?php $total = $total + $da['Pago']['monto']; ?>
+              <tr>
+                  <td><?php echo $da['Pago']['created'] ?></td>
+                  <td><?php echo $da['Pago']['codigo'] ?></td>
+                  <td><?php echo $da['Pago']['tipo'] ?></td>
+                  <td><?php echo $da['Ventascelulare']['cliente'] ?></td>
+                  <td><?php echo $da['Pago']['producto'] ?></td>
+                  <td><?php echo $da['Pago']['monto'] ?></td>
+              </tr>
             <?php endforeach; ?>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>TOTAL</td>
+                <td><?php echo $total; ?></td>
+            </tr>
         </table> 
     </div>
 </div>

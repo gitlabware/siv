@@ -1,6 +1,5 @@
 <script>
-  var numero_p = [];
-</script>
+  var numero_p = [];</script>
 <section role="main" id="main">
     <hgroup id="main-title" class="thin">
         <h1>VENTA A <?php echo strtoupper($this->request->data['Tienda']['cliente']); ?></h1>
@@ -11,8 +10,7 @@
                 <?php echo $this->Form->create('Tienda', array('action' => 'registra_venta_celu_2')); ?>
                 <?php foreach ($celulares as $key => $cel): ?>
                   <script>
-                    numero_p[<?php echo $key ?>] = 0;
-                  </script>
+                      numero_p[<?php echo $key ?>] = 0;</script>
                   <?php echo $this->Form->hidden("Ventascelulare.$key.producto_id", array('value' => $cel['Producto']['id'])); ?>
                   <?php echo $this->Form->hidden("Ventascelulare.$key.cliente", array('value' => $this->request->data['Tienda']['cliente'])); ?>
                   <?php echo $this->Form->hidden("Ventascelulare.$key.precio", array('value' => $cel['precio'])); ?>
@@ -48,7 +46,7 @@
                       <div class="columns"   id="block-<?php echo $key; ?>-0">
                           <div class="three-columns">
                               <label class="label">Tipo pago</label>
-                              <select name="data[][]" class="select auto-open blue-gradient full-width" id="tipopago-<?php echo $key; ?>">
+                              <select name="data[][]" class="select blue-gradient full-width" id="tipopago-<?php echo $key; ?>">
                                   <option value="Boucher">Boucher</option>
                                   <option value="Ticket">Ticket</option>
                                   <option value="Efectivo">Efectivo</option>
@@ -86,22 +84,39 @@
 
 <script>
   var nuevo_pago = '';
-
   function add_pago(key) {
       var tipopago = $('#tipopago-' + key).val();
       var codigo = $('#idcodigo-' + key).val();
       var monto = $('#idmonto-' + key).val();
+      var optboucher = '     <option value="Boucher">Boucher</option>';
+      var optticket = '     <option value="Ticket">Ticket</option>';
+      var optefectivo = '     <option value="Efectivo">Efectivo</option>';
+      var opttarjeta = '     <option value="Tarjeta">Tarjeta</option>';
+      switch (tipopago) {
+          case "Boucher":
+              optboucher = '     <option value="Boucher" selected>Boucher</option>';
+              break;
+          case "Ticket":
+              optticket = '     <option value="Ticket" selected>Ticket</option>';
+              break;
+          case "Efectivo":
+              optefectivo = '     <option value="Efectivo" selected>Efectivo</option>';
+              break;
+          case "Tarjeta":
+              opttarjeta = '     <option value="Tarjeta" selected>Tarjeta</option>';
+              break;
+      }
       numero_p[key]++;
       nuevo_pago = ''
               //+ '<p class="block-label button-height" id="block-' + key + '-' + numero_p + '">'
               + '<div class="columns" id="block-' + key + '-' + numero_p[key] + '">'
               + ' <div class="three-columns">'
               + '   <label class="label">Tipo pago</label>'
-              + '   <select name="data[Ventascelulare][' + key + '][Pago][' + numero_p[key] + '][tipo_pago]" class="select auto-open blue-gradient full-width" value="' + tipopago + '">'
-              + '     <option value="Boucher">Boucher</option>'
-              + '     <option value="Ticket">Ticket</option>'
-              + '     <option value="Efectivo">Efectivo</option>'
-              + '     <option value="Tarjeta">Tarjeta</option>'
+              + '   <select name="data[Ventascelulare][' + key + '][Pago][' + numero_p[key] + '][tipo]" class="select blue-gradient full-width" id="select-tipo-' + key + '-' + numero_p[key] + '">'
+              + optboucher
+              + optticket
+              + optefectivo
+              + opttarjeta
               + '   </select>'
               + ' </div>'
               + ' <div class="three-columns">'
@@ -119,7 +134,10 @@
               //+ '</p>'
               + '';
       $('#block-' + key + '-' + (numero_p[key] - 1)).after(nuevo_pago);
-      $('#tipopago-' + key).val('');
+      //alert(tipopago);
+      /*var selector = '#select-tipo-' + key + '-' + numero_p[key] + ' > option[value=' + tipopago + ']';
+       $(selector).attr("selected", true);*/
+      //$('#tipopago-' + key).val('');
       $('#idcodigo-' + key).val('');
       $('#idmonto-' + key).val('');
   }
@@ -128,6 +146,6 @@
           $('#block-' + key + '-' + numero_p[key]).remove();
           numero_p[key]--;
       }
-
   }
+
 </script>
