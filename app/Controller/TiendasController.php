@@ -826,36 +826,62 @@ class TiendasController extends AppController {
       $datos = $this->Pago->find('all', array(
         'recursive' => 0,
         'conditions' => $condiciones,
-        'fields' => array('Ventascelulare.cliente', 'Pago.producto','Pago.monto', 'Pago.tipo', 'Pago.codigo','Ventascelulare.producto_id','Pago.created')
+        'fields' => array('Ventascelulare.cliente', 'Pago.producto', 'Pago.monto', 'Pago.tipo', 'Pago.codigo', 'Ventascelulare.producto_id', 'Pago.created')
       ));
-      /*debug($datos);
-      exit;*/
-      
+      /* debug($datos);
+        exit; */
     }
     $this->set(compact('datos'));
   }
-  public function reporte_celular(){
+
+  public function reporte_celular() {
     $datos = array();
     if (!empty($this->request->data)) {
       $fecha_ini = $this->request->data['Dato']['fecha_ini'];
       $fecha_fin = $this->request->data['Dato']['fecha_fin'];
       $sucursal = $this->Session->read('Auth.User.sucursal_id');
-      
-      $sql1 = "(SELECT IF(ISNULL(ve.total),0,ve.total) FROM ventascelulares ve WHERE ve.sucursal_id = $sucursal AND ve.created >= '$fecha_ini' AND ve.created <= '$fecha_fin' AND Producto.id = ve.producto_id ORDER BY ve.id DESC LIMIT 1)";
+
+      $sql1 = "(SELECT IF(ISNULL(ve.total),0,ve.total) FROM ventascelulares ve WHERE ve.sucursal_id = $sucursal AND DATE(ve.created) >= '$fecha_ini' AND DATE(ve.created) <= '$fecha_fin' AND Producto.id = ve.producto_id ORDER BY ve.id DESC LIMIT 1)";
       $this->Ventascelulare->virtualFields = array(
         'total_s' => "CONCAT($sql1)"
       );
       $datos = $this->Ventascelulare->find('all', array(
         'recursive' => 0, 'order' => 'Ventascelulare.producto_id',
-        'conditions' => array('Ventascelulare.sucursal_id' => $sucursal, 'Ventascelulare.created >=' => $fecha_ini, 'Ventascelulare.created <=' => $fecha_fin, 'Ventascelulare.salida !=' => 0),
+        'conditions' => array('Ventascelulare.sucursal_id' => $sucursal, 'DATE(Ventascelulare.created) >=' => $fecha_ini, 'DATE(Ventascelulare.created) <=' => $fecha_fin),
         'group' => array('Ventascelulare.producto_id'),
-        'fields' => array('Producto.nombre', 'SUM(Ventascelulare.entrada) entregado', 'Producto.id', 'Ventascelulare.total_s','Ventascelulare.precio')
+        'fields' => array('Producto.nombre', 'SUM(Ventascelulare.entrada) entregado', 'SUM(Ventascelulare.salida) vendido', 'Producto.id', 'Ventascelulare.total_s', 'Ventascelulare.precio', 'Ventascelulare.id')
       ));
-      
-      
     }
     $this->set(compact('datos'));
   }
+
+  public function reporte_celular_cliente() {
+    $datos = array();
+    if (!empty($this->request->data)) {
+      $fecha_ini = $this->request->data['Dato']['fecha_ini'];
+      $fecha_fin = $this->request->data['Dato']['fecha_fin'];
+      $sucursal = $this->Session->read('Auth.User.sucursal_id');
+
+      $sql1 = "(SELECT IF(ISNULL(ve.total),0,ve.total) FROM ventascelulares ve WHERE ve.sucursal_id = $sucursal AND DATE(ve.created) >= '$fecha_ini' AND DATE(ve.created) <= '$fecha_fin' AND Producto.id = ve.producto_id ORDER BY ve.id DESC LIMIT 1)";
+      $this->Ventascelulare->virtualFields = array(
+        'total_s' => "CONCAT($sql1)"
+      );
+      $datos = $this->Ventascelulare->find('all', array(
+        'recursive' => 0, 'order' => 'Ventascelulare.producto_id',
+        'conditions' => array('Ventascelulare.sucursal_id' => $sucursal, 'DATE(Ventascelulare.created) >=' => $fecha_ini, 'DATE(Ventascelulare.created) <=' => $fecha_fin,'Ventascelulare.salida !=' => 0),
+        'fields' => array('Producto.nombre', 'Producto.id', 'Ventascelulare.created', 'Ventascelulare.precio', 'Ventascelulare.id', 'Ventascelulare.cliente')
+      ));
+      foreach ($datos as $key => $da) {
+        $datos[$key]['pagos'] = $this->Pago->find('all',array(
+          'recursive' => -1,
+          'conditions' => array('Pago.ventascelulare_id' => $da['Ventascelulare']['id']),
+          'fields' => array('Pago.tipo','Pago.monto')
+        ));
+      }
+    }
+    $this->set(compact('datos'));
+  }
+
 }
 
 ?>

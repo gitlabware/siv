@@ -41,7 +41,13 @@
                             <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reporte_cliente'));?>">Reporte x Clientes</a>
                         </li>
                         <li>
-                            <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reporte_pagos'));?>">Reporte Celular</a>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reporte_celular'));?>">Reporte Celular</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reporte_celular_cliente'));?>">Reporte Celular Clientes</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url(array('controller' => 'Tiendas','action' => 'reporte_pagos'));?>">Reporte Celular x pagos</a>
                         </li>
                     </ul>
                 </li> 
