@@ -4,10 +4,13 @@ App::uses('AppModel', 'Model');
  * Persona Model
  *
  * @property Sucursal $Sucursal
+ * @property Deposito $Deposito
  * @property Detalle $Detalle
  * @property Movimiento $Movimiento
+ * @property Recargado $Recargado
  * @property Recarga $Recarga
  * @property User $User
+ * @property Ventascelulare $Ventascelulare
  * @property Ventasdistribuidore $Ventasdistribuidore
  */
 class Persona extends AppModel {
@@ -36,6 +39,19 @@ class Persona extends AppModel {
  * @var array
  */
 	public $hasMany = array(
+		'Deposito' => array(
+			'className' => 'Deposito',
+			'foreignKey' => 'persona_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
 		'Detalle' => array(
 			'className' => 'Detalle',
 			'foreignKey' => 'persona_id',
@@ -62,6 +78,19 @@ class Persona extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		'Recargado' => array(
+			'className' => 'Recargado',
+			'foreignKey' => 'persona_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
 		'Recarga' => array(
 			'className' => 'Recarga',
 			'foreignKey' => 'persona_id',
@@ -77,6 +106,19 @@ class Persona extends AppModel {
 		),
 		'User' => array(
 			'className' => 'User',
+			'foreignKey' => 'persona_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Ventascelulare' => array(
+			'className' => 'Ventascelulare',
 			'foreignKey' => 'persona_id',
 			'dependent' => false,
 			'conditions' => '',

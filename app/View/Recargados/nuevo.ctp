@@ -7,18 +7,18 @@
         <h1>MOVIMIENTOS RECARGAS</h1>
     </hgroup>
 
-    <div class="with-padding">
-        <?php
-        echo $this->Form->create('Recargados', array('action' => 'nuevo', 'id' => 'formID'));
-        ?>
+    <div class="with-padding">        
 
         <div class="columns">
 
             <div class="new-row three-columns">
+                <?php
+          echo $this->Form->create('Recargado', array('action' => 'nuevo', 'id' => 'formID'));
+        ?>
 
                 <h3 class="thin underline">Recargas</h3>
                 <p class="button-height">
-                    <input type="checkbox" name="data[Recarga][tipo]" id="switch-custom-3" class="switch wider green-active mid-margin-right" value="1" checked data-text-on="RECARGA" data-text-off="CARGA">                    
+                    <input type="checkbox" name="data[Recargado][tipo]" id="switch-custom-3" class="switch wider green-active mid-margin-right" value="1" checked data-text-on="RECARGA" data-text-off="CARGA">                    
                 </p>                
                 <p class="block-label button-height">
                     <label for="validation-select" class="label">Distribuidor<small>(Requerido)</small></label>
@@ -54,6 +54,7 @@
                     </button>
 
                 </div>
+            </form>
             </div>
             <div class="nine-columns twelve-columns-tablet">
 

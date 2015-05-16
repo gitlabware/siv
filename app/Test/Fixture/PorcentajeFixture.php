@@ -12,7 +12,7 @@ class PorcentajeFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-		'nombre' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+		'nombre' => array('type' => 'decimal', 'null' => true, 'default' => '0.00', 'length' => '4,2', 'unsigned' => false),
 		'descripcion' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
@@ -30,10 +30,10 @@ class PorcentajeFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'nombre' => 'Lorem ipsum dolor ',
+			'nombre' => '',
 			'descripcion' => 'Lorem ipsum dolor sit amet',
-			'created' => '2015-05-13 16:33:32',
-			'modified' => '2015-05-13 16:33:32'
+			'created' => '2015-05-14 22:31:31',
+			'modified' => '2015-05-14 22:31:31'
 		),
 	);
 
