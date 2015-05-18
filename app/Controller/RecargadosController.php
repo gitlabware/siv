@@ -127,9 +127,9 @@ class RecargadosController extends AppController {
 
     if ($this->request->is('post')) {
 
-      debug($this->request->data);
-      die;
-      $tipo = (empty($this->request->data['Recargado']['tipo'])) ? 'ingreso' : 'salida';
+      /*debug($this->request->data);
+      die;*/
+      $tipo = (empty($this->request->data['Recargado']['tipo'])) ? 'entrada' : 'salida';
       //debug($tipo);die;
       $ultimarecarga = $this->Recargado->find('first', array(
         'recursive' => -1,
@@ -139,16 +139,16 @@ class RecargadosController extends AppController {
         $this->Recargado->create();
       //$tipo = $this->request->data['Recargado']['tipo'];
 
-      if ($tipo == 'ingreso') {
-        debug('entro ingreso');
+      if ($tipo == 'entrada') {
+        //debug('entro ingreso');
         $porcentajeEntrada = $this->Porcentaje->findByid($this->request->data['Recargado']['porcentaje_id'], null, null, -1);
         $porciento = $porcentajeEntrada['Porcentaje']['nombre'];
         $div = $porciento / 100;
         $this->request->data['Recargado']['entrada'] = $this->request->data['Recargado']['salida'];
         $this->request->data['Recargado']['salida'] = 0;
-        $this->request->data['Recargado']['total'] = $ultimarecarga['Recargado']['total'] + ($this->request->data['Recargado']['salida'] * $div);
+        $this->request->data['Recargado']['total'] = $ultimarecarga['Recargado']['total'] + ($this->request->data['Recargado']['entrada']+($this->request->data['Recargado']['entrada'] * $div));
       } elseif ($tipo == 'salida') {
-        debug('entro salida');
+        //debug('entro salida');
         $this->request->data['Recargado']['salida'] = $this->request->data['Recargado']['salida'];
         if ($ultimarecarga['Recargado']['total'] < $this->request->data['Recargado']['salida']) {
           $this->Session->setFlash('No puede recargar. CRT', 'msgerror');
@@ -161,11 +161,14 @@ class RecargadosController extends AppController {
           $this->request->data['Recargado']['monto'] = $this->request->data['Recargado']['salida'] + ($this->request->data['Recargado']['salida'] * $dividiendo);
         }
       }
-
+      
+      $this->Session->read('Auth.User.id');
+      $this->request->data['Recargado']['encargado_id']= $this->Session->read('Auth.User.id');
       $disPersona = $this->User->findByid($this->request->data['Recargado']['user_id'], null, null, -1);
       $this->request->data['Recargado']['persona_id'] = $disPersona['User']['persona_id'];
-      debug($this->request->data['Recargado']);
-      die;
+     
+     /*debug($this->request->data['Recargado']['encargado_id']);
+      die;*/
       if ($this->Recargado->save($this->request->data['Recargado'])) {
         $this->Session->setFlash('Registro Correctamente.', 'msgbueno');
         return $this->redirect(array('action' => 'nuevo'));
@@ -194,7 +197,7 @@ class RecargadosController extends AppController {
     ));
     $porcentaje = $this->Porcentaje->find('list', array('fields' => 'Porcentaje.nombre'));
     //debug($distribuidor);exit;
-    $this->set(compact('distribuidor', 'porcentaje'));
+    $this->set(compact('distribuidor', 'porcentaje','tipo'));
   }
 
 }

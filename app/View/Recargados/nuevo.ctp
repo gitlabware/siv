@@ -13,8 +13,9 @@
 
             <div class="new-row three-columns">
                 <?php
-          echo $this->Form->create('Recargado', array('action' => 'nuevo', 'id' => 'formID'));
-        ?>
+                echo $this->Form->create('Recargado', array('action' => 'nuevo', 'id' => 'formID'));
+                ?>
+                <?php echo $this->Form->hidden('Recargado.user_id', array('value' => $this->Session->read('Auth.User.id'))); ?>
 
                 <h3 class="thin underline">Recargas</h3>
                 <p class="button-height">
@@ -54,17 +55,19 @@
                     </button>
 
                 </div>
-            </form>
+                </form>
             </div>
             <div class="nine-columns twelve-columns-tablet">
 
                 <h3 class="thin underline">Detalle</h3>
-                <table class="table responsive-table" id="sorting-advanced">
+                <table class="table responsive-table" id="orden">
                     <thead>
                         <tr>
+                            <th>Id.</th>
                             <th scope="col" width="10" class="align-center hide-on-mobile">Distribuidor</th>
                             <th scope="col" width="15%" class="align-center hide-on-mobile">Celular</th>
                             <th scope="col" width="8%" class="align-center hide-on-mobile">%</th>
+                            <th scope="col" width="10" class="align-center hide-on-mobile"> Monto Ing.</th>
                             <th scope="col" width="12%" class="align-center hide-on-mobile">Monto</th>
                             <th scope="col" width="10" class="align-center hide-on-mobile">Rec. %</th>
                             <th scope="col" width="10" class="align-center hide-on-mobile">Total</th>
@@ -73,32 +76,34 @@
                     </thead>
                     <tbody>
                         <?php foreach ($movimientosHoy as $rec): ?>
-                          <?php
-                          $salida = $rec['Recarga']['salida'];
-                          if ($salida != 0) {
-                            $color = '#f00';
-                          } else {
-                            $color = '#000';
-                          }
-                          ?>
-                          <tr>
-                              <td><?php echo $rec['Persona']['nombre']; ?></td>
-                              <td><?php echo $rec['Recarga']['num_celular']; ?></td>
-                              <td><?php echo $rec['Porcentaje']['nombre']; ?></td>
-                              <td><?php echo $rec['Recarga']['salida'] ?></td>
-                              <td><?php echo $rec['Recarga']['monto'] ?></td>
-                              <td><?php echo $rec['Recarga']['total'] ?></td>
-                              <td  scope="col" width="20%" class="align-center">
-                                  <?php if ($ultimo['Recarga']['id'] == $rec['Recarga']['id']): ?>
+                            <?php
+                            $salida = $rec['Recarga']['salida'];
+                            if ($salida != 0) {
+                                $color = '#f00';
+                            } else {
+                                $color = '#000';
+                            }
+                            ?>
+                            <tr>
+                                <td><?php echo $rec['Recargado']['id'];?></td>
+                                <td><?php echo $rec['Persona']['nombre']; ?></td>
+                                <td><?php echo $rec['Recargado']['num_celular']; ?></td>
+                                <td><?php echo $rec['Porcentaje']['nombre']; ?></td>
+                                <td><?php echo $rec['Recargado']['entrada']?></td>
+                                <td><?php echo $rec['Recargado']['salida']; ?></td>
+                                <td><?php echo $rec['Recargado']['monto']; ?> </td>
+                                <td><?php echo $rec['Recargado']['total']; ?></td>
+                                <td  scope="col" width="20%" class="align-center">
+                                    <?php if ($ultimo['Recargado']['id'] == $rec['Recargado']['id']): ?>
 
-                                    <a href="<?php echo $this->Html->url(array('action' => 'delete', $rec['Recarga']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
-                                              return true;
-                                          }
-                                          return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
+                                        <a href="<?php echo $this->Html->url(array('action' => 'delete', $rec['Recargado']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
+                                                            return true;
+                                                        }
+                                                        return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
 
-                                  <?php endif; ?>
-                              </td>
-                          </tr>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -111,24 +116,26 @@
 
 </section>
 <?php if ($this->Session->read('Auth.User.Group.name') == 'Administradores'): ?>
-  <?php echo $this->element('sidebar/administrador'); ?>
+    <?php echo $this->element('sidebar/administrador'); ?>
 <?php elseif ($this->Session->read('Auth.User.Group.name') == 'Almaceneros'): ?>
-  <?php echo $this->element('sidebar/almacenero'); ?>
+    <?php echo $this->element('sidebar/almacenero'); ?>
 <?php endif; ?>
 
 
 <script>
-  $(document).ready(function () {
+    $(document).ready(function () {
 
-      $("#formID").validationEngine();
+        $("#formID").validationEngine();
 
-      $("#monto").keyup(function () {
-          var porcentaje = $('#porcentaje :selected').text();
-          var numpor = parseFloat(porcentaje);
-          var monto = $('#monto').val();
-          var montonum = parseFloat(monto);
-          var monto_total = montonum + (montonum * (numpor / 100));
-          $('#montoporcentaje').html(monto_total);
-      });
-  });
+        $("#monto").keyup(function () {
+            var porcentaje = $('#porcentaje :selected').text();
+            var numpor = parseFloat(porcentaje);
+            var monto = $('#monto').val();
+            var montonum = parseFloat(monto);
+            var monto_total = montonum + (montonum * (numpor / 100));
+            $('#montoporcentaje').html(monto_total);
+        });
+        
+    
+    });
 </script>
