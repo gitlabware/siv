@@ -13,7 +13,31 @@ class PorcentajeTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.porcentaje'
+		'app.porcentaje',
+		'app.recargado',
+		'app.user',
+		'app.group',
+		'app.persona',
+		'app.sucursal',
+		'app.almacene',
+		'app.deposito',
+		'app.banco',
+		'app.detalle',
+		'app.producto',
+		'app.tiposproducto',
+		'app.marca',
+		'app.productosprecio',
+		'app.tipousuario',
+		'app.movimiento',
+		'app.cliente',
+		'app.lugare',
+		'app.ruta',
+		'app.recarga',
+		'app.ventasdistribuidore',
+		'app.ventascelulare',
+		'app.movimientoscabina',
+		'app.movimientosrecarga',
+		'app.encargado'
 	);
 
 /**

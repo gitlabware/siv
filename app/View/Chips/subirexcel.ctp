@@ -112,7 +112,7 @@
                 //console.log('hizo click');
                 $.modal({
                     title: 'Formato del Archivo',
-                    content: '<?php echo $this->Html->image('iconos/excelActivados.png'); ?>'
+                    content: '<?php echo $this->Html->image('iconos/activados.png'); ?>'
                 });
             }
             ;

@@ -76,7 +76,7 @@
         <h1>REPORTE DE TIENDA <?php echo strtoupper($this->Session->read('Auth.User.Sucursal.nombre')); ?></h1>
     </hgroup>
     <div class="with-padding">
-        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reportes_tienda'))); ?>
+        <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Tiendas', 'action' => 'reporte_celular_cliente'))); ?>
 
         <div class="columns ocultar_impresion">
             <div class="three-columns twelve-columns-mobile">
@@ -108,32 +108,56 @@
         <?php echo $this->Form->end(); ?>
         <table class="CSSTableGenerator" >
             <tr>
+                <td>Fecha</td>
+                <td>Cliente</td>
                 <td>Producto</td>
-                <td>Saldo</td>
-                <td>Entregado</td>
-                <td>Venta</td>
-                <td>Venta x May</td>
-                <td>Total ventas</td>
-                <td>Saldo Total</td>
-                <td>Total venta (Bs)</td>
-                <td>Total mayor (Bs)</td>
-                <td>Total (Bs)</td>
+                <td>Pagos</td>
+                <td>Total Pagado (Bs)</td>
+                <td>Saldo (B)s</td>
+                <td>Precio Total (Bs)</td>
             </tr>
+            <?php $total_t_saldo = 0.00;
+            $total_t_pagado = 0.00; ?>
             <?php foreach ($datos as $da): ?>
+  <?php $total_monto = 0.00; ?>
+              <tr>
+                  <td><?php echo $da['Ventascelulare']['created'] ?></td>
+                  <td><?php echo $da['Ventascelulare']['cliente'] ?></td>
+                  <td><?php echo $da['Producto']['nombre'] ?></td>
+                  <td>
+                      <table>
+  <?php foreach ($da['pagos'] as $pa): ?>
+                            <tr>
+                                <td><?php echo $pa['Pago']['tipo'] ?></td>
+                                <td><?php echo $pa['Pago']['monto'] ?></td>
+                            </tr>
+                            <?php $total_monto = $total_monto + $pa['Pago']['monto']; ?>
+  <?php endforeach; ?>
+                      </table>
+                  </td>
+                  <td><?php echo $total_monto; ?></td>
+                  <?php
+                  $color = '';
+                  if (($da['Ventascelulare']['precio'] - $total_monto) > 0) {
+                    $color = 'style="color: red;"';
+                  }
+                  ?>
+                  <td <?php echo $color; ?>><?php echo $da['Ventascelulare']['precio'] - $total_monto; ?></td>
+                  <td><?php echo $da['Ventascelulare']['precio']; ?></td>
+                  <?php $total_t_saldo = $total_t_saldo + ($da['Ventascelulare']['precio'] - $total_monto); ?>
+              <?php $total_t_pagado = $total_t_pagado + $total_monto; ?>
+              </tr>
+<?php endforeach; ?>
             <tr>
-              <td><?php echo $da['Producto']['nombre'] ?></td>
-              <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $da['Movimiento']['ventas'] + $da['Movimiento']['ventas_mayor'] ?></td>
-              <td><?php echo $da[0]['entregado'] ?></td>
-              <td><?php echo $da['Movimiento']['ventas'] ?></td>
-              <td><?php echo $da['Movimiento']['ventas_mayor'] ?></td>
-              <td><?php echo $da['Movimiento']['ventas'] + $da['Movimiento']['ventas_mayor'] ?></td>
-              <td><?php echo $da['Movimiento']['total_s'] ?></td>
-              <td><?php echo $da['Movimiento']['precio_v_t'] ?></td>
-              <td><?php echo $da['Movimiento']['precio_v_mayor'] ?></td>
-              <td><?php echo $da['Movimiento']['precio_v_t'] + $da['Movimiento']['precio_v_mayor'] ?></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><?php echo $total_t_pagado; ?></td>
+                <td><?php echo $total_t_saldo; ?></td>
+                <td></td>
             </tr>
-              
-            <?php endforeach; ?>
+
         </table> 
     </div>
 </div>

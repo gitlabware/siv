@@ -105,6 +105,6 @@
   }
 </script>
 <!-- Sidebar/drop-down menu -->
-<?php echo $this->element('sidebar/administrador'); ?>
+<?php echo $this->element('sidebar/tienda'); ?>
 <!-- End sidebar/drop-down menu --> 
 
