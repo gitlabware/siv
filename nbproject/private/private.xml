@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/var/www/html/siv/app/View/Recargas/ajaxmonto.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Almacenes/ajaxcantidad.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Recargas/nuevo.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Recargados/nuevo.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Layouts/viva.ctp</file>
+            <file>file:/var/www/html/siv/app/Controller/RecargadosController.php</file>
             <file>file:/var/www/html/siv/app/Controller/AlmacenesController.php</file>
-            <file>file:/var/www/html/siv/app/View/Almacenes/ajaxproductos.ctp</file>
-            <file>file:/var/www/html/siv/app/View/Almacenes/ajaxrepartir.ctp</file>
             <file>file:/var/www/html/siv/app/Controller/RecargasController.php</file>
-=======
->>>>>>> 57706a50048a5b21412f657ebf3a97ec04707877
         </group>
     </open-files>
 </project-private>

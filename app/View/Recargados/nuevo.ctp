@@ -63,7 +63,7 @@
                 <table class="table responsive-table" id="orden">
                     <thead>
                         <tr>
-                            <th>Id.</th>
+                            <th scope="col" width="5">Id.</th>
                             <th scope="col" width="10" class="align-center hide-on-mobile">Distribuidor</th>
                             <th scope="col" width="15%" class="align-center hide-on-mobile">Celular</th>
                             <th scope="col" width="8%" class="align-center hide-on-mobile">%</th>
@@ -85,11 +85,11 @@
                             }
                             ?>
                             <tr>
-                                <td><?php echo $rec['Recargado']['id'];?></td>
+                                <td><?php echo $rec['Recargado']['id']; ?></td>
                                 <td><?php echo $rec['Persona']['nombre']; ?></td>
                                 <td><?php echo $rec['Recargado']['num_celular']; ?></td>
                                 <td><?php echo $rec['Porcentaje']['nombre']; ?></td>
-                                <td><?php echo $rec['Recargado']['entrada']?></td>
+                                <td><?php echo $rec['Recargado']['entrada'] ?></td>
                                 <td><?php echo $rec['Recargado']['salida']; ?></td>
                                 <td><?php echo $rec['Recargado']['monto']; ?> </td>
                                 <td><?php echo $rec['Recargado']['total']; ?></td>
@@ -97,9 +97,9 @@
                                     <?php if ($ultimo['Recargado']['id'] == $rec['Recargado']['id']): ?>
 
                                         <a href="<?php echo $this->Html->url(array('action' => 'delete', $rec['Recargado']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
-                                                            return true;
-                                                        }
-                                                        return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
+                                                    return true;
+                                                }
+                                                return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>
 
                                     <?php endif; ?>
                                 </td>
@@ -108,6 +108,33 @@
                     </tbody>
                 </table>
 
+            </div>
+
+            <div class="nine-columns twelve-columns-tablet">
+                <table class="table responsive-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Distribuidor</th>
+                            <th >#Monto</th>
+                            <th >#Monto %</th>       
+                        </tr>
+                    </thead>          
+
+                    <tbody>
+                        <?php foreach ($movimientosHoy2 as $rec): ?>
+                            <tr>
+                                <td><?php echo $rec['Porcentaje']['nombre'] ?></td>
+                                <td><?php echo $rec[0]['recargados'] ?></td>
+                                <td><?php echo $rec[0]['rec_porcentaje'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                            <tr>
+                                <td>SALDO TOTAL</td>
+                                <td></td>
+                                <td><?php echo $ultimototal['Recargado']['total'];?></td>
+                            </tr>
+                    </tbody>
+                </table> 
             </div>
 
         </div>
@@ -135,7 +162,7 @@
             var monto_total = montonum + (montonum * (numpor / 100));
             $('#montoporcentaje').html(monto_total);
         });
-        
-    
+
+
     });
 </script>
