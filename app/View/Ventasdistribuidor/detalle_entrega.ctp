@@ -6,7 +6,7 @@
         <h1>Entregas a <?php echo $cliente['Cliente']['nombre'] ?> de <?php echo $fecha; ?></h1>
     </hgroup>
     <div class="with-padding">                   
-        <table class="Clientestable responsive-table" id="sorting-advanced">
+        <table class="table responsive-table" id="sorting-advanced">
             <thead>
                 <tr>
                     <th>Id</th>
