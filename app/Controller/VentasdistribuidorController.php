@@ -358,7 +358,7 @@ class VentasdistribuidorController extends AppController {
       return 0;
     }
   }
-  
+
   public function registra_recarga() {
     $recargas = $this->request->data['Recarga'];
     if (!empty($recargas)) {
@@ -1240,7 +1240,7 @@ class VentasdistribuidorController extends AppController {
     }
     $this->redirect(array('action' => 'chips', $datos['cliente_id']));
   }
-  
+
   public function reporte_detallado_precio() {
     $fecha_ini = $this->request->data['Dato']['fecha_ini'];
     $fecha_fin = $this->request->data['Dato']['fecha_fin'];
@@ -1253,14 +1253,14 @@ class VentasdistribuidorController extends AppController {
       );
       $datos = $this->Movimiento->find('all', array(
         'recursive' => 0, 'order' => 'Movimiento.producto_id',
-        'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin,'Movimiento.salida !=' => NULL),
+        'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.salida !=' => NULL),
         'group' => array('Movimiento.producto_id'),
         'fields' => array('Producto.nombre', 'SUM(Movimiento.ingreso) entregado', 'Producto.id', 'Movimiento.total_s')
       ));
       foreach ($datos as $key => $da) {
         $datos_aux = $this->Movimiento->find('all', array(
           'recursive' => -1, 'order' => 'Movimiento.producto_id',
-          'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.producto_id' => $da['Producto']['id'],'Movimiento.salida !=' => NULL),
+          'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.producto_id' => $da['Producto']['id'], 'Movimiento.salida !=' => NULL),
           'group' => array('Movimiento.precio_uni'),
           'fields' => array('SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total', 'Movimiento.producto_id')
         ));
@@ -1279,22 +1279,68 @@ class VentasdistribuidorController extends AppController {
     if (!empty($this->request->data['Dato'])) {
       $datos = $this->Movimiento->find('all', array(
         'recursive' => 0, 'order' => 'Movimiento.producto_id',
-        'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin,'Movimiento.salida !=' => NULL,'Movimiento.cliente_id !=' => NULL),
+        'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.salida !=' => NULL, 'Movimiento.cliente_id !=' => NULL),
         'group' => array('Movimiento.cliente_id'),
-        'fields' => array('Cliente.nombre','Cliente.num_registro','Movimiento.cliente_id', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)')
+        'fields' => array('Cliente.nombre', 'Cliente.num_registro', 'Movimiento.cliente_id', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)')
       ));
-      foreach ($datos as $key => $da){
+      foreach ($datos as $key => $da) {
         $datos_aux = $this->Movimiento->find('all', array(
           'recursive' => 0, 'order' => 'Movimiento.producto_id',
-          'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.cliente_id' => $da['Movimiento']['cliente_id'],'Movimiento.salida !=' => 'null'),
-          'group' => array('Movimiento.producto_id','Movimiento.precio_uni'),
-          'fields' => array('Producto.nombre','SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total')
+          'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.cliente_id' => $da['Movimiento']['cliente_id'], 'Movimiento.salida !=' => 'null'),
+          'group' => array('Movimiento.producto_id', 'Movimiento.precio_uni'),
+          'fields' => array('Producto.nombre', 'SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total')
         ));
         $datos[$key]['productos'] = $datos_aux;
       }
       //debug($datos);exit;
     }
     $this->set(compact('datos'));
+  }
+
+  public function entregados() {
+    $entregados = $this->Chip->find('all', array(
+      'fields' => array('Chip.fecha_entrega_d', 'Cliente.nombre', 'Cliente.id', 'Cliente.num_registro', 'COUNT(*) as num_chips')
+      , 'conditions' => array('Chip.distribuidor_id' => $this->Session->read('Auth.User.id'), 'Chip.cliente_id !=' => NULL)
+      , 'group' => array('Chip.fecha_entrega_d', 'cliente_id')
+      , 'order' => 'fecha_entrega_d DESC'
+      , 'LIMIT' => 50
+    ));
+    $this->set(compact('entregados'));
+  }
+
+  public function modifica_entregas() {
+    $this->layout = 'ajax';
+  }
+
+  public function cancela_entrega($fecha = null, $idCliente = null) {
+    $entregas = $this->Chip->find('all', array(
+      'fields' => array('Chip.id'),
+      'conditions' => array('Chip.fecha_entrega_d' => $fecha, 'Chip.cliente_id' => $idCliente)
+    ));
+    foreach ($entregas as $en) {
+      $this->Chip->id = $en['Chip']['id'];
+      $dchip['cliente_id'] = NULL;
+      $this->Chip->save($dchip);
+    }
+    $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
+    $this->redirect($this->referer());
+  }
+
+  public function detalle_entrega($fecha = null, $idCliente = null) {
+    $cliente = $this->Cliente->findByid($idCliente, null, null, -1);
+    $entregados = $this->Chip->find('all', array(
+      'recursive' => -1,
+      'conditions' => array('Chip.fecha_entrega_d' => $fecha, 'Chip.cliente_id' => $idCliente)
+    ));
+    $this->set(compact('entregados', 'fecha', 'cliente'));
+  }
+
+  public function cancela_entrega_id($idChip = null) {
+    $this->Chip->id = $idChip;
+    $dchip['cliente_id'] = null;
+    $this->Chip->save($dchip);
+    $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
+    $this->redirect($this->referer());
   }
 
 }
