@@ -107,10 +107,10 @@
 
         <!-- Side tabs shortcuts -->
         <?php if ($this->Session->read('Auth.User.group_id') == 2): ?>
-          <?php echo $this->element('menu/admindistribuidor'); ?>
+            <?php echo $this->element('menu/admindistribuidor'); ?>
         <?php elseif ($this->Session->read('Auth.User.group_id') == 1): ?>
-          <?php echo $this->element('menu/admindistribuidor'); ?>
-          <?php echo $this->element('menu/admin'); ?>             
+            <?php echo $this->element('menu/admindistribuidor'); ?>
+            <?php echo $this->element('menu/admin'); ?>             
         <?php endif; ?>
 
         <!-- JavaScript at the bottom for fast page loading -->
@@ -134,57 +134,67 @@
         <script src="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.min.js"></script>
 
         <script>
-          // Call template init (optional, but faster if called manually)
-          $.template.init();
+            // Call template init (optional, but faster if called manually)
+            $.template.init();
 
-          // Table sort - DataTables
-          var table = $('#sorting-advanced');
-          table.dataTable({
-              'sPaginationType': 'full_numbers',
-              'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
-              "order": [],
-              'fnInitComplete': function (oSettings)
-              {
-                  // Style length select
-                  table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
-                  tableStyled = true;
-              }
-          });
+            // Table sort - DataTables
+            var table = $('#sorting-advanced');
+            table.dataTable({
+                'sPaginationType': 'full_numbers',
+                'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+                "order": [],
+                'fnInitComplete': function (oSettings)
+                {
+                    // Style length select
+                    table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                    tableStyled = true;
+                }
+            });
+            var table = $('#orden');
+            table.dataTable({
+                "order": [[0, "asc"]],   
+                'fnInitComplete': function (oSettings)
+                {
+                    // Style length select
+                    table.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                    tableStyled = true;
+                }
+            });            
 
-          var table2 = $('#tabla-json');
-          table2.dataTable({
-              'sPaginationType': 'full_numbers',
-              'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
-              'bProcessing': true,
-              'sAjaxSource': urljsontabla,
-              'sServerMethod': 'POST',
-              "order": [],
-              'fnInitComplete': function (oSettings)
-              {
-                  // Style length select
-                  table2.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
-                  tableStyled = true;
-              }
-          });
+            var table2 = $('#tabla-json');
+            table2.dataTable({
+                'sPaginationType': 'full_numbers',
+                'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+                'bProcessing': true,
+                'sAjaxSource': urljsontabla,
+                'sServerMethod': 'POST',
+                "order": [],
+                'fnInitComplete': function (oSettings)
+                {
+                    // Style length select
+                    table2.closest('.dataTables_wrapper').find('.dataTables_length select').addClass('select blue-gradient glossy').styleSelect();
+                    tableStyled = true;
+                }
+            });
 
-          function cargarmodal(url,titulo) {
-              $.modal({
-                  content: '<div id="idmodal"></div>',
-                  title: titulo,
-                  width: 600,
-                  height: 400,
-                  actions: {
-                      'Close': {
-                          color: 'red',
-                          click: function (win) {
-                              win.closeModal();
-                          }
-                      }
-                  },
-                  buttonsLowPadding: true
-              });
-              $('#idmodal').load(url);
-          }
+            function cargarmodal(url, titulo) {
+                $.modal({
+                    content: '<div id="idmodal"></div>',
+                    title: titulo,
+                    width: 600,
+                    height: 400,
+                    actions: {
+                        'Close': {
+                            color: 'red',
+                            click: function (win) {
+                                win.closeModal();
+                            }
+                        }
+                    },
+                    buttonsLowPadding: true
+                });
+                $('#idmodal').load(url);
+            }
         </script>
 
         <div style="text-align: center; color:gray;">
