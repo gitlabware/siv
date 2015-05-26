@@ -37,6 +37,7 @@
                     <label for="validation-select" class="label">Producto <small>(requerido)</small></label>
 
                     <select id="validation-select" name="data[Producto][tiposproducto_id]" class="select" style="width: 310px">
+                        <option value=""></option>  
                         <?php foreach ($tiposproductos as $tip): ?>
                           <option value="<?php echo $tip['Tiposproducto']['id'] ?>" data-valor="eynar">
                               <?php echo $tip['Tiposproducto']['nombre'] ?>

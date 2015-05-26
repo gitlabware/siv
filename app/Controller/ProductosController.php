@@ -61,6 +61,8 @@ class ProductosController extends AppController {
         }
       }
       if ($this->Producto->save($this->request->data['Producto'])) {
+        $idProducto = $this->Producto->getLastInsertID();
+        $this->registra_precio_cantidad($idProducto);
         $this->Session->setFlash('Producto Registrado', 'msgbueno');
       } else {
         $this->Session->setFlash('No se pudo registrar!!!', 'msgerror');
@@ -88,27 +90,27 @@ class ProductosController extends AppController {
       $this->request->data['Productosprecio']['fecha'] = date('Y-m-d');
       $this->Productosprecio->create();
       $this->Productosprecio->save($this->request->data['Productosprecio']);
-    }/*
+    }
     if (!empty($this->request->data['Producto']['cantidad_central'])) {
       $almacen = $this->Almacene->find('first', array('conditions' => array('Almacene.central' => 1), 'fields' => array('Almacene.id', 'Almacene.sucursal_id')));
-      $ultimo = $this->Ventascelulare->find('first', array(
-        'order' => 'Ventascelulare.id DESC',
-        'conditions' => array('Ventascelulare.producto_id' => $idProducto, 'Ventascelulare.almacene_id' => $almacen['Almacene']['id'])
+      $ultimo = $this->Movimiento->find('first', array(
+        'order' => 'Movimiento.id DESC',
+        'conditions' => array('Movimiento.producto_id' => $idProducto, 'Movimiento.almacene_id' => $almacen['Almacene']['id'])
       ));
       if (!empty($ultimo)) {
-        $total = $ultimo['Ventascelulare']['total'] + $this->request->data['Producto']['cantidad_cen'];
+        $total = $ultimo['Movimiento']['total'] + $this->request->data['Producto']['cantidad_central'];
       } else {
-        $total = $this->request->data['Producto']['cantidad_cen'];
+        $total = $this->request->data['Producto']['cantidad_central'];
       }
-      $this->request->data['Ventascelulare']['user_id'] = $this->Session->read('Auth.User.id');
-      $this->request->data['Ventascelulare']['producto_id'] = $idProducto;
-      $this->request->data['Ventascelulare']['entrada'] = $this->request->data['Producto']['cantidad_cen'];
-      $this->request->data['Ventascelulare']['total'] = $total;
-      $this->request->data['Ventascelulare']['almacene_id'] = $almacen['Almacene']['id'];
-      $this->request->data['Ventascelulare']['sucursal_id'] = $almacen['Almacene']['sucursal_id'];
-      $this->Ventascelulare->create();
-      $this->Ventascelulare->save($this->request->data['Ventascelulare']);
-    }*/
+      $this->request->data['Movimiento']['user_id'] = $this->Session->read('Auth.User.id');
+      $this->request->data['Movimiento']['producto_id'] = $idProducto;
+      $this->request->data['Movimiento']['ingreso'] = $this->request->data['Producto']['cantidad_central'];
+      $this->request->data['Movimiento']['total'] = $total;
+      $this->request->data['Movimiento']['almacene_id'] = $almacen['Almacene']['id'];
+      $this->request->data['Movimiento']['sucursal_id'] = $almacen['Almacene']['sucursal_id'];
+      $this->Movimiento->create();
+      $this->Movimiento->save($this->request->data['Movimiento']);
+    }
   }
 
   public function guarda_imagen() {
@@ -205,7 +207,8 @@ class ProductosController extends AppController {
       $this->redirect(array('action' => 'index'), null, true);
     }
   }
-
+  
+  
 }
 
 ?>

@@ -1342,6 +1342,11 @@ class VentasdistribuidorController extends AppController {
     $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
     $this->redirect($this->referer());
   }
+  
+  public function pedir(){
+    $this->Session->read('Auth.User.id');
+    $productos = $this->Productosprecio->find();
+  }
 
 }
 
