@@ -56,7 +56,25 @@
             <div class="four-columns" style="display: none;" id="iddivmarca">
                 <p class="block-label button-height">
                     <label class="label">Marca</label>
-                    <?php echo $this->Form->select('marca_id',$marcas, array('class' => 'select full-width')); ?>
+                    <?php echo $this->Form->select('marca_id', $marcas, array('class' => 'select full-width')); ?>
+                </p>
+            </div>
+            <div id="divplus-escala" style="display: none;" class="new-row four-columns">
+                <p class="block-label button-height">
+                    <label class="label">Escala</label>
+                    <?php echo $this->Form->select('Productosprecio.escala', array('DISTRIBUIDOR' => 'DISTRIBUIDOR', 'TIENDA' => 'TIENDA'), array('class' => 'select full-width')); ?>
+                </p>
+            </div>
+            <div id="divplus-precio" style="display: none;" class="four-columns">
+                <p class="block-label button-height">
+                    <label class="label">Precio de venta ($u$)</label>
+                    <?php echo $this->Form->text('precio_venta', array('class' => 'input full-width', 'type' => 'number', 'step' => 'any')); ?>
+                </p>
+            </div>
+            <div id="divplus-cantidad" style="display: none;" class="four-columns">
+                <p class="block-label button-height">
+                    <label class="label">Cantidad en Almacen central</label>
+                    <?php echo $this->Form->text('cantidad_central', array('class' => 'input full-width', 'type' => 'number', 'min' => 0)); ?>
                 </p>
             </div>
             <div class="new-row twelve-columns">
@@ -91,15 +109,25 @@
 <script>
   var categoria = [];
 <?php foreach ($tiposproductos as $tip): ?>
-  categoria[<?php echo $tip['Tiposproducto']['id'] ?>] = '<?php echo $tip['Tiposproducto']['nombre'] ?>';
+    categoria[<?php echo $tip['Tiposproducto']['id'] ?>] = '<?php echo $tip['Tiposproducto']['nombre'] ?>';
 <?php endforeach; ?>
   $(document).ready(function () {
       $('#validation-select').change(function () {
-        if(categoria[$('#validation-select').val()] == 'CELULARES'){
-          $('#iddivimagen').removeClass('eight-columns');$('#iddivimagen').addClass('four-columns');$('#iddivmarca').show(200);
-        }else{
-          $('#iddivimagen').removeClass('four-columns');$('#iddivimagen').addClass('eight-columns');$('#iddivmarca').hide(200);
-        }
+          if (categoria[$('#validation-select').val()] == 'TARJETAS' || categoria[$('#validation-select').val()] == 'CHIPS') {
+              $('#iddivimagen').removeClass('eight-columns');
+              $('#iddivimagen').addClass('four-columns');
+              $('#iddivmarca').show(200);
+              $('#divplus-escala').show(200);
+              $('#divplus-precio').show(200);
+              $('#divplus-cantidad').show(200);
+          } else {
+              $('#iddivimagen').removeClass('four-columns');
+              $('#iddivimagen').addClass('eight-columns');
+              $('#iddivmarca').hide(200);
+              $('#divplus-escala').hide(200);
+              $('#divplus-precio').hide(200);
+              $('#divplus-cantidad').hide(200);
+          }
       });
       $("#formID").validationEngine();
   });

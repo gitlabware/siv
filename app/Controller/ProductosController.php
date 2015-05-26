@@ -74,6 +74,42 @@ class ProductosController extends AppController {
     //debug($marcas);exit;
     $this->set(compact('tiposproductos', 'marcas'));
   }
+  public function registra_precio_cantidad($idProducto = null) {
+    if (!empty($this->request->data['Producto']['precio_venta'])) {
+      $this->request->data['Productosprecio']['producto_id'] = $idProducto;
+      if($this->request->data['Productosprecio']['escala'] == 'TIENDA'){
+        $this->request->data['Productosprecio']['tipousuario_id'] = 2;
+        $this->request->data['Productosprecio']['escala_id'] = 3;
+      }elseif ($this->request->data['Productosprecio']['escala'] == 'DISTRIBUIDOR') {
+        $this->request->data['Productosprecio']['tipousuario_id'] = 3;
+        $this->request->data['Productosprecio']['escala_id'] = 1;
+      }
+      $this->request->data['Productosprecio']['precio'] = $this->request->data['Producto']['precio_venta'];
+      $this->request->data['Productosprecio']['fecha'] = date('Y-m-d');
+      $this->Productosprecio->create();
+      $this->Productosprecio->save($this->request->data['Productosprecio']);
+    }/*
+    if (!empty($this->request->data['Producto']['cantidad_central'])) {
+      $almacen = $this->Almacene->find('first', array('conditions' => array('Almacene.central' => 1), 'fields' => array('Almacene.id', 'Almacene.sucursal_id')));
+      $ultimo = $this->Ventascelulare->find('first', array(
+        'order' => 'Ventascelulare.id DESC',
+        'conditions' => array('Ventascelulare.producto_id' => $idProducto, 'Ventascelulare.almacene_id' => $almacen['Almacene']['id'])
+      ));
+      if (!empty($ultimo)) {
+        $total = $ultimo['Ventascelulare']['total'] + $this->request->data['Producto']['cantidad_cen'];
+      } else {
+        $total = $this->request->data['Producto']['cantidad_cen'];
+      }
+      $this->request->data['Ventascelulare']['user_id'] = $this->Session->read('Auth.User.id');
+      $this->request->data['Ventascelulare']['producto_id'] = $idProducto;
+      $this->request->data['Ventascelulare']['entrada'] = $this->request->data['Producto']['cantidad_cen'];
+      $this->request->data['Ventascelulare']['total'] = $total;
+      $this->request->data['Ventascelulare']['almacene_id'] = $almacen['Almacene']['id'];
+      $this->request->data['Ventascelulare']['sucursal_id'] = $almacen['Almacene']['sucursal_id'];
+      $this->Ventascelulare->create();
+      $this->Ventascelulare->save($this->request->data['Ventascelulare']);
+    }*/
+  }
 
   public function guarda_imagen() {
     $archivoImagen = $this->request->data['Producto']['imagen'];

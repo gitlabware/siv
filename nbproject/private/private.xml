@@ -3,6 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/html/siv/app/Controller/VentasdistribuidorController.php</file>
+            <file>file:/var/www/html/siv/app/View/Ventasdistribuidor/entregados.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Ventasdistribuidor/modifica_entregas.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Ventasdistribuidor/detalle_entrega.ctp</file>
+            <file>file:/var/www/html/siv/app/View/Ventasdistribuidor/clientes.ctp</file>
         </group>
     </open-files>
 </project-private>

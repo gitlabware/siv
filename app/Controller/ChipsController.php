@@ -262,9 +262,9 @@ class ChipsController extends AppController {
           'L' => '',
           'M' => '',
           'N' => '');
-        
+
         foreach ($cellIterator as $cell) {
-          
+
           if ('A' == $cell->getColumn()) {
             $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
           } elseif ('B' == $cell->getColumn()) {
@@ -277,12 +277,12 @@ class ChipsController extends AppController {
           } elseif ('C' == $cell->getColumn()) {
             $fechaExcel = explode('/', $cell->getCalculatedValue());
             if (count($fechaExcel) > 1) {
-              /*if(strlen($fechaExcel[0]) == 1){
+              /* if(strlen($fechaExcel[0]) == 1){
                 $fechaExcel[0] = '0'.$fechaExcel[0];
-              }
-              if(strlen($fechaExcel[1]) == 1){
+                }
+                if(strlen($fechaExcel[1]) == 1){
                 $fechaExcel[1] = '0'.$fechaExcel[1];
-              }*/
+                } */
               $array_data[$rowIndex][$cell->getColumn()] = $fechaExcel[2] . '-' . $fechaExcel[0] . '-' . $fechaExcel[1];
             } else {
               $array_data[$rowIndex][$cell->getColumn()] = date('Y-m-d', (($cell->getCalculatedValue() - 25568) * 86400));
@@ -292,7 +292,7 @@ class ChipsController extends AppController {
           } elseif ('E' == $cell->getColumn()) {
             $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
           } elseif ('F' == $cell->getColumn()) {
-            
+
             $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
           } elseif ('G' == $cell->getColumn()) {
             $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
@@ -580,10 +580,10 @@ class ChipsController extends AppController {
       $chips = $this->Chip->find('all', array(
         'recursive' => -1,
         'order' => 'Chip.id', 'limit' => $cantidad, 'fields' => array('Chip.id'),
-        'conditions' => array('Chip.id >=' => $rango_ini,'Chip.distribuidor_id' => NULL)
+        'conditions' => array('Chip.id >=' => $rango_ini, 'Chip.distribuidor_id' => NULL)
       ));
-      /*debug($chips);
-      exit;*/
+      /* debug($chips);
+        exit; */
       foreach ($chips as $ch) {
         $this->Chip->id = $ch['Chip']['id'];
         $dato['Chip']['fecha_entrega_d'] = date('Y-m-d');
@@ -597,6 +597,50 @@ class ChipsController extends AppController {
     $this->redirect(array('action' => 'asigna_distrib'));
   }
 
+  public function asignados() {
+    $sql = "SELECT CONCAT(p.nombre,' ',p.ap_paterno,' ',p.ap_materno) FROM personas p WHERE p.id = Distribuidor.persona_id";
+    $this->Chip->virtualFields = array(
+      'nombre_dist' => "CONCAT(($sql))"
+    );
+    $entregados = $this->Chip->find('all', array(
+      'fields' => array('Chip.fecha_entrega_d', 'Chip.distribuidor_id', 'COUNT(*) as num_chips','Chip.nombre_dist')
+      ,'recursive' => 0
+      , 'conditions' => array('Chip.distribuidor_id !=' => NULL)
+      , 'group' => array('Chip.fecha_entrega_d', 'distribuidor_id')
+      , 'order' => 'fecha_entrega_d DESC'
+      , 'LIMIT' => 50
+    ));
+    //debug($entregados);exit;
+    $this->set(compact('entregados'));
+  }
+  public function detalle_entrega($fecha = null, $idDistribuidor = null) {
+    $distribuidor = $this->User->findByid($idDistribuidor, null, null, 0);
+    $entregados = $this->Chip->find('all', array(
+      'recursive' => -1,
+      'conditions' => array('Chip.fecha_entrega_d' => $fecha, 'Chip.distribuidor_id' => $idDistribuidor)
+    ));
+    $this->set(compact('entregados', 'fecha', 'distribuidor'));
+  }
+  public function cancela_entrega_id($idChip = null) {
+    $this->Chip->id = $idChip;
+    $dchip['distribuidor_id'] = null;
+    $this->Chip->save($dchip);
+    $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
+    $this->redirect($this->referer());
+  }
+  public function cancela_entrega($fecha = null, $idDistribuidor = null) {
+    $entregas = $this->Chip->find('all', array(
+      'fields' => array('Chip.id'),
+      'conditions' => array('Chip.fecha_entrega_d' => $fecha, 'Chip.distribuidor_id' => $idDistribuidor)
+    ));
+    foreach ($entregas as $en) {
+      $this->Chip->id = $en['Chip']['id'];
+      $dchip['distribuidor_id'] = NULL;
+      $this->Chip->save($dchip);
+    }
+    $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
+    $this->redirect($this->referer());
+  }
 }
 
 ?>

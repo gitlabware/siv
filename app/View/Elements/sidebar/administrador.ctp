@@ -60,6 +60,7 @@
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listadistribuidores')); ?>">Repartir personal</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'listaalmacenes')) ?>">Repartir Almacenes</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Chips', 'action' => 'asigna_distrib')); ?>">Asignar Chips</a></li>	
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Chips', 'action' => 'asignados')); ?>">Chips asignados</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Chips', 'action' => 'subirexcel')); ?>">Subir excel chips</a></li>
                         <li><a href="<?php echo $this->Html->url(array('controller' => 'Almacenes', 'action' => 'filtra')); ?>">Reporte entrega</a></li>
 
