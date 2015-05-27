@@ -43,7 +43,7 @@
                 </fieldset>
                 </p>
                 <p class="block-label button-height">
-                    <button type="submit" class="button anthracite-gradient glossy full-width">REGISTRAR VENTA</button>
+                    <button type="submit" class="button anthracite-gradient glossy full-width">REGISTRAR PEDIDO</button>
                 </p>
                 <?php echo $this->Form->end(); ?>
             </div>
