@@ -133,6 +133,15 @@
 
                     </ul>
                 </li>
+                <li class="with-right-arrow">
+                    <span>Pedidos</span>
+                    <ul class="big-menu">
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Pedidos', 'action' => 'pedido')); ?>">Nuevo Pedido</a></li>
+
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Pedidos', 'action' => 'index')); ?>">Listado de Pedidos</a></li>                                                                        
+
+                    </ul>
+                </li>
                 
             </ul>
         </section>

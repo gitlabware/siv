@@ -54,6 +54,15 @@
                     </ul>
                 </li>
                 <li><a href="<?php echo $this->Html->url(array('controller' => 'Ventasdistribuidor','action'=>'entregados')); ?>">Chips entregados</a></li>
+                <li class="with-right-arrow">
+                    <span>Pedidos</span>
+                    <ul class="big-menu">
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Ventasdistribuidor', 'action' => 'pedido')); ?>">Nuevo Pedido</a></li>
+
+                        <li><a href="<?php echo $this->Html->url(array('controller' => 'Ventasdistribuidor', 'action' => 'lista_pedidos')); ?>">Listado de Pedidos</a></li>                                                                        
+
+                    </ul>
+                </li>
             </ul>
         </section>
     </div>
