@@ -8,7 +8,7 @@
 
             </div>
             <div class="six-columns twelve-columns-mobile">
-                <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Pedidos', 'action' => 'registra_pedido'))); ?>
+                <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Ventasdistribuidor', 'action' => 'registra_pedido'))); ?>
                 <p class="block-label button-height">
                 <fieldset class="fieldset">
                     <p class="block-label button-height">
