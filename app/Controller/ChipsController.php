@@ -551,6 +551,10 @@ class ChipsController extends AppController {
     $this->User->virtualFields = array(
       'nombre_completo' => "CONCAT(Persona.nombre,' ',Persona.ap_paterno,' ',Persona.ap_materno)"
     );
+    $sql = "SELECT COUNT(*) FROM chips ch,activados ac WHERE ch.telefono";
+    $this->User->virtualFields = array(
+      'activados' => ""
+    );
     $distribuidores = $this->User->find('list', array('recursive' => 0, 'fields' => 'User.nombre_completo', array('Conditions' => array('User.group_id' => 2))));
     if ($this->RequestHandler->responseType() == 'json') {
       /* $editar = '<button class="button orange-gradient compact icon-pencil" type="button" onclick="editarc(' . "',Cliente.id,'" . ')">Editar</button>';
