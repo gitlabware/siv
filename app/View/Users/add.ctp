@@ -15,7 +15,7 @@
 
                 <p class="block-label button-height">
                     <label for="block-label-1" class="label">Nombre <small>(requerido)</small></label>                    
-                    <?php echo $this->Form->text('Persona.nombre', array('class' => 'input full-width', 'placeholder' => 'Ingrese el nombre', 'value' => "")); ?>
+                    <?php echo $this->Form->text('Persona.nombre', array('class' => 'input full-width input validate[required]', 'placeholder' => 'Ingrese el nombre', 'value' => "", 'autofocus')); ?>
                 </p>
             </div>
             <div class="four-columns">                

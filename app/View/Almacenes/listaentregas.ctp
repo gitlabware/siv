@@ -12,7 +12,7 @@
         <div class="columns">
             <div class="six-columns twelve-columns-tablet">
                 <h3 class="thin">
-                    Listado entrega
+                    Listado entregados
                 </h3>
                 
                     <table class="table responsive-table" id="sorting-advanced">

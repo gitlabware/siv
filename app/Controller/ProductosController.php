@@ -4,7 +4,7 @@ class ProductosController extends AppController {
 
   public $layout = 'viva';
   public $name = 'Productos';
-  public $uses = array('Producto', 'Preciosventa', 'Tiposproducto', 'Marca');
+  public $uses = array('Producto', 'Preciosventa', 'Tiposproducto', 'Marca', 'Productosprecio', 'Almacene', 'Movimiento');
   public $helpers = array('Html', 'Form');
   public $components = array('Session', 'RequestHandler', 'DataTable');
 

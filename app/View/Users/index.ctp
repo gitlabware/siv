@@ -13,7 +13,7 @@
             <thead>
                 <tr>                      
                     <th scope="col" width="5%" class="align-center hide-on-mobile">Nro.</th>
-                    <th scope="col" width="20%" class="align-center hide-on-mobile">Nombre</th>
+                    <th scope="col" width="20%" class="align-center">Nombre</th>
                     <th scope="col" width="15%" class="align-center hide-on-mobile-portrait">Apellido Paterno</th>
                     <th scope="col" width="15%" class="align-center hide-on-mobile-portrait">Usuario</th>
                     <th scope="col" width="15%" class="align-center hide-on-mobile-portrait">Tipo Usuario</th>
