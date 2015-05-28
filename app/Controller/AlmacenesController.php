@@ -133,7 +133,7 @@ class AlmacenesController extends AppController {
   }
 
   public function listaentregas($idPersona = null, $almacen = null) {
-
+    $pedidos = array();
     if ($almacen == 1) {
       $persona = $this->Almacene->find('first', array('conditions' => array('Almacene.id' => $idPersona)));
       $nombre = $persona['Almacene']['nombre'];
@@ -156,17 +156,15 @@ class AlmacenesController extends AppController {
       ));
 
       $idDistribuidor = $this->User->find('first', array('fields' => array('User.id'), 'conditions' => array('User.persona_id' => $idPersona)));
-      $ultimafecha = $this->Pedido->find('first', array(
-        'fields' => array('Pedido.created'),
+      $ultima = $this->Pedido->find('first', array(
+        'fields' => array('Pedido.numero'),
         'conditions' => array('Pedido.distribuidor_id' => $idDistribuidor['User']['id']),
         'order' => 'Pedido.id DESC'
       ));
-      if (!empty($ultimafecha)) {
+      if (!empty($ultima)) {
         $pedidos = $this->Pedido->find('all', array(
-          'conditions' => array('Pedido.distribuidor_id' => $idDistribuidor['User']['id'], 'Pedido.created' => $ultimafecha['Pedido']['created'])
+          'conditions' => array('Pedido.distribuidor_id' => $idDistribuidor['User']['id'], 'Pedido.numero' => $ultima['Pedido']['numero'])
         ));
-      }else{
-        
       }
     }
 
@@ -195,7 +193,7 @@ class AlmacenesController extends AppController {
     );
 
 
-    $this->set(compact('entregas', 'idPersona', 'nombre', 'almacen'));
+    $this->set(compact('entregas', 'idPersona', 'nombre', 'almacen','pedidos'));
   }
 
   public function ajaxrepartir($idPersona = null, $almacen = null) {
