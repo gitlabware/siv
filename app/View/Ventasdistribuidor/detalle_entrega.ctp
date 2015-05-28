@@ -5,7 +5,32 @@
     <hgroup id="main-title" class="thin">
         <h1>Entregas a <?php echo $cliente['Cliente']['nombre'] ?> de <?php echo $fecha; ?></h1>
     </hgroup>
-    <div class="with-padding">                   
+    <div class="with-padding"> 
+        <?php echo $this->Form->create('Ventasdistribuidor', array('url'=>'Ventasdistribuidor', 'action' => 'cancela_asignado')); ?>
+        <div class="columns">
+            <div class="four-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Rang. Inicial</label>
+                    <?php echo $this->Form->hidden("Dato.fecha",array('value' => $fecha));?>
+                    <?php echo $this->Form->hidden("Dato.distribuidor_id",array('value' => $idDistribuidor));?>
+                    <?php echo $this->Form->text('Dato.rango_ini', array('class' => 'full-width input')); ?>
+                </p>
+            </div>
+            <div class="four-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">Cantidad</label>
+                    <?php echo $this->Form->text('Dato.cantidad', array('class' => 'full-width input')); ?>
+                </p>
+            </div>
+            <div class="four-columns-columns">
+                <p class="block-label button-height">
+                    <label for="block-label-1" class="label">&nbsp;</label>
+                    <button class="button green-gradient full-width" type="submit">CANCELAR</button>
+                </p>
+            </div>
+        </div>
+        <br>
+        <?php echo $this->Form->end(); ?>
         <table class="table responsive-table" id="sorting-advanced">
             <thead>
                 <tr>
