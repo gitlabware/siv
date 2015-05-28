@@ -549,6 +549,39 @@ class ReportesController extends Controller {
     $distribuidores = $this->User->find('list',array('fields' => 'User.nombre_d','recursive' => 0,'conditions' => array('User.group_id' => 2)));
     $this->set(compact('datos','distribuidores'));
   }
+  public function reporte_chips_c_total() {
+    $datos = array();
+    if (!empty($this->request->data['Dato'])) {
+      $fecha_ini = $this->request->data['Dato']['fecha_ini'];
+      $fecha_fin = $this->request->data['Dato']['fecha_fin'];
+      $activado_t = $this->request->data['Dato']['activado'];
+      $idDistribuidor = $this->request->data['Dato']['distribuidor_id'];
+      $sql1 = "(SELECT users.persona_id FROM users WHERE (users.id = Chip.distribuidor_id))";
+      $sql11 = "(SELECT CONCAT(personas.nombre,' ',personas.ap_paterno,' ',personas.ap_materno) FROM personas WHERE (personas.id = ($sql1)))";
+      $sql2 = "(SELECT nombre FROM lugares WHERE lugares.id = (SELECT users.lugare_id FROM users WHERE (users.id = Chip.distribuidor_id)))";
+      $sql3 = "(SELECT COUNT(*) FROM chips c,activados a WHERE c.telefono = a.phone_number AND Chip.distribuidor_id = c.distribuidor_id AND c.distribuidor_id = $idDistribuidor)";
+      $this->Chip->virtualFields = array(
+        'distribuidor' => "CONCAT($sql11)",
+        'lugar_dis' => "CONCAT($sql2)",
+        'activados' => "CONCAT($sql3)"
+      );
+      $condiciones = array();
+      $condiciones['Chip.fecha >='] = $fecha_ini;
+      $condiciones['Chip.fecha <='] = $fecha_fin;
+      $condiciones['Chip.distribuidor_id'] = $idDistribuidor;
+      //debug($condiciones);exit;
+      $datos = $this->Chip->find('all', array(
+        'conditions' => $condiciones
+        ,'group' => array('Chip.cliente_id'),
+        'fields' => array('Cliente.num_registro','Cliente.nombre','Cliente.zona','Chip.distribuidor','Chip.lugar_dis','Chip.activados','COUNT(*) as total')
+      ));
+    }
+    $this->User->virtualFields = array(
+      'nombre_d' => "CONCAT(Persona.nombre,' ',Persona.ap_paterno,' ',Persona.ap_materno)"
+    );
+    $distribuidores = $this->User->find('list',array('fields' => 'User.nombre_d','recursive' => 0,'conditions' => array('User.group_id' => 2)));
+    $this->set(compact('datos','distribuidores'));
+  }
 
   public function reporte_cliente_tienda() {
     $fecha_ini = $this->request->data['Dato']['fecha_ini'];
