@@ -548,7 +548,10 @@ class ChipsController extends AppController {
   }
 
   public function asigna_distrib() {
-    $sql = "SELECT COUNT(*) FROM chips ch,activados ac WHERE ch.telefono = ac.phone_number AND ch.distribuidor_id = User.id";
+
+    $sql2 = "SELECT fecha_entrega_d FROM chips WHERE distribuidor_id = User.id ORDER BY fecha_entrega_d DESC LIMIT 1";
+    $sql = "SELECT COUNT(*) FROM chips ch,activados ac WHERE ch.telefono = ac.phone_number AND ch.distribuidor_id = User.id AND ch.fecha_entrega_d = ($sql2)";
+
     $this->User->virtualFields = array(
       'nombre_completo' => "CONCAT(Persona.nombre,' ',Persona.ap_paterno,' ',Persona.ap_materno,' (',($sql),')')"
     );
@@ -604,8 +607,8 @@ class ChipsController extends AppController {
       'nombre_dist' => "CONCAT(($sql))"
     );
     $entregados = $this->Chip->find('all', array(
-      'fields' => array('Chip.fecha_entrega_d', 'Chip.distribuidor_id', 'COUNT(*) as num_chips','Chip.nombre_dist')
-      ,'recursive' => 0
+      'fields' => array('Chip.fecha_entrega_d', 'Chip.distribuidor_id', 'COUNT(*) as num_chips', 'Chip.nombre_dist')
+      , 'recursive' => 0
       , 'conditions' => array('Chip.distribuidor_id !=' => NULL)
       , 'group' => array('Chip.fecha_entrega_d', 'distribuidor_id')
       , 'order' => 'fecha_entrega_d DESC'
@@ -614,14 +617,16 @@ class ChipsController extends AppController {
     //debug($entregados);exit;
     $this->set(compact('entregados'));
   }
+
   public function detalle_entrega($fecha = null, $idDistribuidor = null) {
     $distribuidor = $this->User->findByid($idDistribuidor, null, null, 0);
     $entregados = $this->Chip->find('all', array(
       'recursive' => -1,
       'conditions' => array('Chip.fecha_entrega_d' => $fecha, 'Chip.distribuidor_id' => $idDistribuidor)
     ));
-    $this->set(compact('entregados', 'fecha', 'distribuidor','idDistribuidor'));
+    $this->set(compact('entregados', 'fecha', 'distribuidor', 'idDistribuidor'));
   }
+
   public function cancela_entrega_id($idChip = null) {
     $this->Chip->id = $idChip;
     $dchip['distribuidor_id'] = null;
@@ -629,6 +634,7 @@ class ChipsController extends AppController {
     $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
     $this->redirect($this->referer());
   }
+
   public function cancela_entrega($fecha = null, $idDistribuidor = null) {
     $entregas = $this->Chip->find('all', array(
       'fields' => array('Chip.id'),
@@ -642,7 +648,8 @@ class ChipsController extends AppController {
     $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
     $this->redirect($this->referer());
   }
-  public function cancela_asignado(){
+
+  public function cancela_asignado() {
     if (!empty($this->request->data['Dato'])) {
       $rango_ini = $this->request->data['Dato']['rango_ini'];
       $cantidad = $this->request->data['Dato']['cantidad'];
@@ -651,7 +658,7 @@ class ChipsController extends AppController {
       $chips = $this->Chip->find('all', array(
         'recursive' => -1,
         'order' => 'Chip.id', 'limit' => $cantidad, 'fields' => array('Chip.id'),
-        'conditions' => array('Chip.id >=' => $rango_ini, 'Chip.distribuidor_id' => $idDistribuidor,'Chip.fecha_entrega_d' => $fecha_d)
+        'conditions' => array('Chip.id >=' => $rango_ini, 'Chip.distribuidor_id' => $idDistribuidor, 'Chip.fecha_entrega_d' => $fecha_d)
       ));
       /* debug($chips);
         exit; */
@@ -667,6 +674,7 @@ class ChipsController extends AppController {
     }
     $this->redirect($this->referer());
   }
+
 }
 
 ?>
