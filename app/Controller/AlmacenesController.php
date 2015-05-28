@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class AlmacenesController extends AppController {
 
-  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare');
+  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare', 'Pedido');
   public $components = array('Session', 'Fechasconvert', 'RequestHandler', 'DataTable');
   public $layout = 'viva';
 
@@ -50,7 +50,7 @@ class AlmacenesController extends AppController {
    * @return void
    */
   public function add() {
-    
+
     if ($this->request->is('post')) {
       $this->Almacene->create();
       $this->request->data['Almacene']['central'] = 0;
@@ -154,6 +154,20 @@ class AlmacenesController extends AppController {
         'group' => array('Movimiento.producto_id'),
         'order' => array('Movimiento.id DESC')
       ));
+
+      $idDistribuidor = $this->User->find('first', array('fields' => array('User.id'), 'conditions' => array('User.persona_id' => $idPersona)));
+      $ultimafecha = $this->Pedido->find('first', array(
+        'fields' => array('Pedido.created'),
+        'conditions' => array('Pedido.distribuidor_id' => $idDistribuidor['User']['id']),
+        'order' => 'Pedido.id DESC'
+      ));
+      if (!empty($ultimafecha)) {
+        $pedidos = $this->Pedido->find('all', array(
+          'conditions' => array('Pedido.distribuidor_id' => $idDistribuidor['User']['id'], 'Pedido.created' => $ultimafecha['Pedido']['created'])
+        ));
+      }else{
+        
+      }
     }
 
     $c = 0;
@@ -179,6 +193,7 @@ class AlmacenesController extends AppController {
       'group' => array('Movimiento.producto_id')
       )
     );
+
 
     $this->set(compact('entregas', 'idPersona', 'nombre', 'almacen'));
   }
@@ -584,8 +599,8 @@ class AlmacenesController extends AppController {
         'cantidad' => "$sql",
         'acciones' => "CONCAT('$acciones')"
       );
-      /*debug($id_a);
-      exit;*/
+      /* debug($id_a);
+        exit; */
       $this->paginate = array(
         'fields' => array('Producto.imagen', 'Producto.nombre', 'Marca.nombre', 'Producto.cantidad', 'Producto.acciones'),
         'recursive' => 0,

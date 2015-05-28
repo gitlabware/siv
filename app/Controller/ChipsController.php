@@ -619,7 +619,7 @@ class ChipsController extends AppController {
       'recursive' => -1,
       'conditions' => array('Chip.fecha_entrega_d' => $fecha, 'Chip.distribuidor_id' => $idDistribuidor)
     ));
-    $this->set(compact('entregados', 'fecha', 'distribuidor'));
+    $this->set(compact('entregados', 'fecha', 'distribuidor','idDistribuidor'));
   }
   public function cancela_entrega_id($idChip = null) {
     $this->Chip->id = $idChip;
@@ -639,6 +639,31 @@ class ChipsController extends AppController {
       $this->Chip->save($dchip);
     }
     $this->Session->setFlash('Se cancelo correctamente!!!', 'msgbueno');
+    $this->redirect($this->referer());
+  }
+  public function cancela_asignado(){
+    if (!empty($this->request->data['Dato'])) {
+      $rango_ini = $this->request->data['Dato']['rango_ini'];
+      $cantidad = $this->request->data['Dato']['cantidad'];
+      $idDistribuidor = $this->request->data['Dato']['distribuidor_id'];
+      $fecha_d = $this->request->data['Dato']['fecha'];
+      $chips = $this->Chip->find('all', array(
+        'recursive' => -1,
+        'order' => 'Chip.id', 'limit' => $cantidad, 'fields' => array('Chip.id'),
+        'conditions' => array('Chip.id >=' => $rango_ini, 'Chip.distribuidor_id' => $idDistribuidor,'Chip.fecha_entrega_d' => $fecha_d)
+      ));
+      /* debug($chips);
+        exit; */
+      foreach ($chips as $ch) {
+        $this->Chip->id = $ch['Chip']['id'];
+        $dato['Chip']['fecha_entrega_d'] = date('Y-m-d');
+        $dato['Chip']['distribuidor_id'] = NULL;
+        $this->Chip->save($dato['Chip']);
+      }
+      $this->Session->setFlash('Se cancela correctamente', 'msgbueno');
+    } else {
+      $this->Session->setFlash('No se pudo cancelar!!', 'msgerror');
+    }
     $this->redirect($this->referer());
   }
 }
