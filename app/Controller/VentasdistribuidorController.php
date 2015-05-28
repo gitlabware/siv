@@ -1401,6 +1401,35 @@ class VentasdistribuidorController extends AppController {
     ));
     $this->set(compact('pedidos'));
   }
+  
+  public function cancela_asignado(){
+    
+    //debug($this->request->data);
+    $idDis = $this->Session->read('Auth.User.id');
+    if (!empty($this->request->data['Dato'])) {
+      $rango_ini = $this->request->data['Dato']['rango_ini'];
+      $cantidad = $this->request->data['Dato']['cantidad'];
+      $idDistribuidor = $idDis;
+      $fecha_d = $this->request->data['Dato']['fecha'];
+      $chips = $this->Chip->find('all', array(
+        'recursive' => -1,
+        'order' => 'Chip.id', 'limit' => $cantidad, 'fields' => array('Chip.id'),
+        'conditions' => array('Chip.id >=' => $rango_ini, 'Chip.distribuidor_id' => $idDistribuidor,'Chip.fecha_entrega_d' => $fecha_d)
+      ));
+       //debug($chips);
+       // exit; 
+      foreach ($chips as $ch) {
+        $this->Chip->id = $ch['Chip']['id'];
+        $dato['Chip']['fecha_entrega_d'] = date('Y-m-d');
+        $dato['Chip']['distribuidor_id'] = NULL;
+        $this->Chip->save($dato['Chip']);
+      }
+      $this->Session->setFlash('Se cancela correctamente', 'msgbueno');
+    } else {
+      $this->Session->setFlash('No se pudo cancelar!!', 'msgerror');
+    }
+    $this->redirect($this->referer());
+  }
 
 }
 

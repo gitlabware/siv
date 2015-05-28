@@ -664,6 +664,7 @@ class ChipsController extends AppController {
         $this->Chip->id = $ch['Chip']['id'];
         $dato['Chip']['fecha_entrega_d'] = date('Y-m-d');
         $dato['Chip']['distribuidor_id'] = NULL;
+        $dato['Chip']['cliente_id'] = NULL;
         $this->Chip->save($dato['Chip']);
       }
       $this->Session->setFlash('Se cancela correctamente', 'msgbueno');
