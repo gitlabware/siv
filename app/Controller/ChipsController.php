@@ -548,12 +548,9 @@ class ChipsController extends AppController {
   }
 
   public function asigna_distrib() {
+    $sql = "SELECT COUNT(*) FROM chips ch,activados ac WHERE ch.telefono = ac.phone_number AND ch.distribuidor_id = User.id";
     $this->User->virtualFields = array(
-      'nombre_completo' => "CONCAT(Persona.nombre,' ',Persona.ap_paterno,' ',Persona.ap_materno)"
-    );
-    $sql = "SELECT COUNT(*) FROM chips ch,activados ac WHERE ch.telefono";
-    $this->User->virtualFields = array(
-      'activados' => ""
+      'nombre_completo' => "CONCAT(Persona.nombre,' ',Persona.ap_paterno,' ',Persona.ap_materno,' (',($sql),')')"
     );
     $distribuidores = $this->User->find('list', array('recursive' => 0, 'fields' => 'User.nombre_completo', array('Conditions' => array('User.group_id' => 2))));
     if ($this->RequestHandler->responseType() == 'json') {
