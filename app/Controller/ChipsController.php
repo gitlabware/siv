@@ -16,7 +16,7 @@ class ChipsController extends AppController {
     if ($this->RequestHandler->responseType() == 'json') {
       $this->RequestHandler->setContent('json', 'application/json');
     }
-    $this->Auth->allow();
+    //$this->Auth->allow();
   }
 
   public function subirexcel() {
