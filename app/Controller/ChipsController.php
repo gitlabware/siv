@@ -336,6 +336,13 @@ class ChipsController extends AppController {
         $i++;
       }
       //debug($this->request->data);die;
+      if (!empty($this->request->data[0]['Activado']['phone_number'])) {
+        $verifica_tel = $this->Activado->find('first', array('conditions' => array('Activado.phone_number' => $this->request->data[0]['Activado']['phone_number'])));
+        if (!empty($verifica_tel)) {
+          $this->Session->setFlash("Ya se registro el excel verifique!!", 'msgerror');
+          $this->redirect(array('action' => 'subirexcel'));
+        }
+      }
 
       if ($this->Activado->saveMany($this->data)) {
         $this->Session->setFlash('se Guardo correctamente el Excel', 'msgbueno');
@@ -430,8 +437,17 @@ class ChipsController extends AppController {
         $this->request->data[$i]['Chip']['fecha'] = $d['G'];
         $i++;
       }
+      if (!empty($this->request->data[0]['Chip']['telefono'])) {
+        $verifica_tel = $this->Chip->find('first', array('conditions' => array('Chip.telefono' => $this->request->data[0]['Chip']['telefono'])));
+        if (!empty($verifica_tel)) {
+          $this->Session->setFlash("Ya se registro el excel verifique!!", 'msgerror');
+          $this->redirect(array('action' => 'subirexcel'));
+        }
+      }
+
       //debug($this->data);
       //exit;
+
       if ($this->Chip->saveMany($this->data)) {
         //echo 'registro corectamente';
         //$this->Chip->deleteAll(array('Chip.sim' => '')); //limpiamos el excel con basuras
