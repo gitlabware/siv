@@ -16,7 +16,7 @@ class ChipsController extends AppController {
     if ($this->RequestHandler->responseType() == 'json') {
       $this->RequestHandler->setContent('json', 'application/json');
     }
-    $this->Auth->allow();
+    //$this->Auth->allow();
   }
 
   public function subirexcel() {
@@ -336,6 +336,13 @@ class ChipsController extends AppController {
         $i++;
       }
       //debug($this->request->data);die;
+      if (!empty($this->request->data[0]['Activado']['phone_number'])) {
+        $verifica_tel = $this->Activado->find('first', array('conditions' => array('Activado.phone_number' => $this->request->data[0]['Activado']['phone_number'])));
+        if (!empty($verifica_tel)) {
+          $this->Session->setFlash("Ya se registro el excel verifique!!", 'msgerror');
+          $this->redirect(array('action' => 'subirexcel'));
+        }
+      }
 
       if ($this->Activado->saveMany($this->data)) {
         $this->Session->setFlash('se Guardo correctamente el Excel', 'msgbueno');
@@ -430,8 +437,17 @@ class ChipsController extends AppController {
         $this->request->data[$i]['Chip']['fecha'] = $d['G'];
         $i++;
       }
+      if (!empty($this->request->data[0]['Chip']['telefono'])) {
+        $verifica_tel = $this->Chip->find('first', array('conditions' => array('Chip.telefono' => $this->request->data[0]['Chip']['telefono'])));
+        if (!empty($verifica_tel)) {
+          $this->Session->setFlash("Ya se registro el excel verifique!!", 'msgerror');
+          $this->redirect(array('action' => 'subirexcel'));
+        }
+      }
+
       //debug($this->data);
       //exit;
+
       if ($this->Chip->saveMany($this->data)) {
         //echo 'registro corectamente';
         //$this->Chip->deleteAll(array('Chip.sim' => '')); //limpiamos el excel con basuras
@@ -548,10 +564,8 @@ class ChipsController extends AppController {
   }
 
   public function asigna_distrib() {
-
     $sql2 = "SELECT fecha_entrega_d FROM chips WHERE distribuidor_id = User.id ORDER BY fecha_entrega_d DESC LIMIT 1";
     $sql = "SELECT COUNT(*) FROM chips ch,activados ac WHERE ch.telefono = ac.phone_number AND ch.distribuidor_id = User.id AND ch.fecha_entrega_d = ($sql2)";
-
     $this->User->virtualFields = array(
       'nombre_completo' => "CONCAT(Persona.nombre,' ',Persona.ap_paterno,' ',Persona.ap_materno,' (',($sql),')')"
     );

@@ -7,7 +7,7 @@ class PedidosController extends AppController {
 
   function beforeFilter() {
     parent::beforeFilter();
-    $this->Auth->allow();
+    //$this->Auth->allow();
   }
 
   public function index() {

@@ -73,7 +73,7 @@
 <div id="main" class="contenedor">
     <noscript class="message black-gradient simpler">Your browser does not support JavaScript! Some features won't work as expected...</noscript>
     <hgroup id="main-title" class="thin">
-        <h1>REPORTE DE <?php echo strtoupper($this->Session->read('Auth.User.Persona.nombre').' '.$this->Session->read('Auth.User.Persona.ap_paterno')); ?></h1>
+        <h1>REPORTE DE <?php echo strtoupper($this->Session->read('Auth.User.Persona.nombre') . ' ' . $this->Session->read('Auth.User.Persona.ap_paterno')); ?></h1>
     </hgroup>
     <div class="with-padding">
         <?php echo $this->Form->create(NULL, array('url' => array('controller' => 'Ventasdistribuidor', 'action' => 'reporte_detallado_precio'))); ?>
@@ -117,33 +117,44 @@
                 <td>Quedan Total</td>
             </tr>
             <?php foreach ($datos as $da): ?>
-            <?php 
-            $venta_total = 0;
-            $venta_prec_total = 0;
-            ?>
+              <?php
+              $venta_total = 0;
+              $venta_prec_total = 0;
+              ?>
               <tr>
                   <td><?php echo $da['Producto']['nombre'] ?></td>
-                  <td><?php echo $da[0]['entregado']?></td>
+                  <td><?php echo $da[0]['entregado'] ?></td>
                   <td>
                       <table>
                           <?php foreach ($da['precios'] as $dato): ?>
-                          <tr>
-                              <td><?php echo $dato['Movimiento']['precio_uni']?> Bs</td>
-                              <td><?php echo $dato[0]['vendidos']?> vendidos</td>
-                              <td><?php echo $dato[0]['precio_total']?> Bs</td>
-                          </tr>
-                          <?php $venta_total = $venta_total + $dato[0]['vendidos'];?>
-                          <?php $venta_prec_total = $venta_prec_total + $dato[0]['precio_total'];?>
+                            <tr>
+                                <td><?php echo $dato['Movimiento']['precio_uni'] ?> Bs</td>
+                                <td><?php echo $dato[0]['vendidos'] ?> vendidos</td>
+                                <td><?php echo $dato[0]['precio_total'] ?> Bs</td>
+                            </tr>
+                            <?php $venta_total = $venta_total + $dato[0]['vendidos']; ?>
+                            <?php $venta_prec_total = $venta_prec_total + $dato[0]['precio_total']; ?>
                           <?php endforeach; ?>
                       </table>
                   </td>
-                  <td><?php echo $venta_total?></td>
-                  <td><?php echo $venta_prec_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $venta_total?></td>
-                  <td><?php echo $da['Movimiento']['total_s']?></td>
+                  <td><?php echo $venta_total ?></td>
+                  <td><?php echo $venta_prec_total ?></td>
+                  <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $venta_total ?></td>
+                  <td><?php echo $da['Movimiento']['total_s'] ?></td>
               </tr>
             <?php endforeach; ?>
         </table> 
+        <br>
+        <table class="CSSTableGenerator">
+            <tr>
+                <td align="center">RECARGAS</td>
+            </tr>
+        </table>
+        <table class="CSSTableGenerator" style="margin-top: -1px;">
+            <tr>
+                <td></td>
+            </tr>
+        </table>
     </div>
 </div>
 
