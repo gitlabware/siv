@@ -1,15 +1,16 @@
 <h3 id="tit-entregas">
     Fomulario de entregas
 </h3>
-<?php echo $this->Form->create('Almacenes', array('class' => 'columns', 'id' => 'formID')) ?>
-<?php
-if ($almacen == 1) {
-  echo $this->Form->hidden('Movimiento.almacene_id', array('value' => $idPersona));
-} else {
-  echo $this->Form->hidden('Movimiento.persona_id', array('value' => $idPersona));
-}
-?>
+
 <div class="six-columns six-columns-tablet twelve-columns-mobile" id="mod-normal">
+    <?php echo $this->Form->create('Almacenes', array('class' => 'columns', 'id' => 'formID')) ?>
+    <?php
+    if ($almacen == 1) {
+      echo $this->Form->hidden('Movimiento.almacene_id', array('value' => $idPersona));
+    } else {
+      echo $this->Form->hidden('Movimiento.persona_id', array('value' => $idPersona));
+    }
+    ?>
     <h3 class="thin underline">
         Ingresar datos de registro
     </h3>
@@ -81,10 +82,19 @@ if ($almacen == 1) {
             <button class="button orange-gradient full-width" type="button" onclick="cam_reglariza();">Regularizar</button>
         </div>
     </fieldset>
+    <?php echo $this->Form->end(); ?>
 </div>
 
 
 <div class="six-columns six-columns-tablet twelve-columns-mobile" id="mod-regularizar" style="display: none;">
+    <?php echo $this->Form->create('Almacenes', array('class' => 'columns', 'id' => 'formID','action' => 'registra_regularizacion')) ?>
+    <?php
+    if ($almacen == 1) {
+      echo $this->Form->hidden('Movimiento.almacene_id', array('value' => $idPersona));
+    } else {
+      echo $this->Form->hidden('Movimiento.persona_id', array('value' => $idPersona));
+    }
+    ?>
     <h3 class="thin underline">
         Ingresar datos de registro
     </h3>
@@ -134,16 +144,16 @@ if ($almacen == 1) {
             <label for="input-text" class="label">
                 Tipo
             </label>
-            <?php echo $this->Form->select('Movimiento.tipo',array('Entrega' => 'Entrega','Devolucion' => 'Devolucion'), array('class' => 'select expandable-list anthracite-gradient glossy full-width validate[required]')) ?>
+            <?php echo $this->Form->select('Movimiento.tipo', array('Entrega' => 'Entrega', 'Devolucion' => 'Devolucion'), array('class' => 'select expandable-list anthracite-gradient glossy full-width validate[required]')) ?>
         </p><br>
         <div class="button-height">
-            <button class="button blue-gradient full-width" type="submit">Registrar</button>
+            <button class="button blue-gradient full-width" type="submit">Regularizar</button>
         </div><br><br>
         <div class="button-height">
             <button class="button orange-gradient full-width" type="button" onclick="cam_normal();">Entregas</button>
         </div>
     </fieldset>
-
+    <?php echo $this->Form->end();?>
 </div>
 
 <script>
@@ -161,11 +171,11 @@ if ($almacen == 1) {
           console.log('cambia productos');
           $('#validation-select2').load('<?php echo $this->Html->url(array('action' => 'ajaxproductos')) ?>/' + this.value + '/<?php echo $cent; ?>');
       });
-      
+
       //para la segunda parte....
       $("#validation-select12").change(function () {
           console.log('cambia productos');
-          $('#validation-select22').load('<?php echo $this->Html->url(array('action' => 'ajaxproductos')) ?>/' + this.value + '/<?php echo $cent; ?>');
+          $('#validation-select22').load('<?php echo $this->Html->url(array('action' => 'ajaxproductos2')) ?>/' + this.value + '/<?php echo $cent; ?>');
       });
 
 

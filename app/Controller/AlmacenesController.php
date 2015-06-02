@@ -412,6 +412,14 @@ class AlmacenesController extends AppController {
     //debug($productos);exit;
     $this->set(compact('productos', 'almacen'));
   }
+  public function ajaxproductos2($idCategoria = null, $almacen = null) {
+    $this->layout = 'ajax';
+    $productos = $this->Producto->find('all', array(
+      'conditions' => array('Producto.tiposproducto_id' => $idCategoria),
+      'recursive' => 0));
+    //debug($productos);exit;
+    $this->set(compact('productos', 'almacen'));
+  }
 
   public function ajaxcantidad($idProducto = null, $almacen = null) {
     //debug($almacen);exit;
@@ -741,5 +749,8 @@ class AlmacenesController extends AppController {
     $this->Session->setFlash('Se registro correctamente!!','msgbueno');
     $this->redirect(array('action' => 'devuelto',$idPersona));
   }
-
+  public function registra_regularizacion(){
+    debug($this->request->data);
+    exit;
+  }
 }
