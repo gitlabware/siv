@@ -120,6 +120,7 @@
               <?php
               $venta_total = 0;
               $venta_prec_total = 0;
+              $precio_total = 0.00;
               ?>
               <tr>
                   <td><?php echo $da['Producto']['nombre'] ?></td>
@@ -142,7 +143,17 @@
                   <td><?php echo $da['Movimiento']['total_s'] - $da[0]['entregado'] + $venta_total ?></td>
                   <td><?php echo $da['Movimiento']['total_s'] ?></td>
               </tr>
+              <?php $precio_total = $precio_total + $venta_prec_total; ?>
             <?php endforeach; ?>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>TOTAL</td>
+                <td><?php echo $precio_total; ?></td>
+                <td></td>
+                <td></td>
+            </tr>
         </table> 
         <br>
         <table class="CSSTableGenerator">
@@ -152,7 +163,32 @@
         </table>
         <table class="CSSTableGenerator" style="margin-top: -1px;">
             <tr>
+                <td>Fecha</td>
+                <td>Numero Telefono</td>
+                <td>Monto</td>
+            </tr>
+            <?php $total_rec = 0.00; ?>
+            <?php foreach ($recargas as $re): ?>
+              <?php
+              $total_rec = $total_rec + $re['Recargado']['salida'];
+              ?>
+              <tr>
+                  <td><?php echo $re['Recargado']['created'] ?></td>
+                  <td><?php echo $re['Recargado']['num_celular'] ?></td>
+                  <td><?php echo $re['Recargado']['salida'] ?></td>
+              </tr>
+            <?php endforeach; ?>
+            <tr>
                 <td></td>
+                <td>TOTAL</td>
+                <td><?php echo $total_rec; ?></td>
+            </tr>
+        </table>
+        <br>
+        <table class="CSSTableGenerator">
+            <tr>
+                <td>MONTO TOTAL</td>
+                <td><?php echo ($precio_total + $total_rec) ?></td>
             </tr>
         </table>
     </div>

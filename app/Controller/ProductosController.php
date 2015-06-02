@@ -85,6 +85,7 @@ class ProductosController extends AppController {
       }elseif ($this->request->data['Productosprecio']['escala'] == 'DISTRIBUIDOR') {
         $this->request->data['Productosprecio']['tipousuario_id'] = 3;
         $this->request->data['Productosprecio']['escala_id'] = 1;
+        $this->request->data['Productosprecio']['escala'] = 'MAYOR';
       }
       $this->request->data['Productosprecio']['precio'] = $this->request->data['Producto']['precio_venta'];
       $this->request->data['Productosprecio']['fecha'] = date('Y-m-d');
