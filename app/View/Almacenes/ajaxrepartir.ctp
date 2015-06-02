@@ -87,7 +87,7 @@
 
 
 <div class="six-columns six-columns-tablet twelve-columns-mobile" id="mod-regularizar" style="display: none;">
-    <?php echo $this->Form->create('Almacenes', array('class' => 'columns', 'id' => 'formID','action' => 'registra_regularizacion')) ?>
+    <?php echo $this->Form->create('Almacenes', array('class' => 'columns', 'id' => 'formID2','action' => 'registra_regularizacion')) ?>
     <?php
     if ($almacen == 1) {
       echo $this->Form->hidden('Movimiento.almacene_id', array('value' => $idPersona));
@@ -98,7 +98,7 @@
     <h3 class="thin underline">
         Ingresar datos de registro
     </h3>
-    <fieldset class="fieldset">
+    <fieldset class="fieldset" style="background-color: yellowgreen;">
         <legend class="legend">
             Datos de Regularizacion
         </legend>
@@ -138,13 +138,19 @@
             <label for="input-text" class="label">
                 Cantidad
             </label>
-            <?php echo $this->Form->text('Movimiento.ingreso', array('class' => 'input validate[required,custom[integer]]')) ?>
+            <?php echo $this->Form->text('Movimiento.cantidad', array('class' => 'input validate[required,custom[integer]]')) ?>
         </p>
         <p class="button-height inline-label">
             <label for="input-text" class="label">
                 Tipo
             </label>
             <?php echo $this->Form->select('Movimiento.tipo', array('Entrega' => 'Entrega', 'Devolucion' => 'Devolucion'), array('class' => 'select expandable-list anthracite-gradient glossy full-width validate[required]')) ?>
+        </p>
+        <p class="button-height inline-label">
+            <label for="input-text" class="label">
+                Observacion
+            </label>
+            <?php echo $this->Form->textarea('Movimiento.observacion', array('class' => 'input full-width validate[required]')) ?>
         </p><br>
         <div class="button-height">
             <button class="button blue-gradient full-width" type="submit">Regularizar</button>
@@ -160,6 +166,7 @@
   $(document).ready(function () {
 
       $("#formID").validationEngine();
+      $("#formID2").validationEngine();
 
       $("#validation-select1").change(function () {
           if (this.value == 1) {
