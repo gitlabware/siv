@@ -49,7 +49,7 @@
                             <th>
                                 Cantidad
                             </th>
-                            <th scope="col" width="60" class="align-center">
+                            <th scope="col" width="30%" class="align-center">
                                 Acciones
                             </th>
                         </tr>
@@ -74,6 +74,7 @@
                                     $this->Html->link('Rango&lote', array('action' => 'verdetalle', $idPersona, $almacen, $idProducto));
                                   endif;
                                   ?>
+                                  <a href="javascript:" onclick="cargarmodal('<?php echo $this->Html->url(array('action' => 'detalle_mov',$idProducto,$idPersona,$almacen));?>','Detalle de <?php echo $entrega['Producto']['nombre']; ?>')">Detalle</a>
                                   <?php //echo $this->Html->link('Entregas', array('action' => 'verentregas', $idPersona, $almacen, $idProducto));?>
                               </td>
                           </tr>

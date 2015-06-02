@@ -752,8 +752,8 @@ class AlmacenesController extends AppController {
   }
 
   public function registra_regularizacion() {
-    /*debug($this->request->data);
-    exit;*/
+    /* debug($this->request->data);
+      exit; */
     $dmov = $this->request->data['Movimiento'];
     $total_d = 0;
     if (!empty($dmov['persona_id'])) {
@@ -765,7 +765,7 @@ class AlmacenesController extends AppController {
       if (!empty($d_distrib)) {
         $total_d = $d_distrib['Movimiento']['total'];
       }
-    }else{
+    } else {
       $d_alma = $this->Movimiento->find('first', array(
         'conditions' => array('Movimiento.almacene_id' => $dmov['almacene_id'], 'Movimiento.producto_id' => $dmov['producto_id']),
         'order' => array('Movimiento.id DESC'),
@@ -842,6 +842,24 @@ class AlmacenesController extends AppController {
     } else {
       return 0;
     }
+  }
+
+  public function detalle_mov($idProducto = null, $id = null, $almacen = null) {
+    $this->layout = 'ajax';
+    $condiciones = array();
+    $condiciones['Movimiento.producto_id'] = $idProducto;
+    if($almacen == 1){
+      $condiciones['Movimiento.almacene_id'] = $id;
+    }else{
+      $condiciones['Movimiento.persona_id'] = $id;
+    }
+    $movimientos = $this->Movimiento->find('all', array(
+      'conditions' => $condiciones,
+      'order' => array('Movimiento.id DESC'),
+      'limit' => 10,
+      'recursive' => -1
+    ));
+    $this->set(compact('movimientos'));
   }
 
 }
