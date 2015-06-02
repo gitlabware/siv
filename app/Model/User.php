@@ -55,14 +55,14 @@ class User extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Ruta' => array(
+		)
+		/*'Ruta' => array(
 			'className' => 'Ruta',
 			'foreignKey' => 'ruta_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		)*/
 	);
 
 /**
@@ -174,7 +174,28 @@ class User extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+    'Rutasusuario' => array(
+      'className' => 'Rutasusuario',
+      'foreignKey' => 'user_id',
+      'dependent' => false,
+      'conditions' => '',
+      'fields' => '',
+      'order' => '',
+      'limit' => '',
+      'offset' => '',
+      'exclusive' => '',
+      'finderQuery' => '',
+      'counterQuery' => ''
+    )  
 	);
+  
+  public function beforeSave($options = array())
+    {
+      if (!empty($this->data['User']['password'])) {
+      $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+    }
+    return true;
+    }
 
 }

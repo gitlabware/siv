@@ -1,13 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Pedido Model
+ * Rutasusuario Model
  *
  * @property User $User
- * @property Producto $Producto
- * @property Distribuidor $Distribuidor
+ * @property Ruta $Ruta
  */
-class Pedido extends AppModel {
+class Rutasusuario extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -25,16 +24,9 @@ class Pedido extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'Producto' => array(
-			'className' => 'Producto',
-			'foreignKey' => 'producto_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Distribuidor' => array(
-			'className' => 'User',
-			'foreignKey' => 'distribuidor_id',
+		'Ruta' => array(
+			'className' => 'Ruta',
+			'foreignKey' => 'ruta_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
