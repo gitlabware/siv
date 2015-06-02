@@ -31,7 +31,7 @@
                   <td><?php echo $r['Rutasusuario']['id']; ?></td>
                   <td><?php echo $r['Ruta']['nombre']; ?></td>                  
                   <td>
-                      <a class="button red-gradient compact icon-cross-round" href="javascript:" onclick="quita_precio(<?php echo $pre['Productosprecio']['id']; ?>)">Quitar</a>
+                      <a class="button red-gradient compact icon-cross-round" href="javascript:" onclick="quita_ruta(<?php echo $r['Rutasusuario']['id']; ?>)">Quitar</a>
                   </td>
               </tr>
             <?php endforeach; ?>
@@ -40,13 +40,7 @@
 </div>
 
 <script>
-<?php if (count($precios) == 0): ?>
-    $('#idproducto-<?php echo $idProducto ?>').addClass('red-bg');
-    $('#idproducto-<?php echo $idProducto ?>').html('<?php echo count($precios);?>');
-<?php else: ?>
-    $('#idproducto-<?php echo $idProducto ?>').removeClass('red-bg');
-    $('#idproducto-<?php echo $idProducto ?>').html('<?php echo count($precios);?>');
-<?php endif; ?>
+
   function registra_rutas() {
       var postData = $('#form_ruta').serializeArray();
       var formURL = $('#form_ruta').attr("action");
@@ -80,16 +74,16 @@
                   }
               });
   }
-  function quita_precio(idprecio) {
-      if (confirm('Esta seguro de quitar el precio??')) {
+  function quita_ruta(idRuta) {
+      if (confirm('Esta seguro de quitar la ruta??')) {
 
-          $("#idmodal").load("<?php echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'quita_precio')); ?>/" + idprecio + "/<?php echo $idProducto; ?>", function (responseTxt, statusTxt, xhr) {
+          $("#idmodal").load("<?php echo $this->Html->url(array('controller' => 'Users', 'action' => 'quita_ruta')); ?>/" + idRuta + "", function (responseTxt, statusTxt, xhr) {
               if ($.parseJSON(responseTxt).correcto != '') {
                   mensaje_nota('Excelente!!', $.parseJSON(responseTxt).correcto);
               } else {
                   mensaje_nota('Error!!', 'No se registro el precio!!');
               }
-              $('#idmodal').load('<?php echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'ajax_precios', $idProducto)); ?>');
+              $('#idmodal').load('<?php echo $this->Html->url(array('controller' => 'Users', 'action' => 'ajaxrutas', $idUsuario)); ?>');
               if (statusTxt == "error")
                   alert("Error: " + xhr.status + ": " + xhr.statusText);
           });
