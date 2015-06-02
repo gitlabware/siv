@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class AlmacenesController extends AppController {
 
-  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare', 'Pedido', 'Productosprecio', 'Devuelto');
+  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare', 'Pedido', 'Productosprecio', 'Devuelto', 'Recargado');
   public $components = array('Session', 'Fechasconvert', 'RequestHandler', 'DataTable');
   public $layout = 'viva';
 
@@ -703,7 +703,27 @@ class AlmacenesController extends AppController {
       'order' => array('created DESC'),
       'fields' => array('created')
     ));
-    $this->set(compact('ult_movimientos', 'distribuidor', 'devueltos'));
+
+    $datos = $this->Movimiento->find('all', array(
+      'recursive' => 0, 'order' => 'Movimiento.producto_id',
+      'conditions' => array('Movimiento.persona_id' => $idPersona, 'Movimiento.devuelto_id' => NULL, 'Movimiento.salida !=' => NULL),
+      'group' => array('Movimiento.producto_id'),
+      'fields' => array('Producto.nombre', 'SUM(Movimiento.ingreso) entregado', 'Producto.id', 'Movimiento.total_s')
+    ));
+    foreach ($datos as $key => $da) {
+      $datos_aux = $this->Movimiento->find('all', array(
+        'recursive' => -1, 'order' => 'Movimiento.producto_id',
+        'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.producto_id' => $da['Producto']['id'], 'Movimiento.salida !=' => NULL),
+        'group' => array('Movimiento.precio_uni'),
+        'fields' => array('SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total', 'Movimiento.producto_id')
+      ));
+      $datos[$key]['precios'] = $datos_aux;
+      //debug($datos);exit;
+    }
+    $recargas = $this->Recargado->find('all', array(
+      'conditions' => array('Recargado.persona_id' => $$idPersona, 'DATE(Recargado.created)' => date('Y-m-d'))
+    ));
+    $this->set(compact('ult_movimientos', 'distribuidor', 'devueltos', 'datos', 'recargas', 'recargas'));
     //debug($ult_movimientos);exit;
   }
 
@@ -848,9 +868,9 @@ class AlmacenesController extends AppController {
     $this->layout = 'ajax';
     $condiciones = array();
     $condiciones['Movimiento.producto_id'] = $idProducto;
-    if($almacen == 1){
+    if ($almacen == 1) {
       $condiciones['Movimiento.almacene_id'] = $id;
-    }else{
+    } else {
       $condiciones['Movimiento.persona_id'] = $id;
     }
     $movimientos = $this->Movimiento->find('all', array(
