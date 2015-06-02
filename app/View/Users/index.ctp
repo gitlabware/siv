@@ -44,6 +44,7 @@
                           <a href="<?php echo $this->Html->url(array('action' => 'editar', $usu['User']['id'])); ?>" class="button orange-gradient compact icon-pencil">Editar</a>
                           <?php if ($usu['User']['group_id'] == 2): ?>
                             <?php echo $this->Html->link('Devueltos', array('controller' => 'Almacenes', 'action' => 'devuelto', $usu['User']['persona_id']),array('class' => 'button blue-gradient compact icon-mailbox')); ?>
+                            <a href="javascript:" class="button green-gradient compact icon-page-list" onclick="precios_productos('<?php echo $usu['User']['id']?>')">Rutas</a>
                           <?php endif; ?>
                           <a href="<?php echo $this->Html->url(array('action' => 'delete', $usu['User']['id'])); ?>" onclick="if (confirm('Desea eliminar realmente??')) {
                                     return true;
@@ -64,16 +65,60 @@
 <?php echo $this->element('sidebar/administrador'); ?>
 <!-- End sidebar/drop-down menu --> 
 <script>
-
-  function openAjax(id)
+  urljsontabla = '<?php echo $this->Html->url(array('action' => 'index.json')); ?>';
+  $(document).ready(function () {
+      $("#formID").validationEngine();
+  });
+  function precios_productos(idUsuario)
   {
+      /*$.modal({
+       title: 'Iframe content',
+       url: '<?php echo $this->Html->url(array('controller' => 'Productosprecios', 'action' => 'ajax_precios')); ?>/' + idproducto,
+       useIframe: true,
+       width: 600,
+       height: 400
+       });*/
 
       $.modal({
-          title: 'Datos de Usuario',
-          url: '<?php echo $this->Html->url(array('action' => 'ajaxver')) ?>/' + id,
-          width: 300
+          content: '<div id="idmodal"></div>',
+          title: 'RUTAS DEL DISTRIBUIDOR',
+          width: 600,
+          height: 400,
+          actions: {
+              'Close': {
+                  color: 'red',
+                  click: function (win) {
+                      win.closeModal();
+                  }
+              }
+          },
+          buttonsLowPadding: true
+      });
+      $('#idmodal').load('<?php echo $this->Html->url(array('controller' => 'Users', 'action' => 'ajaxrutas')); ?>/' + idUsuario);
+  }
+
+</script>
+<?php echo $this->element('sidebar/administrador'); ?>
+<!-- End sidebar/drop-down menu --> 
+<script>
+  function mensaje_nota(titulo, texto) {
+      notify(titulo, texto, {
+          system: true,
+          vPos: 'top',
+          hPos: 'right',
+          autoClose: true,
+          icon: false ? 'img/demo/icon.png' : '',
+          iconOutside: true,
+          closeButton: true,
+          showCloseOnHover: true,
+          groupSimilar: true
       });
   }
-  ;
+  function editar_p(idproducto){
+    window.location = '<?php echo $this->Html->url(array('action' => 'editar'));?>/'+idproducto;
+  }
+  function elimina_p(idproducto){
+    if(confirm('Esta seguro de eliminar el producto??')){window.location = '<?php echo $this->Html->url(array('action' => 'delete'));?>/'+idproducto;}
+  }
 </script>
 
