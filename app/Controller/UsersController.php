@@ -11,11 +11,22 @@ class UsersController extends AppController {
 
   public $uses = array('User', 'Migralmacen', 'Group', 'Persona', 'Sucursal','Lugare','Ruta', 'Rutasusuario');
   public $layout = 'viva';
-  public $components = array('Acl', 'Auth');
+  public $components = array('Acl', 'Auth', 'RequestHandler');  
 
   public function beforeFilter() {
     parent::beforeFilter();
     //$this->Auth->allow();
+  }
+  
+  function respond($message = null, $json = false) {
+    if ($message != null) {
+      if ($json == true) {
+        $this->RequestHandler->setContent('json', 'application/json');
+        $message = json_encode($message);
+      }
+      $this->set('message', $message);
+    }
+    $this->render('message');
   }
 
   public function login2() {
@@ -348,5 +359,31 @@ class UsersController extends AppController {
 
       } */
   }
+  
+  public function ajaxrutas($idUsuario = null){
+    $this->layout = 'ajax';
+    $rutasUsuario = $this->Rutasusuario->find('all', array(
+      'recursive'=>0,
+      'conditions'=>array('Rutasusuario.user_id'=>$idUsuario)
+    ));
+    $csr = $this->Ruta->find('list', array(
+      'fields'=>array('Ruta.id', 'Ruta.nombre')
+    ));
+    //debug($rutas);
+    $this->set(compact('rutasUsuario', 'csr', 'idUsuario'));
+  }
+  
+  public function registraruta(){
+    //debug($this->request->data);
+    $array['correcto'] = '';
+    if (!empty($this->request->data)) {
+      $this->Rutasusuario->create();
+      if ($this->Rutasusuario->save($this->request->data['User'])) {
+        $array['correcto'] = 'Se registro correctamente!!!';
+      } 
+    }
+    $this->respond($array, true);
+  }
+    
 
 }

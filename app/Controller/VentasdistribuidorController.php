@@ -1185,6 +1185,7 @@ class VentasdistribuidorController extends AppController {
   }
 
   public function clientes() {
+    
     if ($this->RequestHandler->responseType() == 'json') {
       $asignar = '<button class="button blue-gradient compact icon-list" type="button" onclick="asignar(' . "',Cliente.id,'" . ')">Asignar</button>';
       $venta = '<button class="button green-gradient compact icon-list" type="button" onclick="venta(' . "',Cliente.id,'" . ')">Venta</button>';
@@ -1196,7 +1197,7 @@ class VentasdistribuidorController extends AppController {
         'fields' => array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones'),
         'recursive' => -1,
         'order' => 'Cliente.id DESC',
-        'conditions' => array('Cliente.ruta_id' => $this->Session->read('Auth.User.ruta_id'))
+        //'conditions' => array('Cliente.ruta_id' => $this->Session->read('Auth.User.ruta_id'))
       );
       $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
       //$this->DataTable->emptyEleget_usuarios_adminments = 1;
