@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class AlmacenesController extends AppController {
 
-  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare', 'Pedido');
+  public $uses = array('Almacene', 'Tiposproducto', 'Persona', 'Producto', 'Movimiento', 'Detalle', 'User', 'Deposito', 'Movimientosrecarga', 'Sucursal', 'Banco', 'Ventascelulare', 'Pedido', 'Productosprecio', 'Devuelto');
   public $components = array('Session', 'Fechasconvert', 'RequestHandler', 'DataTable');
   public $layout = 'viva';
 
@@ -193,7 +193,7 @@ class AlmacenesController extends AppController {
     );
 
 
-    $this->set(compact('entregas', 'idPersona', 'nombre', 'almacen','pedidos'));
+    $this->set(compact('entregas', 'idPersona', 'nombre', 'almacen', 'pedidos'));
   }
 
   public function ajaxrepartir($idPersona = null, $almacen = null) {
@@ -675,6 +675,71 @@ class AlmacenesController extends AppController {
       }
     }
     $this->redirect(array('action' => 'entrega_celulares', $idAlmacen, 1));
+  }
+
+  public function devuelto($idPersona = null) {
+    $sql1 = "(SELECT IF(ISNULL(mo.total),0,mo.total) FROM movimientos mo WHERE mo.persona_id = $idPersona AND Producto.id = mo.producto_id ORDER BY mo.id DESC LIMIT 1)";
+    $this->Movimiento->virtualFields = array(
+      'total_s' => "CONCAT($sql1)"
+    );
+    $distribuidor = $this->Persona->findByid($idPersona, null, null, -1);
+    $ult_movimientos = $this->Movimiento->find('all', array(
+      'conditions' => array('Movimiento.devuelto_id' => NULL, 'Movimiento.persona_id' => $idPersona, 'Movimiento.salida !=' => NULL),
+      'group' => array('Movimiento.producto_id'),
+      'fields' => array('Producto.nombre', 'SUM(Movimiento.ingreso) entregado', 'Producto.id', 'Movimiento.total_s', 'Movimiento.created'),
+      'order' => array('Movimiento.created', 'Producto.nombre')
+    ));
+    $devueltos = $this->Devuelto->find('all',array(
+      'group' => array('created'),
+      'order' => array('created DESC'),
+      'fields' => array('created')
+    ));
+    $this->set(compact('ult_movimientos', 'distribuidor','devueltos'));
+    //debug($ult_movimientos);exit;
+  }
+
+  public function registra_devuelto($idPersona = null) {
+    /*debug($this->request->data);
+    exit;*/
+    $almac_cent = $this->Almacene->find('first',array('conditions' => array('central' => 1),'fields' => array('Almacene.id')));
+    $usuario = $this->User->findBypersona_id($idPersona,null,null,-1);
+    foreach ($this->request->data['Devuelto'] as $dev) {
+      $dmov['devuelto_id'] = NULL;
+      $this->Devuelto->create();
+      $this->Devuelto->save($dev);
+      $idDevuelto = $this->Devuelto->getLastInsertID();
+      $ult_movimientos = $this->Movimiento->find('all', array(
+        'conditions' => array('Movimiento.devuelto_id' => null, 'Movimiento.persona_id' => $idPersona, 'Movimiento.salida !=' => NULL, 'Movimiento.producto_id' => $dev['producto_id']),
+        'fields' => array('Movimiento.id')
+      ));
+      $dmov['devuelto_id'] = $idDevuelto;
+      foreach ($ult_movimientos as $ul){
+        $this->Movimiento->id = $ul['Movimiento']['id'];
+        $this->Movimiento->save($dmov);
+      }
+      $nue_mov['producto_id'] = $dev['producto_id'];
+      $nue_mov['user_id'] = $usuario['User']['id'];
+      $nue_mov['persona_id'] = $idPersona;
+      $nue_mov['salida'] = $dev['cantidad'];
+      $nue_mov['total'] = $dev['total']-$dev['cantidad'];
+      $nue_mov['devuelto_id'] = $idDevuelto;
+      $this->Movimiento->create();
+      $this->Movimiento->save($nue_mov);
+      
+      $nue_mov = null;
+      $ult_almac = $this->Movimiento->find('first',array('order' => array('Movimiento.id DESC'),'fields' => array('Movimiento.total'),'conditions' => array('Movimiento.producto_id' => $dev['producto_id'],'Movimiento.almacene_id' => $almac_cent['Almacene']['id'])));
+      $nue_mov['producto_id'] = $dev['producto_id'];
+      $nue_mov['user_id'] = $this->Session->read('Auth.User.id');
+      $nue_mov['almacene_id'] = $almac_cent['Almacene']['id'];
+      $nue_mov['ingreso'] = $dev['cantidad'];
+      $nue_mov['total'] = $ult_almac['Movimiento']['total']+$dev['cantidad'];
+      $nue_mov['devuelto_id'] = $idDevuelto;
+      $this->Movimiento->create();
+      $this->Movimiento->save($nue_mov);
+      $nue_mov = null;
+    }
+    $this->Session->setFlash('Se registro correctamente!!','msgbueno');
+    $this->redirect(array('action' => 'devuelto',$idPersona));
   }
 
 }

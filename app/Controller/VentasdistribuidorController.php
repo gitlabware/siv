@@ -22,6 +22,7 @@ class VentasdistribuidorController extends AppController {
     'Pedido',
     'Tiposobservacione',
     'Deposito',
+    'Recargado',
     'Listacliente', 'User');
   public $layout = 'vivadistribuidor';
   public $components = array('RequestHandler', 'Session', 'Acl', 'Auth', 'DataTable');
@@ -1247,6 +1248,7 @@ class VentasdistribuidorController extends AppController {
     $fecha_fin = $this->request->data['Dato']['fecha_fin'];
     $persona = $this->Session->read('Auth.User.persona_id');
     $datos = array();
+    $recargas = array();
     if (!empty($this->request->data['Dato'])) {
       $sql1 = "(SELECT IF(ISNULL(mo.total),0,mo.total) FROM movimientos mo WHERE mo.persona_id = $persona AND mo.created >= '$fecha_ini' AND mo.created <= '$fecha_fin' AND Producto.id = mo.producto_id ORDER BY mo.id DESC LIMIT 1)";
       $this->Movimiento->virtualFields = array(
@@ -1268,8 +1270,11 @@ class VentasdistribuidorController extends AppController {
         $datos[$key]['precios'] = $datos_aux;
         //debug($datos);exit;
       }
+      $recargas = $this->Recargado->find('all',array(
+        'conditions' => array('Recargado.user_id' => $this->Session->read('Auth.User.id'),'DATE(Recargado.created) >=' => $fecha_ini, 'DATE(Recargado.created) <=' => $fecha_fin)
+      ));
     }
-    $this->set(compact('datos'));
+    $this->set(compact('datos','recargas'));
   }
 
   public function reporte_cliente() {
@@ -1430,7 +1435,7 @@ class VentasdistribuidorController extends AppController {
     }
     $this->redirect($this->referer());
   }
-
+  
 }
 
 ?>

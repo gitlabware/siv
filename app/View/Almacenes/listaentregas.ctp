@@ -23,9 +23,9 @@
                     <tbody>
                         <?php foreach ($pedidos as $pe): ?>
                           <tr>
-                              <td><?php echo $pe['Pedido']['created'];?></td>
-                              <td><?php echo $pe['Producto']['nombre'];?></td>
-                              <td><?php echo $pe['Pedido']['cantidad'];?></td>
+                              <td><?php echo $pe['Pedido']['created']; ?></td>
+                              <td><?php echo $pe['Producto']['nombre']; ?></td>
+                              <td><?php echo $pe['Pedido']['cantidad']; ?></td>
                           </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -78,7 +78,6 @@
                               </td>
                           </tr>
                         <?php endforeach; ?>
-
                     </tbody>
                 </table>
                 <div>
@@ -98,7 +97,11 @@
                 <p>en este espacio recarga el fomrulario para registro de nueva entrega.</p>
             </div>
         </div>
-
+        <div class="columns">
+            <div class="twelve-columns">
+                
+            </div>
+        </div>
     </div>
 </section>
 <script>
