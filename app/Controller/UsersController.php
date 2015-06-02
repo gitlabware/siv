@@ -19,6 +19,7 @@ class UsersController extends AppController {
   }
   
   function respond($message = null, $json = false) {
+    
     if ($message != null) {
       if ($json == true) {
         $this->RequestHandler->setContent('json', 'application/json');
@@ -27,6 +28,7 @@ class UsersController extends AppController {
       $this->set('message', $message);
     }
     $this->render('message');
+    //$this->render = false;
   }
 
   public function login2() {
@@ -383,6 +385,16 @@ class UsersController extends AppController {
       } 
     }
     $this->respond($array, true);
+  }
+  
+  public function quita_ruta($idRuta = null){
+    //debug($idRuta);
+    $array['correcto'] = '';
+    if($this->Rutasusuario->delete($idRuta)){
+      $array['correcto'] = 'Se quito el precio correctamente!!!';
+    }
+    $this->respond($array, true);
+    //$this->redirect(array('action' => 'ajax_precios',$idProducto));
   }
     
 
