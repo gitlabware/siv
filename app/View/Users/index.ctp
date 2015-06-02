@@ -35,6 +35,7 @@
                       <td><?php echo $usu['Persona']['nombre']; ?></td>
                       <td scope="col"  class="align-center hide-on-mobile"><?php echo $usu['Persona']['ap_paterno']; ?></td>
                       <td><?php echo $usu['User']['username']; ?></td>
+                      <?php $nombre = $usu['Persona']['nombre']; ?>
                       <td><?php echo $usu['Group']['name']; ?></td>
                       <td scope="col" class="align-center">
                           <?php //$ajaxv = 'openAjax(' . $usu['User']['id'] . ')' ?>
@@ -44,7 +45,7 @@
                           <?php if ($usu['User']['group_id'] == 2): ?>
                             <?php echo $this->Html->link('Devueltos', array('controller' => 'Almacenes', 'action' => 'devuelto', $usu['User']['persona_id']),array('class' => 'button blue-gradient compact icon-mailbox')); ?>
                           <?php endif; ?>
-                          <a href="<?php echo $this->Html->url(array('action' => 'delete', $usu['User']['id'])); ?>" onclick="if (confirm( & quot; Desea eliminar realmente?? & quot; )) {
+                          <a href="<?php echo $this->Html->url(array('action' => 'delete', $usu['User']['id'])); ?>" onclick="if (confirm('Desea eliminar realmente??')) {
                                     return true;
                                 }
                                 return false;" class="button red-gradient compact icon-cross-round">Eliminar</a>

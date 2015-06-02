@@ -1,11 +1,11 @@
 <?php
-App::uses('Pedido', 'Model');
+App::uses('Rutasusuario', 'Model');
 
 /**
- * Pedido Test Case
+ * Rutasusuario Test Case
  *
  */
-class PedidoTest extends CakeTestCase {
+class RutasusuarioTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,7 +13,7 @@ class PedidoTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.pedido',
+		'app.rutasusuario',
 		'app.user',
 		'app.group',
 		'app.persona',
@@ -30,7 +30,6 @@ class PedidoTest extends CakeTestCase {
 		'app.movimiento',
 		'app.cliente',
 		'app.lugare',
-		'app.ruta',
 		'app.recarga',
 		'app.porcentaje',
 		'app.recargado',
@@ -38,7 +37,7 @@ class PedidoTest extends CakeTestCase {
 		'app.ventascelulare',
 		'app.movimientoscabina',
 		'app.movimientosrecarga',
-		'app.distribuidor'
+		'app.ruta'
 	);
 
 /**
@@ -48,7 +47,7 @@ class PedidoTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Pedido = ClassRegistry::init('Pedido');
+		$this->Rutasusuario = ClassRegistry::init('Rutasusuario');
 	}
 
 /**
@@ -57,7 +56,7 @@ class PedidoTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->Pedido);
+		unset($this->Rutasusuario);
 
 		parent::tearDown();
 	}

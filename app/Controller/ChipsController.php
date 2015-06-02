@@ -7,7 +7,7 @@ App::import('Vendor', 'PHPExcel_IOFactory', array('file' => 'PHPExcel/PHPExcel/I
 class ChipsController extends AppController {
 
   //public $helpers = array('Html', 'Form', 'Session', 'Js');
-  public $uses = array('Chip', 'Excel', 'Chipstmp', 'User', 'Activado');
+  public $uses = array('Chip', 'Excel', 'Chipstmp', 'User', 'Activado', 'Cliente');
   public $layout = 'viva';
   public $components = array('RequestHandler', 'DataTable');
 
@@ -689,7 +689,78 @@ class ChipsController extends AppController {
     }
     $this->redirect($this->referer());
   }
+  
+  public function guardaexcelmigra() {    
+    
+      $excelSubido = $nombreExcel;
+      $objLector = new PHPExcel_Reader_Excel2007();
+      //debug($objLector);die;
+      $objPHPExcel = $objLector->load("../webroot/files/cliCrt.xlsx");
+      //debug($objPHPExcel);die;
+
+      $rowIterator = $objPHPExcel->getActiveSheet()->getRowIterator();
+
+      $array_data = array();
+
+      foreach ($rowIterator as $row) {
+        $cellIterator = $row->getCellIterator();
+
+        $cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
+
+        if ($row->getRowIndex() >= 2) { //a partir de la 1
+          $rowIndex = $row->getRowIndex();
+
+          $array_data[$rowIndex] = array(
+            'A' => '',
+            'B' => '',
+            'C' => '',
+            'D' => '',
+            'E' => '',
+            'F' => '');
+
+          foreach ($cellIterator as $cell) {
+            if ('A' == $cell->getColumn()) {
+              $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            } elseif ('B' == $cell->getColumn()) {
+              $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            } elseif ('C' == $cell->getColumn()) {
+              $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            } elseif ('D' == $cell->getColumn()) {
+              $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            } elseif ('E' == $cell->getColumn()) {
+              $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            } elseif ('F' == $cell->getColumn()) {
+              $array_data[$rowIndex][$cell->getColumn()] = $cell->getCalculatedValue();
+            }
+          }
+        }
+      }
+           
+      $i = 0;
+      $this->request->data = "";
+      foreach ($array_data as $d) {
+        $this->request->data[$i]['Cliente']['num_registro'] = $d['A'];
+        $this->request->data[$i]['Cliente']['cod_dealer'] = $d['B'];
+        $this->request->data[$i]['Cliente']['nombre'] = $d['C'];
+        $this->request->data[$i]['Cliente']['direccion'] = $d['F'];
+        $this->request->data[$i]['Cliente']['celular'] = $d['E'];
+        $this->request->data[$i]['Cliente']['zona'] = $d['D'];
+        $i++;
+      }      
+
+      //debug($this->request->data);
+      //exit;
+
+      if ($this->Cliente->saveMany($this->data)) {
+        //echo 'registro corectamente';
+        //$this->Chip->deleteAll(array('Chip.sim' => '')); //limpiamos el excel con basuras
+        $this->Session->setFlash('se Guardo correctamente el EXCEL', 'msgbueno');
+        $this->redirect(array('controller'=>'Clientes', 'action' => 'index'));
+      } else {
+        echo 'no se pudo guardar';
+      }
+      //fin funciones del excel
+   
+  }
 
 }
-
-?>

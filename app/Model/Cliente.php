@@ -43,14 +43,14 @@ class Cliente extends AppModel {
       'conditions' => '',
       'fields' => '',
       'order' => ''
-    ),
-    'Ruta' => array(
+    )
+    /*'Ruta' => array(
       'className' => 'Ruta',
       'foreignKey' => 'ruta_id',
       'conditions' => '',
       'fields' => '',
       'order' => ''
-    )
+    )*/
   );
 
   /**
@@ -84,7 +84,7 @@ class Cliente extends AppModel {
       'exclusive' => '',
       'finderQuery' => '',
       'counterQuery' => ''
-    )
+    ) 
   );
 
 }
