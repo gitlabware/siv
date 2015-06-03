@@ -881,5 +881,18 @@ class AlmacenesController extends AppController {
     ));
     $this->set(compact('movimientos'));
   }
+  public function principal(){
+    $idCentral = $this->get_id_alm_cent();
+    $sql = "SELECT m.total FROM movimientos m WHERE m.almacene_id = $idCentral AND m.producto_id = Producto.id ORDER BY m.id DESC LIMIT 1";
+    $this->Producto->virtualFields = array(
+      'total_central' => "CONCAT(($sql))"
+    );
+    $productos = $this->Producto->find('all',array(
+      'recursive' => -1,
+      'fields' => array('Producto.nombre','Producto.total_central')
+    ));
+    //debug($productos);exit;
+    $this->set(compact('productos'));
+  }
 
 }
