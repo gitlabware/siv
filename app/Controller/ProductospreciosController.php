@@ -144,7 +144,7 @@ class ProductospreciosController extends AppController {
   
   public function quita_precio($idPrecio = NULL,$idProducto = NULL){
     $array['correcto'] = '';
-    if($this->Rutasusuario->delete($idPrecio)){
+    if($this->Productosprecio->delete($idPrecio)){
       $array['correcto'] = 'Se quito el precio correctamente!!!';
     }
     $this->respond($array, true);
