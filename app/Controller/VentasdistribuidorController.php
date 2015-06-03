@@ -300,7 +300,8 @@ class VentasdistribuidorController extends AppController {
     $precios = $this->Productosprecio->find('all', array(
       'conditions' => array(
         'Productosprecio.tipousuario_id' => 3,
-        'Producto.proveedor like' => 'VIVA',
+        //'Producto.proveedor like' => 'VIVA',
+        'Productosprecio.escala' => 'MAYOR',
         'Producto.estado' => '1'),
       'order' => array('Producto.tipo_producto DESC', 'Productosprecio.precio DESC',
         'Productosprecio.escala')));
@@ -308,7 +309,8 @@ class VentasdistribuidorController extends AppController {
     $rows = $this->Productosprecio->find('all', array(
       'conditions' => array(
         'Productosprecio.tipousuario_id' => 3,
-        'Producto.proveedor like' => 'VIVA',
+        //'Producto.proveedor like' => 'VIVA',
+        'Productosprecio.escala' => 'MAYOR',
         'Producto.estado' => '1'),
       'fields' => array(
         'Count(Productosprecio.id) as cantidad',

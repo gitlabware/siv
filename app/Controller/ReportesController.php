@@ -768,7 +768,7 @@ class ReportesController extends Controller {
         'recursive' => 0, 'order' => 'Movimiento.producto_id',
         'conditions' => $condiciones1,
         'group' => array('Movimiento.cliente_id'),
-        'fields' => array('Cliente.nombre', 'Cliente.num_registro', 'Movimiento.cliente_id', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)', 'Persona.nombre', 'Persona.ap_paterno', 'Movimiento.persona_id')
+        'fields' => array('Cliente.nombre', 'Cliente.num_registro', 'Movimiento.cliente_id', 'SUM(Movimiento.salida) ventas', 'SUM(Movimiento.precio_uni*Movimiento.salida)', 'Persona.nombre', 'Persona.ap_paterno', 'Movimiento.persona_id','TIME(Movimiento.modified) as hora')
       ));
       foreach ($datos as $key => $da) {
         $datos_aux = $this->Movimiento->find('all', array(

@@ -706,14 +706,14 @@ class AlmacenesController extends AppController {
 
     $datos = $this->Movimiento->find('all', array(
       'recursive' => 0, 'order' => 'Movimiento.producto_id',
-      'conditions' => array('Movimiento.persona_id' => $idPersona, 'Movimiento.devuelto_id' => NULL, 'Movimiento.salida !=' => NULL),
+      'conditions' => array('Movimiento.persona_id' => $idPersona, 'Movimiento.created' => date('Y-m-d'), 'Movimiento.salida !=' => NULL),
       'group' => array('Movimiento.producto_id'),
       'fields' => array('Producto.nombre', 'SUM(Movimiento.ingreso) entregado', 'Producto.id', 'Movimiento.total_s')
     ));
     foreach ($datos as $key => $da) {
       $datos_aux = $this->Movimiento->find('all', array(
         'recursive' => -1, 'order' => 'Movimiento.producto_id',
-        'conditions' => array('Movimiento.persona_id' => $persona, 'Movimiento.created >=' => $fecha_ini, 'Movimiento.created <=' => $fecha_fin, 'Movimiento.precio_uni !=' => NULL, 'Movimiento.producto_id' => $da['Producto']['id'], 'Movimiento.salida !=' => NULL),
+        'conditions' => array('Movimiento.persona_id' => $idPersona, 'Movimiento.created' => date('Y-m-d'), 'Movimiento.precio_uni !=' => NULL, 'Movimiento.producto_id' => $da['Producto']['id'], 'Movimiento.salida !=' => NULL),
         'group' => array('Movimiento.precio_uni'),
         'fields' => array('SUM(Movimiento.salida) vendidos', 'Movimiento.precio_uni', '(Movimiento.precio_uni*SUM(Movimiento.salida)) precio_total', 'Movimiento.producto_id')
       ));
@@ -721,7 +721,7 @@ class AlmacenesController extends AppController {
       //debug($datos);exit;
     }
     $recargas = $this->Recargado->find('all', array(
-      'conditions' => array('Recargado.persona_id' => $$idPersona, 'DATE(Recargado.created)' => date('Y-m-d'))
+      'conditions' => array('Recargado.persona_id' => $idPersona, 'DATE(Recargado.created)' => date('Y-m-d'))
     ));
     $this->set(compact('ult_movimientos', 'distribuidor', 'devueltos', 'datos', 'recargas', 'recargas'));
     //debug($ult_movimientos);exit;

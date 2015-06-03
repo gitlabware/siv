@@ -31,7 +31,7 @@
         <link rel="stylesheet" media="only all and (min-width: 992px)" href="<?php echo $this->webroot; ?>css/992.css?v=1">
         <link rel="stylesheet" media="only all and (min-width: 1200px)" href="<?php echo $this->webroot; ?>css/1200.css?v=1">
         <!-- For Retina displays -->
-        <link rel="stylesheet" media="only all and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5)" href="css/2x.css?v=1">
+        <link rel="stylesheet" media="only all and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5)" href="<?php echo $this->webroot; ?>css/2x.css?v=1">
 
         <!-- Webfonts -->
         <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>-->
@@ -73,7 +73,7 @@
         <meta http-equiv="cleartype" content="on">
         <!-- Scripts -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery-1.10.2.min.js"></script>
-
+        
         <?php
         echo $this->fetch('css');
         echo $this->fetch('script');
