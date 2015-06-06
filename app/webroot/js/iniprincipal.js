@@ -8,14 +8,12 @@
 var chartInit = false,
         drawVisitorsChart = function ()
         {
+
             // Create our data table.
             var data = new google.visualization.DataTable();
-            var raw_data = [['Website', 50, 73, 104, 129, 146, 176, 139, 149, 218, 194, 96, 53],
-                ['Shop', 82, 77, 98, 94, 105, 81, 104, 104, 92, 83, 107, 91],
-                ['Forum', 50, 39, 39, 41, 47, 49, 59, 59, 52, 64, 59, 51],
-                ['Others', 45, 35, 35, 39, 53, 76, 56, 59, 48, 40, 48, 21]];
+            var raw_data = datos_est;
 
-            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var months = meses;
 
             data.addColumn('string', 'Month');
             for (var i = 0; i < raw_data.length; ++i)
@@ -42,7 +40,7 @@ var chartInit = false,
             var div = $('#demo-chart'),
                     divWidth = div.width();
             new google.visualization.LineChart(div.get(0)).draw(data, {
-                title: 'Monthly unique visitors count',
+                title: 'Ventas mensuales de productos',
                 width: divWidth,
                 height: $.template.mediaQuery.is('mobile') ? 180 : 265,
                 legend: 'right',
@@ -72,10 +70,15 @@ var chartInit = false,
                     icon: 'img/demo/icon.png'
                 });
             }
-
             // Ready
             chartInit = true;
         };
+// Load the Visualization API and the piechart package.
+google.load('visualization', '1', {
+    'packages': ['corechart']
+});
+// Set a callback to run when the Google Visualization API is loaded.
+google.setOnLoadCallback(drawVisitorsChart);
 // Watch for block resizing
 $('#demo-chart').widthchange(drawVisitorsChart);
 

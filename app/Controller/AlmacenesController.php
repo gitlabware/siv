@@ -881,18 +881,79 @@ class AlmacenesController extends AppController {
     ));
     $this->set(compact('movimientos'));
   }
-  public function principal(){
+
+  public function principal() {
     $idCentral = $this->get_id_alm_cent();
     $sql = "SELECT m.total FROM movimientos m WHERE m.almacene_id = $idCentral AND m.producto_id = Producto.id ORDER BY m.id DESC LIMIT 1";
     $this->Producto->virtualFields = array(
       'total_central' => "CONCAT(($sql))"
     );
-    $productos = $this->Producto->find('all',array(
+    $productos = $this->Producto->find('all', array(
       'recursive' => -1,
-      'fields' => array('Producto.nombre','Producto.total_central')
+      'fields' => array('Producto.id','Producto.nombre', 'Producto.total_central')
     ));
-    //debug($productos);exit;
-    $this->set(compact('productos'));
+    $meses = $this->get_meses();
+    $this->set(compact('productos', 'meses'));
+  }
+
+  public function get_vent_mes($idProducto = null, $mes = null) {
+    $movimiento = $this->Movimiento->find('all',array(
+      'recursive' => -1,
+      'conditions' => array('Movimiento.producto_id' => $idProducto,'MONTH(Movimiento.created)' => $mes,'YEAR(Movimiento.created)' => date('Y'),'Movimiento.cliente_id !=' => NULL),
+      'group' => array('Movimiento.producto_id'),
+      'fields' => array('SUM(Movimiento.salida) as s_total')
+    ));
+    return $movimiento[0][0]['s_total'];
+  }
+
+  public function get_meses() {
+    $meses = $this->Movimiento->find('all', array(
+      'conditions' => array('YEAR(Movimiento.created)' => date("Y")),
+      'group' => array('MONTH(Movimiento.created)'),
+      'recursive' => -1,
+      'fields' => array('MONTH(Movimiento.created) as mes')
+    ));
+    foreach ($meses as $key => $me) {
+      switch ($me[0]['mes']) {
+        case 1:
+          $meses[$key][0]['nombre'] = "ENERO";
+          break;
+        case 2:
+          $meses[$key][0]['nombre'] = "FEBRERO";
+          break;
+        case 3:
+          $meses[$key][0]['nombre'] = "MARZO";
+          break;
+        case 4:
+          $meses[$key][0]['nombre'] = "ABRIL";
+          break;
+        case 5:
+          $meses[$key][0]['nombre'] = "MAYO";
+          break;
+        case 6:
+          $meses[$key][0]['nombre'] = "JUNIO";
+          break;
+        case 7:
+          $meses[$key][0]['nombre'] = "JULIO";
+          break;
+        case 8:
+          $meses[$key][0]['nombre'] = "AGOSTO";
+          break;
+        case 9:
+          $meses[$key][0]['nombre'] = "SEPTIEMBRE";
+          break;
+        case 10:
+          $meses[$key][0]['nombre'] = "OCTUBRE";
+          break;
+        case 11:
+          $meses[$key][0]['nombre'] = "NOVIEMBRE";
+          break;
+        case 12:
+          $meses[$key][0]['nombre'] = "DICIEMBRE";
+          break;
+      }
+    }
+    return $meses;
   }
 
 }

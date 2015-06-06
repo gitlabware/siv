@@ -15,23 +15,42 @@
             <div class="nine-columns twelve-columns-mobile" id="demo-chart">
                 <!-- This div will hold the chart generated in the footer -->
             </div>
-
             <div class="three-columns twelve-columns-mobile new-row-mobile">
                 <ul class="stats split-on-mobile">
                     <?php foreach ($productos as $pro): ?>
                       <li>
-                          <strong><?php if(empty($pro['Producto']['total_central'])){echo 0;}else{echo $pro['Producto']['total_central'];}?></strong><?php echo $pro['Producto']['nombre']?>
+                          <strong><?php
+                              if (empty($pro['Producto']['total_central'])) {
+                                echo 0;
+                              } else {
+                                echo $pro['Producto']['total_central'];
+                              }
+                              ?></strong><?php echo $pro['Producto']['nombre'] ?>
                       </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
-
         </div>
-
     </div>
     <div class="with-padding">                   
 
     </div>
 </section>	
 <?php echo $this->element('sidebar/administrador'); ?>
-<?php echo $this->Html->script(array('http://www.google.com/jsapi','iniprincipal'), array('block' => 'js_add'))?>
+<?php echo $this->Html->script(array('http://www.google.com/jsapi', 'iniprincipal'), array('block' => 'js_add')); ?>
+<script>
+  var datos_est = [
+<?php foreach ($productos as $pro): ?>
+        ['<?php echo $pro['Producto']['nombre']; ?>'
+  <?php foreach ($meses as $me): ?>
+          , <?php echo $this->requestAction(array('action' => 'get_vent_mes', $pro['Producto']['id'], $me[0]['mes'])); ?>
+  <?php endforeach; ?>
+    ],
+<?php endforeach; ?>
+  ];
+          var meses = [
+<?php foreach ($meses as $me): ?>
+                '<?php echo $me[0]['nombre']; ?>',
+<?php endforeach; ?>
+          ];
+</script>

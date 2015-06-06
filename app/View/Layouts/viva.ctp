@@ -125,12 +125,12 @@
         <script src="<?php echo $this->webroot; ?>js/developr.tooltip.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.table.js"></script>
         <script src="<?php echo $this->webroot; ?>js/developr.modal.js"></script>
-        <?php echo $this->fetch('js_add'); ?>
+        
         <?php echo $this->element('jsvalidador') ?>
         <!-- Plugins -->
         <script src="<?php echo $this->webroot; ?>js/libs/jquery.tablesorter.min.js"></script>
         <script src="<?php echo $this->webroot; ?>js/libs/DataTables/jquery.dataTables.min.js"></script>
-
+        <?php echo $this->fetch('js_add'); ?>
         <script>
             // Call template init (optional, but faster if called manually)
             $.template.init();

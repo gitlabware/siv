@@ -49,7 +49,7 @@ class UsersController extends AppController {
         //$this->redirect($this->Auth->redirect());
         $rol = $this->Session->read('Auth.User.group_id');
         switch ($rol) {
-          case '1':$this->redirect(array('controller' => 'Users', 'action' => 'index'));
+          case '1':$this->redirect(array('controller' => 'Almacenes', 'action' => 'principal'));
             break;
           case '2':$this->redirect(array('controller' => 'Ventasdistribuidor', 'action' => 'clientes'));
             break;
