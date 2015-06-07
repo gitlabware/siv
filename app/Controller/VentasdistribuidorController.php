@@ -23,7 +23,7 @@ class VentasdistribuidorController extends AppController {
     'Tiposobservacione',
     'Deposito',
     'Recargado',
-    'Listacliente', 'User');
+    'Listacliente', 'User','Rutasusuario');
   public $layout = 'vivadistribuidor';
   public $components = array('RequestHandler', 'Session', 'Acl', 'Auth', 'DataTable');
 
@@ -1192,6 +1192,11 @@ class VentasdistribuidorController extends AppController {
       $asignar = '<button class="button blue-gradient compact icon-list" type="button" onclick="asignar(' . "',Cliente.id,'" . ')">Asignar</button>';
       $venta = '<button class="button green-gradient compact icon-list" type="button" onclick="venta(' . "',Cliente.id,'" . ')">Venta</button>';
       $acciones = "$asignar $venta";
+      $rutas_usuario = $this->Rutasusuario->find('list',array(
+        'conditions' => array('Rutasusuario.user_id' => $this->Session->read('Auth.User.id')),
+        'fields' => array('Rutasusuario.ruta_id')
+      ));
+      //debug($rutas_usuario);exit;
       $this->Cliente->virtualFields = array(
         'acciones' => "CONCAT('$acciones')"
       );
@@ -1199,7 +1204,7 @@ class VentasdistribuidorController extends AppController {
         'fields' => array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones'),
         'recursive' => -1,
         'order' => 'Cliente.id DESC',
-        //'conditions' => array('Cliente.ruta_id' => $this->Session->read('Auth.User.ruta_id'))
+        'conditions' => array('Cliente.ruta_id' => $rutas_usuario)
       );
       $this->DataTable->fields = array('Cliente.num_registro', 'Cliente.nombre', 'Cliente.direccion', 'Cliente.celular', 'Cliente.zona', 'Cliente.acciones');
       //$this->DataTable->emptyEleget_usuarios_adminments = 1;
