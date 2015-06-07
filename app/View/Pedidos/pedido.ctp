@@ -18,11 +18,11 @@
                                 <label class="label">Distribuidor</label>
                                 <?php echo $this->Form->select("Dato.distribuidor_id",$distribuidores, array('class' => 'select','required')); ?>
                             </p>
-                            <p class="button-height inline-label">
+                            <!--<p class="button-height inline-label">
                                 <label class="label">Monto</label>
-                                <?php echo $this->Form->text("Dato.monto", array('class' => 'input')); ?>
+                                <?php //echo $this->Form->text("Dato.monto", array('class' => 'input')); ?>
                                 <?php echo $this->Form->hidden("Dato.numero"); ?>
-                            </p>
+                            </p>-->
                             <?php $i = 0; ?>
                             <?php foreach ($productos as $pro): ?>
                               <?php
