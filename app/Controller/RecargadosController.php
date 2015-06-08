@@ -194,12 +194,21 @@ class RecargadosController extends AppController {
                 'fields' => array('Porcentaje.nombre', 'SUM(Recargado.salida) as recargados', 'SUM(Recargado.monto) as rec_porcentaje'),
                 'conditions'=> array('Recargado.entrada' => 0),
             ));
+            
+            $movimientosDistribuidor = $this->Recargado->find('all', array(
+                'recursive' => 0,
+                'order' => array('Recargado.id DESC'),
+                'group' => array('Recargado.persona_id'),
+                'fields' => array('Persona.nombre', 'SUM(Recargado.salida) as recargados', 'SUM(Recargado.monto) as rec_porcentaje'),
+                'conditions'=> array('Recargado.entrada' => 0),
+            ));
+            
             $ultimototal=  $this->Recargado->find('first', array(
                 'recursive'=>-1,
                 'order'=>array('Recargado.id DESC'),
                 'fields'=>array('Recargado.total')
-            ));
-            $this->set(compact('hoy', 'movimientosHoy', 'ultimo', 'movimientosHoy2', 'ultimototal'));
+            )); 
+            $this->set(compact('hoy', 'movimientosHoy', 'ultimo', 'movimientosHoy2', 'ultimototal', 'movimientosDistribuidor'));
         }
 
         $distribuidor = $this->User->find('list', array(
